@@ -36,10 +36,6 @@
         pcaFactorsToExtractArray = [8, temp4, temp5];
         numberFactorsExtracted = _.min(pcaFactorsToExtractArray);
 
-        // console.log(JSON.stringify(pcaFactorsToExtractArray));
-
-        // console.log(JSON.stringify(numberFactorsExtracted));
-
         localStorage.setItem("numberFactorsExtracted", numberFactorsExtracted);
         UTIL.addFactorSelectCheckboxesRotation(numberFactorsExtracted);
 

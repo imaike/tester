@@ -14,8 +14,6 @@
 (function (UTIL, undefined) {
 
     UTIL.drawDatatable = function (configObj) {
-        // console.log("UTIL.drawDatatable called");
-        // console.log(JSON.stringify(configObj));
         $(configObj.domElement).DataTable({
             "fixedColumns": configObj.fixed,
             "retrieve": true,

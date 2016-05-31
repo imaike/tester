@@ -609,8 +609,6 @@ function weightFactorScores(significantLoadingsArray, sigFactorNumbersArray, max
             }
         }
     }
-    console.log(JSON.stringify(significantFactors));
-
     weightRawSorts(significantFactors);
 }
 
@@ -638,8 +636,6 @@ function weightRawSorts(significantFactors) {
             }
         }
     }
-    console.log(JSON.stringify(weightedSorts));
-
     combineWeightedSorts(weightedSorts);
 
     function roundNumbers(n) {
@@ -694,7 +690,6 @@ function combineWeightedSorts(weightedSorts) {
         summedWeightedSorts.push(tempArray4);
     }
     localStorage.setItem("sigSortsArray", JSON.stringify(sigSortsArray));
-    console.log(JSON.stringify(sigSortsArray));
 
     calculateZScores(summedWeightedSorts);
 }
@@ -851,7 +846,6 @@ function pushCentroidFactorsTableToOutputArray(sheetNames, output) {
         respondentNames = QAV.respondentNames;
         for (m = 0; m < (respondentNames.length - 1); m++) {
             factorMatrixTransposed[m].unshift(respondentNames[m + 1]);
-            console.log(factorMatrixTransposed[m]);
         }
         temp1 = QAV.factorLabels;
         temp1.unshift("");
@@ -869,9 +863,6 @@ function pushCentroidFactorsTableToOutputArray(sheetNames, output) {
         expVar = JSON.parse(localStorage.getItem("expVarCentroid"));
         factorMatrixTransposed.push(expVar);
     }
-
-
-    console.log(JSON.stringify(factorMatrixTransposed));
 
     newSheet = {
         sheetid: "Unrotated Factor Matrix",
@@ -910,8 +901,6 @@ function pushCumulativeCommunalitiesMaxtrixToOutputArray(sheetNames, output, fac
     // todo - move these calculations to quick results section?
 
     cumulCommMatrix9 = _.cloneDeep(factorMatrixTransposed);
-
-    console.log(JSON.stringify(cumulCommMatrix9));
 
     explnVarRow = cumulCommMatrix9.pop();
 
@@ -1059,8 +1048,6 @@ function pushRotatedFactorsArrayToOutputArray(sheetNames, output) {
     });
     formattedResults.push(tempArray);
 
-    console.log(JSON.stringify(results));
-
     // resort the array
     results.sort(function (a, b) {
         return a[0] - b[0];
@@ -1156,8 +1143,6 @@ function pushFactorsToOutputArray(sheetNames, output) {
         }
         rawSorts.push(tempArray);
     }
-    // console.log(JSON.stringify(rawSorts));
-
 
     // for each factor check get a sigSort (if another remains)
     // get the raw sort for that specific sigSort
@@ -1176,8 +1161,6 @@ function pushFactorsToOutputArray(sheetNames, output) {
                 factorWeightFactorArray.push(factorWeightTempArray);
             }
         }
-        console.log(JSON.stringify(factorWeightFactorArray));
-
         output.push(factorWeightFactorArray);
 
         // FACTOR SCORE MINI CORRELATION TABLES STARTS FROM HERE
@@ -1190,7 +1173,6 @@ function pushFactorsToOutputArray(sheetNames, output) {
                 miniCorrelationFactorsArray.push(sigSortsArray[t].SigSorts);
             }
         }
-        // console.log(JSON.stringify(miniCorrelationFactorsArray));
 
         // pull correlations from table
         var miniCorrelationArray = [];
@@ -1224,10 +1206,6 @@ function pushFactorsToOutputArray(sheetNames, output) {
             }
         }
         miniCorrelationArray.unshift(miniCorrelationHeaderArray);
-        console.log(JSON.stringify(miniCorrelationArray));
-
-
-
         output.push(miniCorrelationArray);
 
 
@@ -1481,7 +1459,7 @@ function pushDistinguishingStatementsToOutput(sheetNames, output, sigSortsArray,
                 // factor m
                 // check to avoid comparison with self
                 if (analysisOutput[j][k].factor === analysisOutput[m][k].factor) {
-                    // console.log(JSON.stringify(analysisOutput[j][k].factor + " + " + analysisOutput[m][k].factor + " skipped"));
+
                 } else {
                     // loop through SED array to find comparison value
                     sedComparisonValue = null;

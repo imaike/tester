@@ -660,6 +660,11 @@ function drawD3Chart(dataValuesArray) {
     xScale.domain([-axisMax, +axisMax]);
     yScale.domain([-axisMax, +axisMax]);
 
+    // define the div for the tooltip
+    var div = d3.select("body").append("div")
+        .attr("class", "d3Tooltip")
+        .style("opacity", 0);
+
     // x-axis
     svg.append("g")
         .attr("class", "x axis")
@@ -732,17 +737,16 @@ function drawD3Chart(dataValuesArray) {
             }
         })
         .on("mouseover", function (d) {
-            d3.select("#tooltip")
-                //.style("left", d3.event.pageX + "px")
-                //.style("top", d3.event.pageY + "px")
-                .style("opacity", 1)
-                .select("#factorLoadingValue")
-                .html("<strong>" + d.respondent + "</strong>&nbsp;&nbsp;" + yValue(d) + ", " + xValue(d));
-            // .text(d.value);
+            div.transition()
+                .duration(100)
+                .style("opacity", 0.9);
+            div.html("<strong>" + d.respondent + "</strong><br>" + yValue(d) + ", 　" + xValue(d))
+                .style("left", (d3.event.pageX + 10) + "px")
+                .style("top", (d3.event.pageY - 28) + "px");
         })
         .on("mouseout", function () {
-            // Hide the tooltip
-            d3.select("#tooltip")
+            div.transition()
+                .duration(500)
                 .style("opacity", 0);
         });
 
@@ -755,14 +759,16 @@ function drawD3Chart(dataValuesArray) {
             return d.num;
         })
         .on("mouseover", function (d) {
-            d3.select("#tooltip")
-                .style("opacity", 1)
-                .select("#factorLoadingValue")
-                .html("<strong>" + d.respondent + "</strong>&nbsp;&nbsp;" + yValue(d) + ", " + xValue(d));
+            div.transition()
+                .duration(100)
+                .style("opacity", 0.9);
+            div.html("<strong>" + d.respondent + "</strong><br>" + yValue(d) + ", 　" + xValue(d))
+                .style("left", (d3.event.pageX + 10) + "px")
+                .style("top", (d3.event.pageY - 28) + "px");
         })
         .on("mouseout", function () {
-            // Hide the tooltip
-            d3.select("#tooltip")
+            div.transition()
+                .duration(500)
                 .style("opacity", 0);
         });
 

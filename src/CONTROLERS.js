@@ -50,8 +50,6 @@
             t1 = performance.now();
 
             console.log('%c PCA completed in ' + (t1 - t0).toFixed(0) + ' milliseconds', 'background: black; color: white');
-
-            // console.log(JSON.stringify(results));
         });
     })();
 
@@ -120,7 +118,6 @@
             // prvent user selection errors 
             temp1 = QAV.numFactorsExtracted || 0;
             if (numFactors > temp1) {
-                console.log("proper branch");
                 $("#rotationLargeNumberError").show();
             } else if (isNaN(numFactors)) {
                 $("#rotationNanError").removeClass("hidden");
@@ -147,7 +144,7 @@
                     for (i = 0; i < loopLen; i++) {
                         data[i] = data[i].slice(0, numFactors);
                     }
-                    // console.log(JSON.stringify(data));
+                    
                 } else {
                     data = _.cloneDeep(QAV.centroidFactors);
                     loopLen = data.length;
@@ -156,7 +153,6 @@
                     for (i = 0; i < loopLen; i++) {
                         data[i] = data[i].slice(0, numFactors);
                     }
-                    // console.log(JSON.stringify(data));
                 }
 
                 // send data to state matrix and then to chart 

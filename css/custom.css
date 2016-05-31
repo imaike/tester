@@ -167,7 +167,7 @@ tooltips for scatterchart
 #tooltip {
     position: absolute;
     margin-left: 50px;
-    margin-bottom: 50px;
+    margin-bottom: 100px;
     width: auto;
     height: auto;
     padding-left: 20px;
@@ -995,7 +995,24 @@ MODAL WINDOW CSS
     text-align: right
 }
 
+div.d3Tooltip {
+    position: absolute;
+    width: 115px;
+    text-align: left;
+    height: 28px;
+    padding: 2px;
+    padding-left: 10px;
+    font: 12px sans-serif;
+    color: white;
+    background: #38acec;
+    border: 0px;
+    border-radius: 8px;
+    pointer-events: none;
+}
+
 
 /*
+
+
 
 td.dt-head-right*/

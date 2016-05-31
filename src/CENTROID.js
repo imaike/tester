@@ -16,10 +16,6 @@
         var centroidFactors = _.cloneDeep(QAV.centroidFactors);
         var i, j, k, names, temp1, loopLen, targets, slicedTargets, headers;
 
-        // localStorage.setItem("rotFacStateArray", JSON.stringify(centroidFactors));
-
-        // console.log(JSON.stringify(centroidFactors));
-
         names = QAV.respondentNames;
 
         for (i = 0; i < centroidFactors.length; i++) {
@@ -44,10 +40,6 @@
         // make targets dynamic
         targets = [2, 3, 4, 5, 6, 7, 8, 9];
         slicedTargets = targets.slice(0, loopLen);
-
-        console.log(targets);
-
-        console.log(JSON.stringify(centroidFactors));
 
         var configObj = {};
         configObj.domElement = "#factorRotationTable1";
@@ -102,15 +94,11 @@
 
         data.push(eigenValues, percentExplainedVariance, tempArray);
 
-        console.log(JSON.stringify(data));
-
         headers2 = headers.slice(2, headers.length);
         tempObj.title = "";
         var tempObj2 = tempObj;
 
         headers2.unshift(tempObj, tempObj2);
-
-        console.log(JSON.stringify(headers2));
 
         var configObj = {};
         configObj.domElement = "#factorRotationTable1Footer";

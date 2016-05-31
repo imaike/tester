@@ -102,6 +102,7 @@
                             <li>redesigned user interface and analysis flow to accommodate Principal Components option</li>
                             <li>changed rotation history to project history</li>
                             <li>changed highlighting in Judgemental Rotation plot and chart to match autoflagging criteria</li>
+                            <li>fixed factor loadings table sorting function</li>
                         </ul>
                     </div>
 
@@ -1173,10 +1174,11 @@
 
                 <div id="chartAndTableContainerDiv">
                     <div id="chartTable">
-                        <div id="tooltip" class="hidden">
-                            <p><span id="factorLoadingValue"></span>
-                            </p>
-                        </div>
+                        <!--
+                        <div id="tooltip">
+    <p><span id="factorLoadingValue"></span>
+    </p>
+</div>-->
                         <div id="d3_scatterchart"></div>
                         <!--                <div id="twoFactorDisplayTable" class="handsontable"></div>-->
                     </div>
@@ -1251,7 +1253,7 @@
                     </div>
 
 
-                    <div id="factorRotationTable">
+                    <div id="factorRotationTable" class="rightMargin">
                         <table id="factorRotationTable2" class="display compact nowrap cell-border" cellspacing="0" width="100%"> </table>
                     </div>
 
