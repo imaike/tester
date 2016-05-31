@@ -18,21 +18,27 @@ $(document).ready(function () {
     $("#autoflagButton").on("click", function (e) {
         e.preventDefault();
 
-        // get copy of current rotations state matrix
-        var rotFacStateArray = _.cloneDeep(JSON.parse(localStorage.getItem("rotFacStateArray")));
+        var testForSplit = localStorage.getItem("hasSplitFactor");
+        if (testForSplit > 0) {
+            VIEW.showDisabledFunctionsAfterSplitModal();
+        } else {
 
-        // prep for chart
-        calculateCommunalities(rotFacStateArray);
+            // get copy of current rotations state matrix
+            var rotFacStateArray = _.cloneDeep(JSON.parse(localStorage.getItem("rotFacStateArray")));
 
-        /* gets array for fSig testing from LS of calculateCommunalities - sets fSigCriterionResults  --- also "flag" parameter causes display of sig factor loadings in current facor loadings table  */
-        calculatefSigCriterionValues("flag");
+            // prep for chart
+            calculateCommunalities(rotFacStateArray);
+
+            /* gets array for fSig testing from LS of calculateCommunalities - sets fSigCriterionResults  --- also "flag" parameter causes display of sig factor loadings in current facor loadings table  */
+            calculatefSigCriterionValues("flag");
 
 
 
-        // re-draw rotation table without destroy
-        var isRotatedFactorsTableUpdate = "destroy";
-        // var isRotatedFactorsTableUpdate = "yes";
-        drawRotatedFactorsTable2(isRotatedFactorsTableUpdate, "flag");
+            // re-draw rotation table without destroy
+            var isRotatedFactorsTableUpdate = "destroy";
+            // var isRotatedFactorsTableUpdate = "yes";
+            drawRotatedFactorsTable2(isRotatedFactorsTableUpdate, "flag");
+        }
     });
 
 });

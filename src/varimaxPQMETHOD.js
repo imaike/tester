@@ -13,30 +13,38 @@
 $(document).ready(function () {
     $("#factorVarimaxButton").on("click", function () {
 
-        QAV.typeOfRotation = "varimax";
+        var testForSplit = localStorage.getItem("hasSplitFactor");
+        if (testForSplit > 0) {
+            VIEW.showDisabledFunctionsAfterSplitModal();
+        } else {
 
-        var button = $(this);
-        button.removeClass("blackHover");
-        button.addClass("buttonActionComplete");
-        button.prop('value', 'Varimax Rotation Applied');
-        button.prop('disabled', true);
+            QAV.typeOfRotation = "varimax";
 
-        //        var centroidButton = $("#factorJudgementRotButton");
-        //        if (centroidButton.hasClass("buttonActionComplete")) {
-        //            centroidButton.removeClass("buttonActionComplete");
-        //            centroidButton.addClass("blackHover");
-        //            centroidButton.prop('value', 'Use Judgemental Rotation');
-        //            centroidButton.prop('disabled', false);
-        //            $("#judgementalRotationContainer").hide();
-        //            $("#judgementFactorSelectText").hide();
-        // }
+            var button = $(this);
+            button.removeClass("blackHover");
+            button.addClass("buttonActionComplete");
+            button.prop('value', 'Varimax Rotation Applied');
+            button.prop('disabled', true);
 
-        // avoid problem with reinitialization and display of 2 factor table
-        var tableCheck = $("#judgementalRotationContainer").is(":visible");
-        if (tableCheck) {
-            reInitializePlotAndChart();
+            //        var centroidButton = $("#factorJudgementRotButton");
+            //        if (centroidButton.hasClass("buttonActionComplete")) {
+            //            centroidButton.removeClass("buttonActionComplete");
+            //            centroidButton.addClass("blackHover");
+            //            centroidButton.prop('value', 'Use Judgemental Rotation');
+            //            centroidButton.prop('disabled', false);
+            //            $("#judgementalRotationContainer").hide();
+            //            $("#judgementFactorSelectText").hide();
+            // }
+
+            // avoid problem with reinitialization and display of 2 factor table
+            var tableCheck = $("#judgementalRotationContainer").is(":visible");
+            if (tableCheck) {
+                reInitializePlotAndChart();
+            }
+            fireVarimaxRotation();
+
         }
-        fireVarimaxRotation();
+
     });
 });
 

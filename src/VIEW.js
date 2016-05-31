@@ -8,7 +8,7 @@
 
 
 // JSlint declarations
-/* global window, $, localStorage, PCA, document, performance*/
+/* global window, $, localStorage, setTimeout, PCA, document, performance*/
 
 
 (function (VIEW, undefined) {
@@ -92,6 +92,13 @@
 
         $("#clearStorageButton").hide();
 
+    };
+
+    VIEW.showDisabledFunctionsAfterSplitModal = function () {
+        $('.functionDisabledModal').toggleClass('active');
+        setTimeout(function () {
+            $('.functionDisabledModal').toggleClass('active');
+        }, 1500);
     };
 
 

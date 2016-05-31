@@ -47,21 +47,21 @@
 
         <div class="single-page-nav">
             <ul class="navigationBar">
-                <li><a id="heroSection" href="#section1">Page Top</a>
+                <li><a id="heroSection" href="#section1">Top</a>
                 </li>
-                <li><a id="dataInput" href="#section2">Data Source</a>
+                <li><a id="dataInput" href="#section2">1. Data</a>
                 </li>
-                <li><a id="analysisPrep" href="#section3">Correlation Matrix</a>
+                <li><a id="analysisPrep" href="#section3">2. Correlations</a>
                 </li>
-                <li><a id="factorExtraction" href="#section4">Factor Extraction</a>
+                <li><a id="factorExtraction" href="#section4">3. Extraction</a>
                 </li>
-                <li><a id="rotationArea" href="#section5">Factor Rotation</a>
+                <li><a id="rotationArea" href="#section5">4. Rotation</a>
                 </li>
-                <li><a href="#section6">Factor Loadings</a>
+                <li><a href="#section6">5. Loadings</a>
                 </li>
-                <li><a href="#section7">Results</a>
+                <li><a href="#section7">6. Results</a>
                 </li>
-                <li><a href="#section8">Legal</a>
+                <li><a href="#section8">Licensing</a>
                 </li>
             </ul>
         </div>
@@ -76,7 +76,7 @@
             <div>
                 <h1><strong>Ken-Q Analysis</strong></h1>
                 <h2>A Web Application for Q Methodology</h2>
-                <h5><i>Version 0.4.0 (April 26, 2016)</i></h5>
+                <h5><i>Version 0.5.0 (June 4, 2016)</i></h5>
                 <br>
                 <ul>
                     <li>Requires a recent version of Chrome, Firefox, Internet Explorer, or the Microsoft Edge web browser.</li>
@@ -95,16 +95,26 @@
             <div id="accordionDiv">
                 <h5>Change Log</h5>
                 <div id="accordion">
-                    <a href="#one" class="first">Beta Version 0.4.0 Test Release (April 26, 2016)</a>
-                    <div id="one">
+                    <a href="#six" class="first">Beta Version 0.5.0 Test Release (June 4, 2016)</a>
+                    <div id="six">
+                        <ul>
+                            <li>added Principal Components to factor extraction options</li>
+                            <li>redesigned user interface and analysis flow to accommodate Principal Components option</li>
+                            <li>changed rotation history to project history</li>
+                            <li>changed highlighting in Judgemental Rotation plot and chart to match autoflagging criteria</li>
+                        </ul>
+                    </div>
+
+                    <a href="#five">Beta Version 0.4.0 Test Release (April 26, 2016)</a>
+                    <div id="five">
                         <ul>
                             <li>added flagged Q-sorts weights tables to Preliminary Output and Complete Results</li>
                             <li>added flagged Q-sorts correlation tables to Preliminary Output and Complete Results</li>
                             <li>added text to Judgemental Rotation section</li>
                         </ul>
                     </div>
-                    <a href="#two">Beta Version 0.3.3 Test Release (April 17, 2016)</a>
-                    <div id="two">
+                    <a href="#four">Beta Version 0.3.3 Test Release (April 17, 2016)</a>
+                    <div id="four">
                         <ul>
                             <li>added default sorting option to factor loadings table</li>
                             <li>fixed bug which added two footer rows to factor loadings table</li>
@@ -122,8 +132,8 @@
                             <li>improved performance of 2 factor rotation chart</li>
                         </ul>
                     </div>
-                    <a href="#four">Beta Version 0.3.1 Test Release (April 3, 2016)</a>
-                    <div id="four">
+                    <a href="#two">Beta Version 0.3.1 Test Release (April 3, 2016)</a>
+                    <div id="two">
                         <ul>
                             <li>removed eigenvalues row from factor loadings table</li>
                             <li>fixed upload error when PQMethod DAT file has special characters</li>
@@ -131,8 +141,8 @@
                             <li>fixed bug in Excel import function</li>
                         </ul>
                     </div>
-                    <a href="#five">Beta Version 0.3 Test Release (March 30, 2016)</a>
-                    <div id="five">
+                    <a href="#one">Beta Version 0.3 Test Release (March 30, 2016)</a>
+                    <div id="one">
                         Initial beta test release
                     </div>
                 </div>
@@ -153,7 +163,7 @@
             <div class="bigNumberDiv">
                 <p>1</p>
             </div>
-            <h4 class="specialH4">Data Source</h4>
+            <h4 class="specialH4">Data</h4>
 
             <form>
                 <div class="row">
@@ -1134,13 +1144,8 @@
             <div id="judgementalRotationContainer" class="hidden">
                 <div class="row">
                     <p id="judgementalRotationHelperText" class="helperText u-pull-right">* Only two factors can be selected. To change the selection first uncheck a factor and then select the new factor
-                        <br>* Yellow highlighting indicates that the loading for Factor A is higher than the p &lt; 0.05 level
-                        <br>* Green highlighting indicates that the loading for Factor B is higher than the p &lt; 0.05 level
-                        <br>* Blue highlighting in the Scatter Plot indicates a Q-sort with a high loading on both Factor A and Factor B</p>
+                        <br>* Highlighting indicates that the factor loading for the Q-sort will be autoflagged for factor A (yellow) or factor B (aquamarine). </p>
                 </div>
-
-
-
 
                 <form>
                     <div class="row" id="checkboxFrame">
@@ -1245,11 +1250,11 @@
                         </div>
                     </div>
 
-                    <div class="row">
-                        <div id="factorRotationTable">
-                            <table id="factorRotationTable2" class="display compact nowrap cell-border" cellspacing="0" width="100%"> </table>
-                        </div>
+
+                    <div id="factorRotationTable">
+                        <table id="factorRotationTable2" class="display compact nowrap cell-border" cellspacing="0" width="100%"> </table>
                     </div>
+
                     <br>
                     <div class="row" id="splitFactorDiv">
                         <div class="eight columns">
@@ -1280,6 +1285,12 @@
                             <h2>Success!</h2>
                         </header>
                     </div>
+                    <div class="modal functionDisabledModal">
+                        <header>
+                            <h2>This functionality is disabled after splitting a bipolar factor.</h2>
+                        </header>
+                    </div>
+
                     <br>
                     <br>
                     <div class="modal" id="splitModal">
@@ -1422,7 +1433,7 @@
 
 
         <div class="section" id="section8">
-            <h3> Legal</h3>
+            <h3> Licensing</h3>
             <div class="row">
                 <h5 class="eleven columns">Ken-Q Analysis<br> Copyright (C) 2016 Shawn Banasick<br>This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
                 </h5>

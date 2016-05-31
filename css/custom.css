@@ -127,10 +127,16 @@ Hands on Table settings for Factor Rotation
 */
 
 #factorRotationTable {
-    display: inline-block;
-    margin-left: 20px;
+    display: block;
+    margin-right: 2%;
     vertical-align: top;
     height: auto;
+    /*    margin-left: -1%;
+    */
+}
+
+#factorRotationTable2 {
+    width: 80%;
 }
 
 #twoFactorDisplayTable {
@@ -672,6 +678,11 @@ MODAL WINDOW CSS
     background-color: #E0FDE0;
 }
 
+.functionDisabledModal {
+    background-color: lightgoldenrodyellow;
+    height: 250px;
+}
+
 .modal .input-inside {
     padding-left: 16px;
 }
@@ -863,7 +874,8 @@ MODAL WINDOW CSS
     background: white;
     height: auto;
     line-height: 20px;
-    width: 500px;
+    width: 80%;
+    max-width: 800px;
     display: none;
     border-bottom: thin solid #cecece;
     padding-left: 15px;
@@ -871,7 +883,8 @@ MODAL WINDOW CSS
 
 #accordion a {
     display: block;
-    width: 500px;
+    width: 80%;
+    max-width: 800px;
     background: #f4f4f4;
     color: #959696;
     padding-left: 15px;
@@ -891,11 +904,6 @@ MODAL WINDOW CSS
 
 #accordionDiv {
     height: 500px;
-}
-
-#factorRotationTable {
-    width: 100%;
-    margin-left: -1%;
 }
 
 .evenFactorRow {

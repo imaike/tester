@@ -197,21 +197,26 @@
     // display rotation chart options in DOM
     (function () {
         $("#factorJudgementRotButton").on("click", function () {
+            var testForSplit = localStorage.getItem("hasSplitFactor");
+            if (testForSplit > 0) {
+                VIEW.showDisabledFunctionsAfterSplitModal();
+            } else {
 
-            QAV.typeOfRotation = "judgemental";
+                QAV.typeOfRotation = "judgemental";
 
-            var button = $(this);
-            button.removeClass("blackHover");
-            button.addClass("buttonActionComplete");
-            button.prop('value', 'Judgemental Rotation');
-            button.prop('disabled', true);
+                var button = $(this);
+                button.removeClass("blackHover");
+                button.addClass("buttonActionComplete");
+                button.prop('value', 'Judgemental Rotation');
+                button.prop('disabled', true);
 
-            // get number of checkboxes from UI and append to DOM
-            UTIL.addFactorSelectCheckboxesRotation(QAV.numFactorsRetained);
+                // get number of checkboxes from UI and append to DOM
+                UTIL.addFactorSelectCheckboxesRotation(QAV.numFactorsRetained);
 
-            $("#judgementalRotationContainer").show();
-
+                $("#judgementalRotationContainer").show();
+            }
         });
+
     })();
 
 

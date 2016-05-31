@@ -8,7 +8,7 @@
 
 
 // JSlint declarations
-/* global localStorage: false, swal: false, sessionStorage: false, console: false, $: false, _: false, d3: false, evenRound:false, window: false; evenRound: false, document: false*/
+/* global localStorage: false, QAV, swal: false, sessionStorage: false, console: false, $: false, _: false, d3: false, evenRound:false, window: false; evenRound: false, document: false*/
 
 // todo - remove factor selection from localStorage
 // todo - fix bug - apply varimax twice then undo gives strange results
@@ -156,13 +156,29 @@ $(document).ready(function () {
             .data();
     });
 
+    // here
     // control factor loadings table background 
     $("#loadingsRadioSelect2 :radio").on('click', function () {
-        $('#loadingsRadioSelect2 input:not(:checked)').parent().removeClass("selected");
-        $(this).parent().addClass("selected");
-        // todo - find out how to prevent need for table destroy 
-        var isRotatedFactorsTableUpdate = "destroy";
-        drawRotatedFactorsTable2(isRotatedFactorsTableUpdate, "noFlag");
+
+        var testForSplit = localStorage.getItem("hasSplitFactor");
+        if (testForSplit > 0) {
+            VIEW.showDisabledFunctionsAfterSplitModal();
+        } else {
+
+            $('#loadingsRadioSelect2 input:not(:checked)').parent().removeClass("selected");
+            $(this).parent().addClass("selected");
+            // todo - find out how to prevent need for table destroy 
+
+            // keep flags - get current table data including flags and redrawn
+            var table = $('#factorRotationTable2').DataTable();
+            var chartData = table.rows().data();
+
+            QAV.colorButtonChartData = chartData;
+
+            var isRotatedFactorsTableUpdate = "highlighter";
+            var shouldFlag = "flag";
+            drawRotatedFactorsTable2(isRotatedFactorsTableUpdate, shouldFlag);
+        }
     });
 
     $("#loadingsRadioSelect1 :radio").on('click', function () {
@@ -411,8 +427,6 @@ function prepChartDataArray2(chartData) {
     // calculate eigenvalues and variance and add to results array
     var eigenvaluesAndVariance = calculateEigenvaluesAndVariance2();
     resultsArray.push(eigenvaluesAndVariance[0]);
-
-    console.log(JSON.stringify(resultsArray));
 
     return resultsArray;
 }
@@ -1062,9 +1076,6 @@ function updateDatatable1(newData) {
     // todo - fix error on baselinedata setting after displaying factors once
 
 
-    console.log(JSON.stringify(newData));
-
-
     var i, baseLineData, tempArray1, temp1, temp1a, temp2, temp2b, temp2a;
     var new2FactorDataArray = [];
     var temp4, temp6a, temp6b, table;
@@ -1193,8 +1204,6 @@ function updateDatatable1(newData) {
             }, {
                     'targets': [2],
                     "createdCell": function (td, cellData, rowData, row, col) {
-
-                        console.log(rowData);
 
                         if (rowData[6] === "true") {
                             $(td).css('background', '#ffe4b2');
@@ -1373,9 +1382,15 @@ function drawRotatedFactorsTable2(isRotatedFactorsTableUpdate, shouldFlag) {
     }
 
     // if table, remove from DOM and draw table
-    var table;
+    var table, factorSortedData;
 
-    var factorSortedData = rotationTableSortByFactor(newData);
+    if (isRotatedFactorsTableUpdate === "highlighter") {
+        factorSortedData = QAV.colorButtonChartData;
+        // unload that heavy property
+        QAV.colorButtonChartData = "";
+    } else {
+        factorSortedData = rotationTableSortByFactor(newData);
+    }
 
     var isUndo = "no";
     createFooter("factorRotationTable2", expVar2, isUndo);
@@ -1383,6 +1398,7 @@ function drawRotatedFactorsTable2(isRotatedFactorsTableUpdate, shouldFlag) {
 
     // todo - temporarily disabled update because autoflagging issues    
     if (isRotatedFactorsTableUpdate === "yes") {
+
 
         table = $('#factorRotationTable2').DataTable();
         table.clear();
@@ -1396,6 +1412,8 @@ function drawRotatedFactorsTable2(isRotatedFactorsTableUpdate, shouldFlag) {
         table = $('#factorRotationTable2').DataTable();
         table.destroy();
         $('#factorRotationTable2').empty();
+
+        // columnHeadersArray = QAV.factorLabels;
 
         createFooter("factorRotationTable2", expVar2, "no");
 
@@ -1450,6 +1468,16 @@ function drawRotatedFactorsTable2(isRotatedFactorsTableUpdate, shouldFlag) {
             }
         });
     } else {
+
+        // added for color button     
+
+        if (isRotatedFactorsTableUpdate === "highlighter") {
+            table = $('#factorRotationTable2').DataTable();
+            table.destroy();
+            $('#factorRotationTable2').empty();
+            createFooter("factorRotationTable2", expVar2, "no");
+        }
+
         table = $("#factorRotationTable2").DataTable({
             "retrieve": true,
             "searching": false,
