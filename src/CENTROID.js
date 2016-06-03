@@ -10,13 +10,16 @@
 // JSlint declarations
 /* global numeric, window, QAV, $, VIEW, evenRound, UTIL, localStorage, _ */
 
-(function (CENTROID, undefined) {
+(function (CENTROID, QAV, undefined) {
 
     CENTROID.drawExtractedFactorsTable = function () {
+
+        // get state centroidFactors
         var centroidFactors = _.cloneDeep(QAV.centroidFactors);
         var i, j, k, names, temp1, loopLen, targets, slicedTargets, headers;
 
-        names = QAV.respondentNames;
+        // get state repondentNames
+        names = _.clone(QAV.respondentNames);
 
         for (i = 0; i < centroidFactors.length; i++) {
             j = i + 1;
@@ -77,6 +80,7 @@
         var tempArray = [];
         var tempObj = {};
 
+        // get state centroidEigenvalues
         eigenValues = _.clone(QAV.centroidEigenvalues);
         eigenValues.unshift("");
         percentExplainedVariance = JSON.parse(localStorage.getItem("expVarCentroid"));
@@ -124,4 +128,4 @@
                              }];
         UTIL.drawDatatable(configObj);
     };
-}(window.CENTROID = window.CENTROID || {}));
+}(window.CENTROID = window.CENTROID || {}, QAV));

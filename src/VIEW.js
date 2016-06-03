@@ -8,10 +8,10 @@
 
 
 // JSlint declarations
-/* global window, $, localStorage, setTimeout, PCA, document, performance*/
+/* global window, $, localStorage, QAV, setTimeout, PCA, document, performance*/
 
 
-(function (VIEW, undefined) {
+(function (VIEW, QAV, undefined) {
 
 
     // **** SECTION 3 **** //
@@ -102,4 +102,4 @@
     };
 
 
-}(window.VIEW = window.VIEW || {}));
+}(window.VIEW = window.VIEW || {}, QAV));

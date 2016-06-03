@@ -10,7 +10,7 @@
 // JSlint declarations
 /* global numeric, window, QAV, $, document, JQuery, evenRound, UTIL, localStorage, _ */
 
-(function (PCA, undefined) {
+(function (PCA, QAV, undefined) {
 
     PCA.doPrincipalComponents = function (X) {
 
@@ -24,13 +24,15 @@
         var numberofPrincipalComps = 8;
         var inflectionArray = [];
 
-        // to differentiate output functions
+        // set state typeOfFactor - to differentiate output functions
         QAV.typeOfFactor = "PCA";
 
+        // get state totalNumberSorts
         numberOfSorts = QAV.totalNumberSorts;
 
 
-        // to determine the max number of factors to extract
+        // determine the max number of factors to extract
+        // get state originalSortSize, totalNumberSorts
         temp4 = QAV.originalSortSize;
         temp5 = QAV.totalNumberSorts;
         pcaFactorsToExtractArray = [8, temp4, temp5];
@@ -44,6 +46,7 @@
             factorLabels.push("Factor " + (m + 1));
         }
 
+        // set state factorLabels
         QAV.factorLabels = factorLabels;
 
         // svd = matrix of all principle components as column vectors          
@@ -111,6 +114,7 @@
             }
         }
 
+        // set state centroidFactors, eigenValuesSorted, eigenVecs
         QAV.centroidFactors = centroidFactors;
         QAV.eigenValuesSorted = eigenValuesSorted;
         QAV.eigenValuesAsPercents = eigenValuesAsPercents;
@@ -124,9 +128,11 @@
     };
 
     PCA.drawExtractedFactorsTable = function () {
+        // get state eigenVecs
         var eigenVecs = _.cloneDeep(QAV.eigenVecs);
         var i, j, names;
 
+        // get state respondentNames
         names = QAV.respondentNames;
         for (i = 0; i < eigenVecs.length; i++) {
             j = i + 1;
@@ -194,6 +200,7 @@
         // create footer
         var footer, temp, temp2, temp3, tableArray, array, array2, array3, tr, th;
 
+        // get state eigenValues
         temp = _.clone(QAV.eigenValuesSorted);
         temp.unshift("", "Eigenvalues");
         array = temp.slice(0, 10);
@@ -268,4 +275,4 @@
 
     };
 
-}(window.PCA = window.PCA || {}));
+}(window.PCA = window.PCA || {}, QAV));

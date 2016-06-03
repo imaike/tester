@@ -13,7 +13,7 @@
 // QAV is the global state data store
 (function (QAV, undefined) {}(window.QAV = window.QAV || {}));
 
-(function (CONTROLERS, undefined) {
+(function (CONTROLERS, QAV, undefined) {
 
     /*
     //
@@ -43,6 +43,7 @@
 
             // localStorage.setItem("rotFacStateArray", JSON.stringify(results[3]));
 
+            // set state numFactorsExtracted
             QAV.numFactorsExtracted = 8;
 
             PCA.drawExtractedFactorsTable();
@@ -113,6 +114,7 @@
 
             numFactors = parseInt($("#selectFactorsRotation option:selected").val());
 
+            // set state numFactors
             QAV.numFactorsRetained = numFactors;
 
             // prvent user selection errors 
@@ -137,6 +139,7 @@
 
                 // get the right data according to factor type
                 if (QAV.typeOfFactor === "PCA") {
+                    // get state eigenVecs
                     data = _.cloneDeep(QAV.eigenVecs);
                     loopLen = data.length;
 
@@ -144,8 +147,9 @@
                     for (i = 0; i < loopLen; i++) {
                         data[i] = data[i].slice(0, numFactors);
                     }
-                    
+
                 } else {
+                    // get state centroidFactors
                     data = _.cloneDeep(QAV.centroidFactors);
                     loopLen = data.length;
 
@@ -198,6 +202,7 @@
                 VIEW.showDisabledFunctionsAfterSplitModal();
             } else {
 
+                // set state typeOfRotation
                 QAV.typeOfRotation = "judgemental";
 
                 var button = $(this);
@@ -216,7 +221,7 @@
     })();
 
 
-}(window.CONTROLERS = window.CONTROLERS || {}));
+}(window.CONTROLERS = window.CONTROLERS || {}, QAV));
 
 
 
