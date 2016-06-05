@@ -346,7 +346,7 @@ function showPreliminaryOutput2() {
 function appendFactorSelectionCheckboxes() {
 
     var hasSplitFactor = localStorage.getItem("hasSplitFactor");
-
+    var j, len, k, temp5, pcaFactorLabels = [];
     // read in factor labels to generate checkboxes (and checking for split factor)
     var factorsToSelect;
 
@@ -373,18 +373,30 @@ function appendFactorSelectionCheckboxes() {
         loopLen = factorsToSelect.length;
 
     } else {
-        factorsToSelect = JSON.parse(localStorage.getItem("factorLabels"));
+
+        if (QAV.typeOfFactor === "PCA") {
+            for (k = 0, len = QAV.numFactorsRetained; k < len; k++) {
+                temp5 = "factor " + (k + 1);
+                pcaFactorLabels.push(temp5);
+            }
+
+            factorsToSelect = pcaFactorLabels;
+        } else {
+
+            factorsToSelect = JSON.parse(localStorage.getItem("factorLabels"));
+        }
     }
     localStorage.setItem("factorLabelsArray", JSON.stringify(factorsToSelect));
     QAV.factorLabelsArray = factorsToSelect;
 
+    // get state number of factors
     loopLen = QAV.numFactorsRetained;
 
     // check to see if checkboxes are already appended, and if so remove them
     removeOutputFactorCheckboxes();
 
     //  generate and append checkboxes
-    for (var j = 0; j < loopLen; j++) {
+    for (j = 0; j < loopLen; j++) {
         // for (var j = 0; j < factorsToSelect.length; j++) {
         var checkbox = document.createElement('input');
         checkbox.type = "checkbox";
