@@ -58,8 +58,6 @@ function fireVarimaxRotation() {
 
     var getFactorsForRotation = JSON.parse(localStorage.getItem("centroidFactors"));
 
-    console.log(JSON.stringify(getFactorsForRotation, null, 4));
-
     // rotation routine
     standardizeMatrix(getFactorsForRotation);
 
@@ -76,9 +74,6 @@ function standardizeMatrix(factorMatrix) {
 
     var sumSquares = [];
     var loopLen = factorMatrix.length;
-
-    console.log(JSON.stringify(loopLen));
-
     var temp1;
     var temp3;
     var temp;
@@ -86,9 +81,6 @@ function standardizeMatrix(factorMatrix) {
 
     // calculate original communalities
     for (i = 0; i < factorMatrix[0].length; i++) {
-
-        console.log(JSON.stringify(factorMatrix[0].length));
-
         temp1 = 0;
         temp3 = 0;
         for (j = 0; j < loopLen; j++) {
@@ -109,14 +101,10 @@ function standardizeMatrix(factorMatrix) {
     var m, k;
     var loopLen1 = factorMatrix.length;
 
-    console.log(JSON.stringify(loopLen1));
-
     for (m = 0; m < loopLen1; m++) {
         arrayFrag1 = factorMatrix[m];
         temp5 = [];
         len2 = factorMatrix[m].length;
-
-        console.log(JSON.stringify(len2));
 
         for (k = 0; k < len2; k++) {
             sqrtSumSquares = evenRound(Math.sqrt(sumSquares[k]), 8);
@@ -173,16 +161,12 @@ function calculateVarianceForFactorMatrix(factorMatrix, sumSquares) {
         var i, j;
         var iLoopLen = factorMatrix.length;
 
-        console.log(JSON.stringify(iLoopLen));
-
         // gets sumSquares of new varimaxIteration matrix to check convergence
         for (i = 0; i < iLoopLen; i++) {
             temp1 = 0;
             temp3 = 0;
             arrayFrag = factorMatrix[i];
             var jLoopLen = arrayFrag.length;
-
-            console.log(JSON.stringify(jLoopLen));
 
             for (j = 0; j < jLoopLen; j++) {
                 temp = evenRound((arrayFrag[j] * arrayFrag[j]), 8);
@@ -251,9 +235,6 @@ function varimaxIteration(standardizedFactorMatrix) {
     var i, j;
     var loopLen = standardizedFactorMatrix.length;
 
-    console.log(JSON.stringify(loopLen));
-
-
     for (i = 0; i < loopLen; i++) {
         for (j = i + 1; j < loopLen; j++) {
             rotatedFactors = varimaxCalculations(standardizedFactorMatrix[i], standardizedFactorMatrix[j]); // sends out for rotation
@@ -282,9 +263,6 @@ function varimaxCalculations(factorA, factorB) {
     var rotatedFactors, COS4T, SIN4T, line350;
     var i;
     var factorALength = factorA.length;
-
-    console.log(JSON.stringify(factorALength));
-
     var U, tPrep, tPrep2, ccPrep, ddPrep;
 
     for (i = 0; i < factorALength; i++) {
@@ -479,8 +457,6 @@ function gotoLine400Rotations(COSP, SINP, factorA, factorB) {
     var i, AA, BB, rotatedFactors;
     var iLoopLen = factorA.length;
 
-    console.log(JSON.stringify(iLoopLen));
-
     for (i = 0; i < iLoopLen; i++) {
 
         AA = evenRound((factorA[i] * COSP + factorB[i] * SINP), 8);
@@ -506,17 +482,11 @@ function unStandardize(standardizedResults, sumSquares) {
     var arrayFrag, pLoopLen, newArrayFrag, arrayItem, resultsTransposed;
     var crit;
 
-
-    console.log(JSON.stringify(nLoopLen));
-
     for (n = 0; n < nLoopLen; n++) {
 
         arrayFrag = standardizedResults[n];
         newArrayFrag = [];
         pLoopLen = arrayFrag.length;
-
-
-        console.log(JSON.stringify(pLoopLen));
 
         crit = 0;
         for (p = 0; p < pLoopLen; p++) {
@@ -533,8 +503,6 @@ function unStandardize(standardizedResults, sumSquares) {
         if (crit < 0) {
             var q;
             var qLoopLen = newArrayFrag.length;
-
-            console.log(JSON.stringify(qLoopLen));
 
             for (q = 0; q < qLoopLen; q++) {
                 newArrayFrag[q] = -newArrayFrag[q];
