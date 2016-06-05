@@ -86,7 +86,7 @@ function callCentroidFromLocalDemoData() {
 
         QAV.totalNumberSorts = namesFromExistingData.length;
 
-        var sortsFromExistingData = JSON.parse(localStorage.getItem("qavRespondentSortsFromDbStored"));
+        var sortsFromExistingData = JSON.parse(localStorage.getItem("qavRespondentSortsFromDbStored")) || false;
 
 
         var sortsAsNumbers2 = convertSortsTextToNumbers(sortsFromExistingData, originalSortSize2);
