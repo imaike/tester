@@ -55,7 +55,7 @@ $(document).ready(function () {
 // *********************************************************************
 
 // todo - move this to usedemodataset.js file
-// called by onclick from html 
+// called by onclick from html demo data
 // creates correlation table
 function callCentroidFromLocalDemoData() {
 
@@ -75,7 +75,7 @@ function callCentroidFromLocalDemoData() {
         $("#correlationsSpinner").append('<p id="spinnerText">&nbsp&nbsp Calculating, <i>please wait</i>&nbsp&nbsp</p>').fadeIn(300);
     }
 
-    // $("#calculatingCorrelationsModal").toggleClass('active');
+    $("#calculatingCorrelationsModal").toggleClass('active');
 
     // setTimeout to force display of spinner
     setTimeout(function () {
@@ -86,7 +86,7 @@ function callCentroidFromLocalDemoData() {
 
         QAV.totalNumberSorts = namesFromExistingData.length;
 
-        var sortsFromExistingData = JSON.parse(localStorage.getItem("qavRespondentSortsFromDbStored")) || false;
+        var sortsFromExistingData = JSON.parse(localStorage.getItem("qavRespondentSortsFromDbStored"));
 
 
         var sortsAsNumbers2 = convertSortsTextToNumbers(sortsFromExistingData, originalSortSize2);

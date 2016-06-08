@@ -60,7 +60,7 @@
         $("#factorExtractionButton").on("click", function () {
             var button2;
 
-            callCentroidFromLocalDemoData();
+            // callCentroidFromLocalDemoData();
             fireFactorExtraction();
             $(this).removeClass("blackHover").addClass("buttonActionComplete").prop('value', 'Centroid Factors').prop('disabled', true);
 

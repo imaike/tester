@@ -21,6 +21,10 @@
         // get state repondentNames
         names = _.clone(QAV.respondentNames);
 
+        if (names[0] === "") {
+            names.shift();
+        }
+
         for (i = 0; i < centroidFactors.length; i++) {
             j = i + 1;
             centroidFactors[i].unshift(j, names[i]);
