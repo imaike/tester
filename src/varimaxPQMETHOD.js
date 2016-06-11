@@ -57,6 +57,7 @@ function fireVarimaxRotation() {
     // archiveFactorScoreStateMatrixAndDatatable();
 
     var getFactorsForRotation = JSON.parse(localStorage.getItem("centroidFactors"));
+    // var testVar = _.cloneDeep(QAV.centroidFactors);
 
     // rotation routine
     standardizeMatrix(getFactorsForRotation);

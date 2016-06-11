@@ -80,6 +80,36 @@
             $(this).prop('disabled', true);
 
             VIEW.clearSections_4_5_6();
+
+            // reset state
+            localStorage.setItem("rotFacStateArray", "");
+            localStorage.setItem("tempRotFacStateArray", "");
+            localStorage.setItem("numberFactorsExtracted", "");
+            localStorage.setItem("fSigCriterion", "");
+            localStorage.setItem("rowH2", "");
+            localStorage.setItem("fSigCriterionResults", "");
+            localStorage.setItem("expVar", "");
+            localStorage.setItem("columnHeadersArray", "");
+            localStorage.setItem("saveRotationCounter", "");
+            localStorage.setItem("rotFacStateArrayArchive1", "");
+            localStorage.setItem("centroidFactors", "");
+            localStorage.setItem("correlationTableArrayFormatted", "");
+            localStorage.setItem("analysisOutput", "");
+            localStorage.setItem("factorMatrixTransposed", "");
+
+            QAV.centroidFactors = "";
+            QAV.typeOfFactor = "";
+            QAV.pcaNumberFactorsExtracted = "";
+            QAV.factorLabels = "";
+            QAV.eigenValuesSorted = "";
+            QAV.eigenValuesAsPercents = "";
+            QAV.eigenValuesCumulPercentArray = "";
+            QAV.eigenVecs = "";
+            QAV.numFactorsExtracted = "";
+            QAV.pcaTableHeaders = "";
+            QAV.pcaTableTargets = "";
+            QAV.numFactorsRetained = "";
+            QAV.typeOfRotation = "";
         });
     })();
 

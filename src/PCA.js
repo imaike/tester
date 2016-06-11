@@ -118,7 +118,7 @@
         }
 
         // set state centroidFactors, eigenValuesSorted, eigenVecs
-        QAV.centroidFactors = centroidFactors;
+        QAV.centroidFactors = eigenVecs;
         QAV.eigenValuesSorted = eigenValuesSorted;
         QAV.eigenValuesAsPercents = eigenValuesAsPercents;
         QAV.eigenValuesCumulPercentArray = eigenValuesCumulPercentArray;
