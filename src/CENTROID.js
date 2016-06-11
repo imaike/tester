@@ -16,10 +16,11 @@
 
         // get state centroidFactors
         var centroidFactors = _.cloneDeep(QAV.centroidFactors);
-        var i, j, k, names, temp1, loopLen, targets, slicedTargets, headers;
+        var i, j, k, names;
+        var temp1, loopLen, targets, slicedTargets, headers;
 
         // get state repondentNames
-        names = _.clone(QAV.respondentNames);
+        names = _.clone(QAV.respondentNames) || [];
 
         if (names[0] === "") {
             names.shift();

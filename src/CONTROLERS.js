@@ -10,9 +10,6 @@
 // JSlint declarations
 /* global window, $, localStorage, _, document, CENTROID, VIEW, PCA, QAV, UTIL, performance*/
 
-// QAV is the global state data store
-(function (QAV, undefined) {}(window.QAV = window.QAV || {}));
-
 (function (CONTROLERS, QAV, undefined) {
 
     /*
@@ -22,8 +19,10 @@
     */
     // to start pca and draw table
     (function () {
-        $("#PcaExtractionButton").on("click", function () {
+        document.getElementById("PcaExtractionButton").addEventListener("click", function () {
+
             var button, button2, X, t0, t1;
+
 
             t0 = performance.now();
 
@@ -51,6 +50,10 @@
             t1 = performance.now();
 
             console.log('%c PCA completed in ' + (t1 - t0).toFixed(0) + ' milliseconds', 'background: black; color: white');
+
+
+            // required for firefox to register event
+            return false;
         });
     })();
 
@@ -58,8 +61,8 @@
     // Centrold factor extration button listener
     (function () {
         $("#factorExtractionButton").on("click", function () {
-            var button2;
 
+            var button2;
             // callCentroidFromLocalDemoData();
             fireFactorExtraction();
             $(this).removeClass("blackHover").addClass("buttonActionComplete").prop('value', 'Centroid Factors').prop('disabled', true);
@@ -70,12 +73,15 @@
             $("#resetAnalysisButton").prop('disabled', false);
 
             CENTROID.drawExtractedFactorsTable();
+            // required for firefox to register event
+            return false;
         });
     })();
 
     // clear view for reset analysis
     (function () {
         $("#resetAnalysisButton").on("click", function () {
+
             VIEW.destroyExtractionTables();
             $(this).prop('disabled', true);
 
@@ -110,6 +116,12 @@
             QAV.pcaTableTargets = "";
             QAV.numFactorsRetained = "";
             QAV.typeOfRotation = "";
+
+
+
+
+            // required for firefox to register event
+            return false;
         });
     })();
 
@@ -131,6 +143,8 @@
 
             // clear Project History except for first entry
             $('#rotationHistoryList li:not(:first)').remove();
+
+
 
         });
     })();

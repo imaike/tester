@@ -210,7 +210,7 @@
             <div id="databaseSelectDiv">
                 <!--   opening data range selection div     -->
                 <h5>Select Data Set</h5>
-                <select id="existingDatabaseSelect" name="existingDatabaseSelect" autocomplete="off">
+                <select id="existingDatabaseSelect" name="existingDatabaseSelect">
                     <option value="default" disabled selected>Select</option>
                     <option value="Lipset"> 9 Sorts 33 Statements- Lipset Data</option>
                     <option value="Medium"> 60 Sorts 58 Statements - Office Buzzwords</option>
@@ -1079,13 +1079,12 @@
                         <option value="8">8 factors</option>
                     </select>
                 </div>
-                <div class="singleLine">
+                <div class="row">
                     <input type="button" class="blackHover singleLine vertical" id="factorExtractionButton" value="Extract Centroid Factors">
 
                     <input type="button" class="blackHover singleLine vertical" id="PcaExtractionButton" value="Extract Principal Components">
                 </div>
                 <div class="row">
-
                     <input type="button" class="blackHover singleLine vertical u-pull-right rightMargin" id="resetAnalysisButton" value="Reset Analysis">
                 </div>
             </div>
@@ -1482,7 +1481,7 @@
     <script type="text/javascript" src="lib/numeric-1.2.6.min.js"></script>
 
     <!-- load custom JS -->
-    <script type="text/javascript" src="src/CONTROLERS.js"></script>
+    <script type="text/javascript" src="src/STATE.js"></script>
     <script type="text/javascript" src="src/VIEW.js"></script>
     <script type="text/javascript" src="src/highestFactor.js"></script>
     <script type="text/javascript" src="src/UTIL.js"></script>
@@ -1498,6 +1497,7 @@
     <script type="text/javascript" src="src/D3-scatterplot.js"></script>
     <script type="text/javascript" src="src/qAnalysis.js"></script>
     <script type="text/javascript" src="src/factorLoadings.js"></script>
+    <script type="text/javascript" src="src/CONTROLERS.js"></script>
 </body>
 
 </html>
