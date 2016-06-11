@@ -76,6 +76,15 @@
 
     };
 
+    // todo - remove autocomplete="off" from index.html and use this
+    //    (function () {
+    //        $(window).unload(function() {
+    //            $('#existingDatabaseSelect select option').remove();
+    //           
+    //
+    //        });
+    //    })();
+    //
 
 
 }(window.UTIL = window.UTIL || {}));
