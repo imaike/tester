@@ -210,7 +210,7 @@
             <div id="databaseSelectDiv">
                 <!--   opening data range selection div     -->
                 <h5>Select Data Set</h5>
-                <select id="existingDatabaseSelect" name="existingDatabaseSelect">
+                <select id="existingDatabaseSelect" autocomplete="off" name="existingDatabaseSelect">
                     <option value="default" disabled selected>Select</option>
                     <option value="Lipset"> 9 Sorts 33 Statements- Lipset Data</option>
                     <option value="Medium"> 60 Sorts 58 Statements - Office Buzzwords</option>
@@ -1068,7 +1068,7 @@
             <h4 class="singleLine">Factor Extraction&nbsp&nbsp</h4>
             <div class="row">
                 <div class="singleLine">
-                    <select id="factorSelect" class="singleLIne vertical">
+                    <select id="factorSelect" autocomplete="off" class="singleLIne vertical">
                         <!--  <option disabled="disabled" selected="selected">Choose option</option>-->
                         <option value="2">2 factors</option>
                         <option value="3">3 factors</option>
@@ -1080,12 +1080,12 @@
                     </select>
                 </div>
                 <div class="row">
-                    <input type="button" class="blackHover singleLine vertical" id="factorExtractionButton" value="Extract Centroid Factors">
+                    <input type="button" autocomplete="off" class="blackHover singleLine vertical" id="factorExtractionButton" value="Extract Centroid Factors">
 
-                    <input type="button" class="blackHover singleLine vertical" id="PcaExtractionButton" value="Extract Principal Components">
+                    <input type="button" autocomplete="off" class="blackHover singleLine vertical" id="PcaExtractionButton" value="Extract Principal Components">
                 </div>
                 <div class="row">
-                    <input type="button" class="blackHover singleLine vertical u-pull-right rightMargin" id="resetAnalysisButton" value="Reset Analysis">
+                    <input type="button" autocomplete="off" class="blackHover singleLine vertical u-pull-right rightMargin" id="resetAnalysisButton" value="Reset Analysis">
                 </div>
             </div>
             <br>
@@ -1121,7 +1121,7 @@
             <div class="row">
                 <h5 id="judgementFactorSelectText" class=" vertical singleLine">How many factors to keep for rotation? </h5>
 
-                <select id="selectFactorsRotation" class="vertical singleLine" name="rotationSelect">
+                <select id="selectFactorsRotation" class="vertical singleLine" name="rotationSelect" autocomplete="off">
                     <option value="default" disabled selected>Select</option>
                     <option value="1"> 1 </option>
                     <option value="2"> 2 </option>
@@ -1133,7 +1133,7 @@
                     <option value="8"> 8 </option>
                 </select>
 
-                <input type="button" class="blackHover singleLine vertical" id="sendToRotationButton" value="Submit">
+                <input type="button" class="blackHover singleLine vertical" id="sendToRotationButton" autocomplete="off" value="Submit">
 
                 <p id="rotationLargeNumberError" class="errorMessage singleLine hidden">- ERROR - The selection is larger than the number of factors extracted.</p>
 
@@ -1142,9 +1142,9 @@
             </div>
 
             <div class="row">
-                <input type="button" class="blackHover singleLine vertical" style="display:none" id="factorJudgementRotButton" value="Use Judgemental Rotation">
+                <input type="button" class="blackHover singleLine vertical" style="display:none" autocomplete="off" id="factorJudgementRotButton" value="Use Judgemental Rotation">
 
-                <input type="button" class="blackHover leftMargin singleLine vertical" style="display:none" id="factorVarimaxButton" value="Apply Varimax Rotation">
+                <input type="button" class="blackHover leftMargin singleLine vertical" style="display:none" autocomplete="off" id="factorVarimaxButton" value="Apply Varimax Rotation">
             </div>
 
             <div id="judgementalRotationContainer" class="hidden">
@@ -1222,7 +1222,7 @@
                 <h4 class="singleLine">Factor Loadings - Flagging</h4>
                 <div id="factorLoadingContainerDiv" class="hidden">
                     <div class="row">
-                        <input type="button" class="blackHover u-pull-right rightMargin" id="autoflagButton" value="Auto Flag Factor Loadings">
+                        <input type="button" class="blackHover u-pull-right rightMargin" id="autoflagButton" autocomplete="off" value="Auto Flag Factor Loadings">
                     </div>
                     <div id="factorLoadingTableRadioDiv" class="row">
                         <div class="six columns">
@@ -1230,11 +1230,11 @@
                             <div id="loadingsRadioSelect1">
                                 <label for="respondentRadio" class="selected">
                                     RESPONDENT ID
-                                    <input id="respondentRadio" name="state1" type="radio" value="0" checked />
+                                    <input id="respondentRadio" name="state1" autocomplete="off" type="radio" value="0" checked />
                                 </label>
                                 <label for="factorGroupRadio">
                                     HIGHEST LOADING FACTOR
-                                    <input id="factorGroupRadio" name="state1" type="radio" value="2" />
+                                    <input id="factorGroupRadio" name="state1" autocomplete="off" type="radio" value="2" />
                                 </label>
                             </div>
                         </div>
@@ -1243,15 +1243,15 @@
                             <div id="loadingsRadioSelect2">
                                 <label for="none" class="selected">
                                     NONE
-                                    <input id="none" name="state2" type="radio" value="none" checked />
+                                    <input id="none" name="state2" type="radio" autocomplete="off" value="none" checked />
                                 </label>
                                 <label for="Gray">
                                     GRAY
-                                    <input id="Gray" name="state2" type="radio" value="gray" />
+                                    <input id="Gray" name="state2" type="radio" autocomplete="off" value="gray" />
                                 </label>
                                 <label for="Color">
                                     COLOR
-                                    <input id="Color" name="state2" type="radio" value="colors" />
+                                    <input id="Color" name="state2" type="radio" autocomplete="off" value="colors" />
                                 </label>
                             </div>
                         </div>
@@ -1361,11 +1361,11 @@
             <br>
             <br>
             <div id="outputResultsButtonsDiv">
-                <input type="button" name="dump" id="displayQuickResultsButton" class="blackHover" data-dump="#factorRotationTable" value="Display Preliminary Output">
+                <input type="button" name="dump" id="displayQuickResultsButton" class="blackHover" data-dump="#factorRotationTable" autocomplete="off" value="Display Preliminary Output">
 
-                <input type="button" class="downloadHover" name="outputResults" id="downloadResultsButton" value="Download Complete Output">
+                <input type="button" class="downloadHover" name="outputResults" id="downloadResultsButton" autocomplete="off" value="Download Complete Output">
 
-                <input type="button" class="deleteHover u-pull-right" name="clearStorage" id="clearStorageButton" value="Permanently Delete All Locally-Stored Data">
+                <input type="button" class="deleteHover u-pull-right" name="clearStorage" autocomplete="off" id="clearStorageButton" value="Permanently Delete All Locally-Stored Data">
             </div>
 
             <div class="modal" id="deleteLocalDataModal">
@@ -1456,6 +1456,7 @@
                     <li>Iscroll-Lite (MIT license)</li>
                     <li>JQuery (MIT license)</li>
                     <li>Lo-Dash (MIT license)</li>
+                    <li>numeric.js - Copyright (C) 2011 by Sébastien Loisel</li>
                 </ul>
             </div>
         </div>

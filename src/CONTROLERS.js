@@ -99,7 +99,6 @@
             localStorage.setItem("saveRotationCounter", "");
             localStorage.setItem("rotFacStateArrayArchive1", "");
             localStorage.setItem("centroidFactors", "");
-            localStorage.setItem("correlationTableArrayFormatted", "");
             localStorage.setItem("analysisOutput", "");
             localStorage.setItem("factorMatrixTransposed", "");
 

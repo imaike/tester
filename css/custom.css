@@ -997,9 +997,9 @@ MODAL WINDOW CSS
 
 div.d3Tooltip {
     position: absolute;
-    width: 115px;
+    min-width: 125px;
     text-align: left;
-    height: 28px;
+    height: 34px;
     padding: 2px;
     padding-left: 10px;
     font: 12px sans-serif;

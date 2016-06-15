@@ -739,7 +739,7 @@ function drawD3Chart(dataValuesArray) {
         .on("mouseover", function (d) {
             div.transition()
                 .duration(100)
-                .style("opacity", 0.9);
+                .style("opacity", 1);
             div.html("<strong>" + d.respondent + "</strong><br>" + yValue(d) + ", 　" + xValue(d))
                 .style("left", (d3.event.pageX + 10) + "px")
                 .style("top", (d3.event.pageY - 28) + "px");
@@ -761,7 +761,7 @@ function drawD3Chart(dataValuesArray) {
         .on("mouseover", function (d) {
             div.transition()
                 .duration(100)
-                .style("opacity", 0.9);
+                .style("opacity", 1);
             div.html("<strong>" + d.respondent + "</strong><br>" + yValue(d) + ", 　" + xValue(d))
                 .style("left", (d3.event.pageX + 10) + "px")
                 .style("top", (d3.event.pageY - 28) + "px");

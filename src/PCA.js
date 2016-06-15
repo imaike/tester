@@ -55,8 +55,9 @@
         // svd = matrix of all principle components as column vectors          
         m = X.length;
         // m = 4;
-        sigma = numeric.div(numeric.dot(numeric.transpose(X), X), m);
-        svd = numeric.svd(sigma).U;
+        // sigma = numeric.div(numeric.dot(numeric.transpose(X), X), m);
+        svd = numeric.svd(X).U;
+
 
         // eigens = eigenvalues for data X 
         eigens = numeric.eig(X);
