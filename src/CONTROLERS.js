@@ -142,7 +142,7 @@
     // start correlation anaysis from demo data
     (function () {
         $("#beginAnalysisLocalData").on("click", function () {
-            CENTROID.callCentroidFromLocalData();
+            CENTROID.fireCentroidFromLocalData();
         });
     })();
 

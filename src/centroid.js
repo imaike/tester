@@ -13,7 +13,7 @@
 (function (CENTROID, QAV, undefined) {
 
     // misnamed - creates correlation table  -  todo - rename
-    CENTROID.callCentroidFromLocalData = function () {
+    CENTROID.fireCentroidFromLocalData = function () {
 
         var t0 = performance.now();
 
