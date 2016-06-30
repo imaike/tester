@@ -147,7 +147,7 @@
     })();
 
 
-    // Centrold factor extration button listener
+    // Centroid factor extration button listener
     (function () {
         $("#factorExtractionButton").on("click", function () {
 
