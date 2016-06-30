@@ -8,16 +8,98 @@
 
 
 // JSlint declarations
-/* global window, $, localStorage, _, document, CENTROID, VIEW, PCA, QAV, UTIL, performance*/
+/* global window, $, EXCEL, localStorage, _, document, PASTE, CENTROID, VIEW, PCA, QAV, UTIL, performance*/
 
 (function (CONTROLERS, QAV, undefined) {
 
     /*
     //
+    // **** SECTION 2 **** 
+    //
+    */
+
+    // ***** Persist Pasted Sort Data in PQMethod input section *****************
+    // todo - move this to manual input file?
+    (function () {
+        var input = document.getElementById('sortInputBox');
+
+        // pull user input from memory if it exists
+        var temp1 = localStorage.getItem("sortInputBox");
+        if (temp1) {
+            input.value = temp1;
+        }
+
+        // capture sorts from user-input and set into memory
+        $('#sortInputBox').on('input propertychange change', function () {
+            localStorage.setItem("sortInputBox", this.value);
+        });
+    })();
+
+    (function () {
+        $('#stageDataPqmethod').on('click', function () {
+            console.log("stage data clicked");
+
+            PASTE.stageDataPqmethod();
+
+        });
+    })();
+
+
+    // to clear so new data can be added
+    (function () {
+        $("#clearInputBoxDataButton").on("click", function () {
+            $("#sortInputBox").val("");
+            localStorage.setItem("sortInputBox", "");
+            QAV.setState("sortInputBox", "");
+            $("#statementsInputBoxPqmethod").val("");
+            localStorage.setItem("qavStatementsInputBoxPqmethod", "");
+            QAV.setState("qavStatementsInputBoxPqmethod", "");
+        });
+    })();
+
+    (function () {
+        $("#exportExcelSortsPQM").on("click", function (e) {
+            e.preventDefault();
+            EXCEL.exportExcelSortsPQM();
+        });
+    })();
+
+    // import EXCEL files
+    (function () {
+        $("#fileSelect").on("change", function (e) {
+            EXCEL.filePicked(e);
+        });
+    })();
+
+    // import Ken-Q output files to EXCEL
+    (function () {
+        $("#fileSelectKenq").on("change", function (e) {
+            EXCEL.filePickedKenq(e);
+        });
+    })();
+
+    // import DAT files to PASTE
+    (function () {
+        $("#fileSelectPQM").on("change", function (e) {
+            PASTE.filePickedTextPQM(e);
+        });
+    })();
+
+    // import STA files to PASTE
+    (function () {
+        $("#fileSelectSTA").on("change", function (e) {
+            PASTE.filePickedTextSTA(e);
+        });
+    })();
+
+
+
+    /*  
+    //
     // **** SECTION 3 **** 
     //
     */
-    // to start pca and draw table
+    // to start pca and draw PCA table
     (function () {
         document.getElementById("PcaExtractionButton").addEventListener("click", function () {
 
@@ -42,8 +124,7 @@
 
             // localStorage.setItem("rotFacStateArray", JSON.stringify(results[3]));
 
-            // set state numFactorsExtracted
-            QAV.numFactorsExtracted = 8;
+            QAV.setState("numFactorsExtracted", 8);
 
             PCA.drawExtractedFactorsTable();
 
@@ -58,13 +139,21 @@
     })();
 
 
+    // start correlation anaysis from demo data
+    (function () {
+        $("#beginAnalysisLocalData").on("click", function () {
+            CENTROID.callCentroidFromLocalData();
+        });
+    })();
+
+
     // Centrold factor extration button listener
     (function () {
         $("#factorExtractionButton").on("click", function () {
 
             var button2;
-            // callCentroidFromLocalDemoData();
-            fireFactorExtraction();
+
+            CENTROID.fireFactorExtraction();
             $(this).removeClass("blackHover").addClass("buttonActionComplete").prop('value', 'Centroid Factors').prop('disabled', true);
 
             button2 = $("#PcaExtractionButton");
@@ -89,7 +178,8 @@
 
             // reset state
             localStorage.setItem("rotFacStateArray", "");
-            localStorage.setItem("tempRotFacStateArray", "");
+            // localStorage.setItem("tempRotFacStateArray", "");
+            QAV.setState("tempRotFacStateArray", "");
             localStorage.setItem("numberFactorsExtracted", "");
             localStorage.setItem("fSigCriterion", "");
             localStorage.setItem("rowH2", "");
@@ -115,9 +205,6 @@
             QAV.pcaTableTargets = "";
             QAV.numFactorsRetained = "";
             QAV.typeOfRotation = "";
-
-
-
 
             // required for firefox to register event
             return false;
@@ -157,8 +244,7 @@
 
             numFactors = parseInt($("#selectFactorsRotation option:selected").val());
 
-            // set state numFactors
-            QAV.numFactorsRetained = numFactors;
+            QAV.setState("numFactorsRetained", numFactors);
 
             // prvent user selection errors 
             temp1 = QAV.numFactorsExtracted || 0;
@@ -182,18 +268,15 @@
 
                 // get the right data according to factor type
                 if (QAV.typeOfFactor === "PCA") {
-                    // get state eigenVecs
-                    data = _.cloneDeep(QAV.eigenVecs);
+                    data = QAV.getState("eigenVecs");
                     loopLen = data.length;
 
                     // get just the factors selected from data
                     for (i = 0; i < loopLen; i++) {
                         data[i] = data[i].slice(0, numFactors);
                     }
-
                 } else {
-                    // get state centroidFactors
-                    data = _.cloneDeep(QAV.centroidFactors);
+                    data = QAV.getState("centroidFactors");
                     loopLen = data.length;
 
                     // get just the factors selected from data
@@ -215,7 +298,8 @@
                 // gets array for fSig testing from LS of calculateCommunalities - sets fSigCriterionResults
                 calculatefSigCriterionValues("noFlag");
 
-                localStorage.setItem("tempRotFacStateArray", JSON.stringify(data));
+                // localStorage.setItem("tempRotFacStateArray", JSON.stringify(data));
+                QAV.setState("tempRotFacStateArray", data);
 
                 //draw rotation table for the first time
                 var isRotatedFactorsTableUpdate = "no";
@@ -245,8 +329,7 @@
                 VIEW.showDisabledFunctionsAfterSplitModal();
             } else {
 
-                // set state typeOfRotation
-                QAV.typeOfRotation = "judgemental";
+                QAV.setState("typeOfRotation", "judgemental");
 
                 var button = $(this);
                 button.removeClass("blackHover");
@@ -262,6 +345,34 @@
         });
 
     })();
+
+
+    // call varimax
+    (function () {
+        $("#factorVarimaxButton").on("click", function () {
+            var testForSplit = localStorage.getItem("hasSplitFactor");
+            if (testForSplit > 0) {
+                VIEW.showDisabledFunctionsAfterSplitModal();
+            } else {
+
+                QAV.setState("typeOfRotation", "varimax");
+
+                var button = $(this);
+                button.removeClass("blackHover");
+                button.addClass("buttonActionComplete");
+                button.prop('value', 'Varimax Rotation Applied');
+                button.prop('disabled', true);
+
+                // avoid problem with reinitialization and display of 2 factor table
+                var tableCheck = $("#judgementalRotationContainer").is(":visible");
+                if (tableCheck) {
+                    reInitializePlotAndChart();
+                }
+                VARIMAX.fireVarimaxRotation();
+            }
+        });
+    })();
+
 
 
 }(window.CONTROLERS = window.CONTROLERS || {}, QAV));

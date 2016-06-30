@@ -76,32 +76,32 @@
             <div>
                 <h1><strong>Ken-Q Analysis</strong></h1>
                 <h2>A Web Application for Q Methodology</h2>
-                <h5><i>Version 0.5.0 (June 11, 2016)</i></h5>
+                <h5><i>Beta Version 0.5.0 Test Release (June 18, 2016)</i></h5>
                 <br>
                 <ul>
                     <li>Ken-Q Analysis requires an up-to-date browser - Tested on:
                         <ul style="list-style-type:circle">
-                            <li>Windows 10 --&gt Chrome (50), Firefox (46)</li>
-                            <li>Mac OSX El Capitan --&gt Chrome (50), Firefox (46)</li>
-                            <li>Linux (Lubuntu) --&gt Chromium (50), Firefox (46)</li>
+                            <li>Windows 10 --&gt Chrome (version 50), Firefox (version 46)</li>
+                            <li>Mac OSX El Capitan --&gt Chrome (version 50), Firefox (version 46)</li>
+                            <li>Linux (Lubuntu 14.04) --&gt Chromium (version 50), Firefox (version 46)</li>
                         </ul>
-                        older Chrome and Firefox versions are not tested and <strong>not recommended</strong>
+                        older Chrome and Firefox versions are not tested and <strong>not recommended</strong>. Principal Component Analysis takes substantially more time to calculate on Firefox (about 2 minutes for large datasets) compared to Chrome (about 10 seconds). Firefox will give "unresponsive script" error messages while calculating Principal Components. Click "continue" to finish the calculations.
                     </li>
                     <li>CAUTION - Ken-Q Analysis saves data locally inside the browser. If you are using a shared computer in a computer lab or internet cafe you should delete all locally-stored data after you download the results of your analysis</li>
-                    <li>Ken-Q Analysis is open source - you can view the source files <a href="https://github.com/shawnbanasick/ken-q-analysis/tree/gh-pages">HERE.</a></li>
+                    <li>Ken-Q Analysis is open source - you can <a class="linkUnderline" href="https://github.com/shawnbanasick/ken-q-analysis/tree/gh-pages">download and view the source files.</a></li>
                     <li>Functionality not yet implemented:</li>
                     <ul style="list-style-type:circle">
                         <li>Alternative (Horst) centroid factor extraction</li>
                         <li>Manual input of unrestrained sorts</li>
                         <li>Factor loading adjustment for Heywood case (communality equal to or greater than 1.0)</li>
                     </ul>
-                    <li>Worried about data privacy? Want to work offline? Download Ken-Q Analysis <a href="https://github.com/shawnbanasick/ken-q-analysis/archive/gh-pages.zip">HERE</a> and run it locally from your computer. (after downloading the file, unzip it and double-click on the "index.html" file to start the web app.)</li>
+                    <li>Worried about data privacy? Want to work offline? <a class="linkUnderline" href="https://github.com/shawnbanasick/ken-q-analysis/archive/gh-pages.zip">Download Ken-Q Analysis </a> and run it locally from your computer. (after downloading the file, unzip it and double-click on the "index.html" file to start the web app.)</li>
                 </ul>
             </div>
             <div id="accordionDiv">
                 <h5>Change Log</h5>
                 <div id="accordion">
-                    <a href="#six" class="first">Beta Version 0.5.0 Test Release (June 11, 2016)</a>
+                    <a href="#six" class="first">Beta Version 0.5.0 Test Release (June 18, 2016)</a>
                     <div id="six">
                         <ul>
                             <li>added Principal Components to factor extraction options</li>
@@ -966,7 +966,7 @@
                 <h4 class="pastePQM">Paste Sort Data</h4>
                 <div class="choose_filePQM">
                     <span>OR UPLOAD DAT FILE</span>
-                    <input accept=".DAT" onchange="filePickedTextPQM(event)" id="fileSelectPQM" type="file" />
+                    <input accept=".DAT" id="fileSelectPQM" type="file" />
                 </div>
                 <h4 class="pastePQM">from PQMethod or Ken-Q Mobile</h4>
                 <form>
@@ -975,15 +975,14 @@
                         <h4 class="pastePQM">Paste Q-Sort Statements</h4>
                         <div class="choose_filePQM">
                             <span>OR UPLOAD STA FILE</span>
-                            <input accept=".STA" onchange="filePickedTextSTA(event)" id="fileSelectSTA" type="file" />
+                            <input accept=".STA" id="fileSelectSTA" type="file" />
                         </div>
                     </div>
                     <textarea id="statementsInputBoxPqmethod" class="textbox inputBoxAutoWidth" name="rawStatementsPqmethod" rows="40"></textarea>
 
                     <br>
                     <div class="row">
-                        <input type="button" class="blackHover" id="beginAnalysisPqmethod" value="Create Correlation Table">
-
+                        <input type="button" class="blackHover" id="stageDataPqmethod" value="Stage Data for Analysis">
                         <input type="button" class="blackHover u-pull-right rightMargin" id="clearInputBoxDataButton" value="Clear All Data From Input Boxes">
 
                     </div>
@@ -999,11 +998,11 @@
                 <div id="excelActionButtonsContainerDiv">
                     <div class="choose_file">
                         <span>UPLOAD HAND-CODED EXCEL FILE</span>
-                        <input accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" onchange="filePicked(event)" id="fileSelect" type="file" />
+                        <input accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" id="fileSelect" type="file" />
                     </div>
                     <div class="choose_file">
                         <span>UPLOAD KEN-Q RESULTS FILE</span>
-                        <input accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" onchange="filePickedKenq(event)" id="fileSelectKenq" type="file" />
+                        <input accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" id="fileSelectKenq" type="file" />
                     </div>
                     <div id="excelActionButtonsDiv">
                         <!--                       <input type="button" id="beginExcelAnalysis" class="button-primary blackHover" value="Begin Analysis" />-->
@@ -1048,7 +1047,9 @@
             </div>
             <h4 class="specialH4"> Correlation Matrix</h4>
             <div class="specialH4" id="correlationsSpinner"></div>
-            <div id="localDataButtonDiv"></div>
+            <div id="localDataButtonDiv">
+                <input type="button" class="blackHover" id="beginAnalysisLocalData" value="Create Correlation Table">
+            </div>
 
 
             <div id="correlationTable" class="rightMargin">
@@ -1423,7 +1424,36 @@
 
             </div>
 
+            <br>
+            <br>
 
+            <div class="six columns">
+                <legend>Zoom</legend>
+                <div id="zoomFactorRadioSelect">
+                    <label for="zoomOne" class="selected">
+                        1
+                        <input id="zoomOne" name="state3" type="radio" autocomplete="off" value="1" checked />
+                    </label>
+                    <label for="zoomTwo">
+                        2
+                        <input id="zoomTwo" name="state3" type="radio" autocomplete="off" value="2" />
+                    </label>
+                    <label for="zoomThree">
+                        3
+                        <input id="zoomThree" name="state3" type="radio" autocomplete="off" value="3" />
+                    </label>
+                    <label for="zoomFour">
+                        4
+                        <input id="zoomFour" name="state3" type="radio" autocomplete="off" value="4" />
+                    </label>
+                    <label for="zoomFive">
+                        5
+                        <input id="zoomFive" name="state3" type="radio" autocomplete="off" value="5" />
+                    </label>
+                </div>
+            </div>
+
+            <div class="radvizContainer1"></div>
             <br>
             <br>
             <div id="factorCorrelationTableTitle"></div>
@@ -1478,23 +1508,24 @@
     <script type="text/javascript" src="lib/alasql.min.js"></script>
     <script type="text/javascript" src="lib/xlsx.core.min.js"></script>
     <script type="text/javascript" src="lib/datatables.min.js"></script>
-    <script type="text/javascript" src="lib/dataTables.fixedColumns.min.js"></script>
+    <script type="text/javascript" src="lib/dataTables.fixedColumns.js"></script>
     <script type="text/javascript" src="lib/numeric-1.2.6.min.js"></script>
+    <script type="text/javascript" src="lib/radviz.js"></script>
+
 
     <!-- load custom JS -->
     <script type="text/javascript" src="src/STATE.js"></script>
+    <script type="text/javascript" src="src/PASTE.js"></script>
+    <script type="text/javascript" src="src/CORR.js"></script>
     <script type="text/javascript" src="src/VIEW.js"></script>
     <script type="text/javascript" src="src/highestFactor.js"></script>
     <script type="text/javascript" src="src/UTIL.js"></script>
     <script type="text/javascript" src="src/PCA.js"></script>
+    <script type="text/javascript" src="src/VARIMAX.js"></script>
     <script type="text/javascript" src="src/CENTROID.js"></script>
-    <script type="text/javascript" src="src/viewControls.js"></script>
+    <script type="text/javascript" src="src/EXCEL.js"></script>
     <script type="text/javascript" src="src/inputNewData.js"></script>
-    <script type="text/javascript" src="src/pastePQMethodData.js"></script>
-    <script type="text/javascript" src="src/importExcelData.js"></script>
     <script type="text/javascript" src="src/useDemoDataSet.js"></script>
-    <script type="text/javascript" src="src/oldCentroid.js"></script>
-    <script type="text/javascript" src="src/varimaxPQMETHOD.js"></script>
     <script type="text/javascript" src="src/D3-scatterplot.js"></script>
     <script type="text/javascript" src="src/qAnalysis.js"></script>
     <script type="text/javascript" src="src/factorLoadings.js"></script>

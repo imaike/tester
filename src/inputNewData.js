@@ -8,7 +8,7 @@
 
 
 // JSlint declarations
-/*global localStorage: false, console: false, QAV, $: false, _: false, document: false, clearTimeout: false, setTimeout: false */
+/*global localStorage: false, UTIL, console: false, QAV, $: false, _: false, document: false, PASTE, clearTimeout: false, setTimeout: false */
 
 // todo - fix weird tabbing behaviour in safari - jumps over add respondent button
 
@@ -405,7 +405,7 @@ function beginMIAnalysis() {
     localStorage.setItem("qavProjectName", JSON.stringify(qavProjectName));
 
     // get user input for sorts, shift for respondent names array and raw sorts array
-    var userStatementsInput = pullStatementsIntoAnalysis("statementsInputBoxMI");
+    var userStatementsInput = PASTE.pullStatementsIntoAnalysis("statementsInputBoxMI");
     localStorage.setItem("qavCurrentStatements", JSON.stringify(userStatementsInput));
 
     //  pull user input sorts
@@ -439,7 +439,7 @@ function beginMIAnalysis() {
 
     // calculate and set the qavSortTriangleShape values
     var qavSortTriangleShape1 = JSON.parse(localStorage.getItem("pyramidShapeArrayStored"));
-    calculateSortTriangleShape(qavSortTriangleShape1);
+    UTIL.calculateSortTriangleShape(qavSortTriangleShape1);
 
     // paste the statements in the data staging area
     for (var k = 0; k < userStatementsInput.length; k++) {
@@ -460,10 +460,10 @@ function beginMIAnalysis() {
     }
 
     // enable the user to do the next step - calculate correlation table
-    var $inputButton = $('<input type="button" class="blackHover" id="beginAnalysisLocalData" onclick=callCentroidFromLocalDemoData() value="Create Correlation Table">');
-    if ($('#beginAnalysisLocalData').length === 0) {
-        $inputButton.appendTo($('#localDataButtonDiv'));
-    }
+    //    var $inputButton = $('<input type="button" class="blackHover" id="beginAnalysisLocalData" onclick=CENTROID.callCentroidFromLocalDemoData value="Create Correlation Table">');
+    //    if ($('#beginAnalysisLocalData').length === 0) {
+    //        $inputButton.appendTo($('#localDataButtonDiv'));
+    //    } 
 
 }
 

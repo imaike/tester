@@ -8,10 +8,29 @@
 
 
 // JSlint declarations
-/* global window, $, localStorage, PCA, document, performance*/
+/* global window, $, window, localStorage, QAV, PCA, document, performance*/
 
 
-(function (UTIL, undefined) {
+//***************************************************************************   model
+//******* custom rounding - to evens  ***********************************************
+//***********************************************************************************
+// another attempt at custom rounding to mimic pqmethod? "bankers / gaussian rounding"
+function evenRound(num, decimalPlaces) {
+    var d = decimalPlaces || 0;
+    var m = Math.pow(10, d);
+    var n = +(d ? num * m : num).toFixed(8); // Avoid rounding errors
+    var i = Math.floor(n),
+        f = n - i;
+    var e = 1e-8; // Allow for rounding errors in f
+    var r = (f > 0.5 - e && f < 0.5 + e) ?
+        ((i % 2 === 0) ? i : i + 1) : Math.round(n);
+    return d ? r / m : r;
+}
+
+
+
+
+(function (UTIL, QAV, undefined) {
 
     UTIL.drawDatatable = function (configObj) {
         $(configObj.domElement).DataTable({
@@ -76,6 +95,50 @@
 
     };
 
+
+    // **************************************************************************   model
+    // ***** check for unique names and sanitize  ***************************************
+    // **********************************************************************************
+    UTIL.checkUniqueName = function (namesFromExistingData) {
+        var namesUniqueArrayTest2 = _.cloneDeep(namesFromExistingData);
+        var namesUniqueArrayTest = _.uniq(namesUniqueArrayTest2);
+
+        if (namesFromExistingData.length !== namesUniqueArrayTest.length) {
+            for (var i = 0; i < namesFromExistingData.length; i++) {
+                // stripping out "." because of display error in datatables
+                var ii = i + 1;
+                var currentName = namesFromExistingData[i];
+                var currentName2 = currentName.replace(/\./g, "");
+                namesFromExistingData[i] = ii + "_" + currentName2;
+            }
+        } else {
+            for (var j = 0; j < namesFromExistingData.length; j++) {
+                // stripping out "." because of display error in datatables
+                namesFromExistingData[j] = namesFromExistingData[j].replace(/\./g, " ");
+            }
+        }
+        return namesFromExistingData;
+    };
+
+
+
+
+    UTIL.calculateSortTriangleShape = function (pyramidShapeNumbers) {
+
+        var sortPossibleValues = [-6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
+
+        var qavSortTriangleShape = [];
+        for (var i = 0; i < sortPossibleValues.length; i++) {
+            for (var j = 0; j < pyramidShapeNumbers[i]; j++) {
+                qavSortTriangleShape.push(sortPossibleValues[i]);
+            }
+        }
+        localStorage.setItem("qavSortTriangleShape", JSON.stringify(qavSortTriangleShape));
+        QAV.setState("qavSortTriangleShape", qavSortTriangleShape);
+    };
+
+
+
     // todo - remove autocomplete="off" from index.html and use this
     //    (function () {
     //        $(window).unload(function() {
@@ -87,4 +150,4 @@
     //
 
 
-}(window.UTIL = window.UTIL || {}));
+}(window.UTIL = window.UTIL || {}, QAV));

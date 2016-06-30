@@ -8,7 +8,7 @@
 
 
 // JSlint declarations
-/* global localStorage: false, evenRound: false, console: false, QAV, $: false, _: false, Handsontable:false, document: false, alasql: false*/
+/* global localStorage: false, CORR, evenRound: false, console: false, QAV, $: false, _: false, Handsontable:false, document: false, CENTROID, alasql: false*/
 
 $(document).ready(function () {
 
@@ -47,6 +47,10 @@ $(document).ready(function () {
         if (canOutput !== "false") {
             generateOutput();
             clearPreviousTables();
+            
+            
+            CORR.drawRawSortsRadviz();
+            
             showPreliminaryOutput1();
             $("#downloadResultsButton").show();
             $("#clearStorageButton").show();
@@ -389,8 +393,7 @@ function appendFactorSelectionCheckboxes() {
     localStorage.setItem("factorLabelsArray", JSON.stringify(factorsToSelect));
     QAV.factorLabelsArray = factorsToSelect;
 
-    // get state number of factors
-    loopLen = QAV.numFactorsRetained;
+    loopLen = QAV.getState("numFactorsRetained");
 
     // check to see if checkboxes are already appended, and if so remove them
     removeOutputFactorCheckboxes();
@@ -1000,14 +1003,14 @@ function pushFactorScoreCorrelationsToOutputArray(sheetNames, output) {
         correlationTableArray.push(correlationTableArrayFragment);
         correlationTableArrayFragment = [];
     }
-
+ 
     function factorScoresCorrelationsHelper(factorScoresCorrelationArray, pullX) {
 
         var correlationHolder, correlationHolder2;
         var correlationTableArrayFragment = [];
 
         _(factorScoresCorrelationArray).forEach(function (element) {
-            correlationHolder2 = getPqmethodCorrelation(pullX, element);
+            correlationHolder2 = CENTROID.getPqmethodCorrelation(pullX, element);
             correlationHolder = evenRound((correlationHolder2[0]), 4);
             correlationTableArrayFragment.push(correlationHolder);
         }).value();

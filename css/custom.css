@@ -1010,6 +1010,119 @@ div.d3Tooltip {
     pointer-events: none;
 }
 
+.radvizContainer1 .panel {
+    stroke: black;
+    fill: white;
+}
+
+.radvizContainer1 .bg {
+    fill: #eee;
+}
+
+.radvizContainer1 .link {
+    stroke: silver;
+    stroke-opacity: 0.05
+}
+
+.radvizContainer1 .dot {
+    fill-opacity: 0.5;
+}
+
+.radvizContainer1 .label-node {
+    fill: black;
+}
+
+.radvizContainer1 .active {
+    stroke: black;
+}
+
+.radvizContainer1 .label {
+    fill: black;
+    pointer-events: none;
+}
+
+#radviz-tooltip {
+    font-size: 12px;
+    margin-top: 22px;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 4px;
+}
+
+#radviz-tooltip h1 {
+    font-size: 14px;
+    margin: 0;
+}
+
+.radvizTooltip {
+    position: absolute;
+    min-width: 50px;
+    text-align: left;
+    height: 34px;
+    padding: 2px;
+    padding-left: 10px;
+    font: 22px sans-serif;
+    color: black;
+    background: white;
+    border: 0px;
+    border-radius: 8px;
+    pointer-events: none;
+}
+
+#zoomFactorRadioSelect label {
+    cursor: pointer;
+    display: block;
+    width: auto;
+    font-size: 11px;
+    font-weight: 600;
+    color: #555;
+    height: 28px;
+    line-height: 28px;
+    padding: 0 15px;
+    letter-spacing: .1rem;
+    float: left;
+    background-color: #eeeeee;
+    border: 1px solid #bbb;
+}
+
+#zoomFactorRadioSelect label:first-child {
+    border-left-width: 1px;
+    border-top-left-radius: .2em;
+    border-bottom-left-radius: .2em;
+}
+
+#zoomFactorRadioSelect label:last-child {
+    border-top-right-radius: .2em;
+    border-bottom-right-radius: .2em;
+}
+
+#zoomFactorRadioSelect label.selected {
+    background-color: #38acec;
+    color: white;
+    border: 1px solid #38acec;
+    /*    box-shadow: 1px 1px 1px rgba(0, 0, 0, .2) inset;*/
+}
+
+#zoomFactorRadioSelect label.warning.selected {
+    background-color: red;
+    border-color: darkred;
+}
+
+#zoomFactorRadioSelect input[type="radio"] {
+    position: absolute;
+    visibility: hidden;
+}
+
+.linkUnderline:link {
+    border-bottom: 3px solid #b4e7f8;
+    box-shadow: 0px -4px 0px #b4e7f8 inset;
+    color: black !important;
+    text-decoration: none !important;
+}
+
+.linkUnderline:hover {
+    background-color: #b4e7f8;
+}
+
 
 /*
 

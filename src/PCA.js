@@ -9,7 +9,7 @@
 
 // JSlint declarations
 /* global numeric, window, QAV, $, document, JQuery, evenRound, UTIL, localStorage, _ */
-
+ 
 (function (PCA, QAV, undefined) {
 
     PCA.doPrincipalComponents = function (X) {
@@ -19,22 +19,19 @@
         var eigenValuesCumulPercentArray, eigenValuesPercent, pcaFactorsToExtractArray;
         var eigenValueCumulPercentAccum, k;
         var critInflectionValue, temp4, i, j, temp1, temp3, temp5, s, t;
-        var centroidFactors, numberFactorsExtracted;
+        var numberFactorsExtracted;
         var factorLabels = [];
         var numberofPrincipalComps;
         var inflectionArray = [];
 
-        // set state typeOfFactor - to differentiate output functions
-        QAV.typeOfFactor = "PCA";
+        // to differentiate output functions
+        QAV.setState("typeOfFactor", "PCA");
 
-        // get state totalNumberSorts
-        numberOfSorts = QAV.totalNumberSorts;
-
+        numberOfSorts = QAV.getState("totalNumberSorts");
 
         // determine the max number of factors to extract
-        // get state originalSortSize, totalNumberSorts
-        temp4 = QAV.originalSortSize;
-        temp5 = QAV.totalNumberSorts;
+        temp4 = QAV.getState("originalSortSize");
+        temp5 = QAV.getState("totalNumberSorts");
         pcaFactorsToExtractArray = [8, temp4, temp5];
         numberFactorsExtracted = _.min(pcaFactorsToExtractArray);
 
@@ -49,8 +46,8 @@
             factorLabels.push("Factor " + (m + 1));
         }
 
-        // set state factorLabels
-        QAV.factorLabels = factorLabels;
+
+        QAV.setState("factorLabels", factorLabels);
 
         // svd = matrix of all principle components as column vectors          
         m = X.length;
@@ -118,12 +115,11 @@
             }
         }
 
-        // set state centroidFactors, eigenValuesSorted, eigenVecs
-        QAV.centroidFactors = eigenVecs;
-        QAV.eigenValuesSorted = eigenValuesSorted;
-        QAV.eigenValuesAsPercents = eigenValuesAsPercents;
-        QAV.eigenValuesCumulPercentArray = eigenValuesCumulPercentArray;
-        QAV.eigenVecs = eigenVecs;
+        QAV.setState("centroidFactors", eigenVecs);
+        QAV.setState("eigenValuesSorted", eigenValuesSorted);
+        QAV.setState("eigenValuesAsPercents", eigenValuesAsPercents);
+        QAV.setState("eigenValuesCumulPercentArray", eigenValuesCumulPercentArray);
+        QAV.setState("eigenVecs", eigenVecs);
 
         $("#rotationHistoryList").append('<li>8 Principal Components Extracted</button></li>');
 
@@ -132,12 +128,10 @@
     };
 
     PCA.drawExtractedFactorsTable = function () {
-        // get state eigenVecs
-        var eigenVecs = _.cloneDeep(QAV.eigenVecs);
+        var eigenVecs = QAV.getState("eigenVecs");
         var i, j, names, pcaHeaders, headersLength, pcaTableHeaders, pcaTargets, pcaTableTargets;
 
-        // get state respondentNames
-        names = QAV.respondentNames;
+        names = QAV.getState("respondentNames");
         for (i = 0; i < eigenVecs.length; i++) {
             j = i + 1;
             eigenVecs[i].unshift(j, names[j]);
@@ -216,16 +210,15 @@
         // create footer
         var footer, temp, temp2, temp3, tableArray, array, array2, array3, tr, th;
         var pcaFooterTableHeaders;
-        // get state eigenValues
-        temp = _.clone(QAV.eigenValuesSorted);
+        temp = QAV.getState("eigenValuesSorted");
         temp.unshift("", "Eigenvalues");
         array = temp.slice(0, 10);
 
-        temp2 = _.clone(QAV.eigenValuesAsPercents);
+        temp2 = QAV.getState("eigenValuesAsPercents");
         temp2.unshift("", "% Exp Var");
         array2 = temp2.slice(0, 10);
 
-        temp3 = _.clone(QAV.eigenValuesCumulPercentArray);
+        temp3 = QAV.getState("eigenValuesCumulPercentArray");
         temp3.unshift("", "Cum % Exp Var");
         array3 = temp3.slice(0, 10);
 
@@ -233,7 +226,7 @@
         tableArray = [];
         tableArray.push(array, array2, array3);
 
-        pcaFooterTableHeaders = _.clone(QAV.pcaTableHeaders);
+        pcaFooterTableHeaders = QAV.getState("pcaTableHeaders");
         pcaFooterTableHeaders[0].title = "";
         pcaFooterTableHeaders[0].sTitle = "";
         pcaFooterTableHeaders[1].title = "";

@@ -27,7 +27,8 @@ $(document).ready(function () {
         e.preventDefault();
         var rotFacStateArray = JSON.parse(localStorage.getItem("rotFacStateArray"));
         var tempRotFacStateArray = _.cloneDeep(rotFacStateArray);
-        localStorage.setItem("tempRotFacStateArray", JSON.stringify(tempRotFacStateArray));
+        // localStorage.setItem("tempRotFacStateArray", JSON.stringify(tempRotFacStateArray));
+        QAV.setState("tempRotFacStateArray", tempRotFacStateArray);
 
         // pull the selected factors and then pull their data
         setRotationFactorsFromCheckbox();
@@ -156,7 +157,6 @@ $(document).ready(function () {
             .data();
     });
 
-    // here
     // control factor loadings table background 
     $("#loadingsRadioSelect2 :radio").on('click', function () {
 
@@ -180,7 +180,6 @@ $(document).ready(function () {
             drawRotatedFactorsTable2(isRotatedFactorsTableUpdate, shouldFlag);
         }
     });
-
     $("#loadingsRadioSelect1 :radio").on('click', function () {
         $('#loadingsRadioSelect1 input:not(:checked)').parent().removeClass("selected");
         $(this).parent().addClass("selected");
@@ -478,8 +477,11 @@ function setRotationFactorsFromCheckbox() {
         var rotationFactorA = pullFactors[0];
         var rotationFactorB = pullFactors[1];
 
-        localStorage.setItem("rotationFactorA", rotationFactorA);
-        localStorage.setItem("rotationFactorB", rotationFactorB);
+        //localStorage.setItem("rotationFactorA", rotationFactorA);
+        QAV.setState("rotationFactorA", rotationFactorA);
+        // localStorage.setItem("rotationFactorB", rotationFactorB);
+        QAV.setState("rotationFactorB", rotationFactorB);
+
     }
 }
 
@@ -491,8 +493,10 @@ function setRotationFactorsFromCheckbox() {
 
 function doD3ChartDataPrep(rotFacStateArray) {
 
-    var rotationFactorA = localStorage.getItem("rotationFactorA");
-    var rotationFactorB = localStorage.getItem("rotationFactorB");
+    // var rotationFactorA = localStorage.getItem("rotationFactorA");
+    var rotationFactorA = QAV.getState("rotationFactorA");
+    // var rotationFactorB = localStorage.getItem("rotationFactorB");
+    var rotationFactorB = QAV.getState("rotationFactorB");
     var step4 = JSON.parse(localStorage.getItem("qavRespondentNames"));
     var fSigCriterionResults = JSON.parse(localStorage.getItem("fSigCriterionResults"));
 
@@ -537,11 +541,13 @@ function doD3ChartDataPrep(rotFacStateArray) {
 // **********************************************************************************
 
 function drawD3Chart(dataValuesArray) {
-    var rotationFactorA = localStorage.getItem("rotationFactorA");
-    var rotationFactorB = localStorage.getItem("rotationFactorB");
+    // var rotationFactorA = localStorage.getItem("rotationFactorA");
+    var rotationFactorA = QAV.getState("rotationFactorA");
+    // var rotationFactorB = localStorage.getItem("rotationFactorB");
+    var rotationFactorB = QAV.getState("rotationFactorB");
     var data;
 
-    d3.select("svg").remove();
+    d3.select("#d3_scatterchart svg").remove();
 
     var significanceLevel = calculateFactorLoadingSignificanceLevel();
 
@@ -897,11 +903,15 @@ function calculateRotatedFactors(rotationDegree) {
 
     var time0 = performance.now();
 
-    var rotationFactorA = localStorage.getItem("rotationFactorA");
-    var rotationFactorB = localStorage.getItem("rotationFactorB");
+    //  var rotationFactorA = localStorage.getItem("rotationFactorA");
+    var rotationFactorA = QAV.getState("rotationFactorA");
+    //  var rotationFactorB = localStorage.getItem("rotationFactorB");
+    var rotationFactorB = QAV.getState("rotationFactorB");
     var counterClockwiseRotation = false;
-    var calculateRotationsArray = JSON.parse(localStorage.getItem("calculateRotationsArray"));
-    var tempRotFacStateArray = (JSON.parse(localStorage.getItem("tempRotFacStateArray")));
+    //  var calculateRotationsArray = JSON.parse(localStorage.getItem("calculateRotationsArray"));
+    var calculateRotationsArray = QAV.getState("calculateRotationsArray");
+    //  var tempRotFacStateArray = (JSON.parse(localStorage.getItem("tempRotFacStateArray")));
+    var tempRotFacStateArray = QAV.getState("tempRotFacStateArray");
 
     var rotatedFactors;
     var looplen = calculateRotationsArray.length;
@@ -1015,8 +1025,10 @@ function calculateRotatedFactors(rotationDegree) {
     // re-draw two factor rotation table
     updateDatatable1(prepTwoFactorTable);
 
-    localStorage.setItem("calculateRotationsArray", JSON.stringify(rotatedFactors));
-    localStorage.setItem("tempRotFacStateArray", JSON.stringify(tempRotFacStateArray));
+    // localStorage.setItem("calculateRotationsArray", JSON.stringify(rotatedFactors));
+    QAV.setState("calculateRotationsArray", rotatedFactors);
+    // localStorage.setItem("tempRotFacStateArray", JSON.stringify(tempRotFacStateArray));
+    QAV.setState("tempRotFacStateArray", tempRotFacStateArray);
 }
 
 
@@ -1027,8 +1039,10 @@ function prepTwoFactorUpdateHandsontable(chartData) {
 
     var twoFactorTableArray = [];
     var step1, i, step3, tempObj;
-    var rotationFactorA = localStorage.getItem("rotationFactorA");
-    var rotationFactorB = localStorage.getItem("rotationFactorB");
+    // var rotationFactorA = localStorage.getItem("rotationFactorA");
+    var rotationFactorA = QAV.getState("rotationFactorA");
+    // var rotationFactorB = localStorage.getItem("rotationFactorB");
+    var rotationFactorB = QAV.getState("rotationFactorB");
     var fSigCriterionResults = JSON.parse(localStorage.getItem("fSigCriterionResults"));
     var respondentNames = JSON.parse(localStorage.getItem("qavRespondentNames"));
     var ilen = chartData.length;
@@ -1053,8 +1067,10 @@ function prepTwoFactorUpdateHandsontable(chartData) {
 // **********  initial array for two factor table ***********************************
 // **********************************************************************************
 function setTwoFactorRotationalArray(chartData) {
-    var rotationFactorA = localStorage.getItem("rotationFactorA");
-    var rotationFactorB = localStorage.getItem("rotationFactorB");
+    // var rotationFactorA = localStorage.getItem("rotationFactorA");
+    var rotationFactorA = QAV.getState("rotationFactorA");
+    // var rotationFactorB = localStorage.getItem("rotationFactorB");
+    var rotationFactorB = QAV.getState("rotationFactorB");
     var ilen = chartData.length;
     var calculateRotationsArray = [];
     var tempArray;
@@ -1070,7 +1086,8 @@ function setTwoFactorRotationalArray(chartData) {
         tempArray.push(temp1, temp2);
         calculateRotationsArray.push(tempArray);
     }
-    localStorage.setItem("calculateRotationsArray", JSON.stringify(calculateRotationsArray));
+    // localStorage.setItem("calculateRotationsArray", JSON.stringify(calculateRotationsArray));
+    QAV.setState("calculateRotationsArray", calculateRotationsArray);
 }
 
 
@@ -1273,8 +1290,10 @@ function updateDatatable1(newData) {
 // **********************************************************************************
 function saveRotation() {
     var rotationDegree = sessionStorage.getItem("rotationDegreeDisplayValue");
-    var rotationFactorA = localStorage.getItem("rotationFactorA");
-    var rotationFactorB = localStorage.getItem("rotationFactorB");
+    // var rotationFactorA = localStorage.getItem("rotationFactorA");
+    var rotationFactorA = QAV.getState("rotationFactorA");
+    // var rotationFactorB = localStorage.getItem("rotationFactorB");
+    var rotationFactorB = QAV.getState("rotationFactorB");
     var listText;
     var rotFacStateArray;
     var tempRotFacStateArray;
@@ -1289,7 +1308,8 @@ function saveRotation() {
 
     rotFacStateArray = JSON.parse(localStorage.getItem("rotFacStateArray"));
 
-    tempRotFacStateArray = JSON.parse(localStorage.getItem("tempRotFacStateArray"));
+    // tempRotFacStateArray = JSON.parse(localStorage.getItem("tempRotFacStateArray"));
+    tempRotFacStateArray = QAV.getState("tempRotFacStateArray");
 
     // save temp array as new current state array
     localStorage.setItem("rotFacStateArray", JSON.stringify(tempRotFacStateArray));
@@ -1417,7 +1437,7 @@ function drawRotatedFactorsTable2(isRotatedFactorsTableUpdate, shouldFlag) {
 
         table = $('#factorRotationTable2').DataTable();
         table.destroy();
-        $('#factorRotationTable2').empty();
+        $('#factorRotationTable2').empty(); // doesn't work with cached reference
 
         // columnHeadersArray = QAV.factorLabels;
 
@@ -1617,6 +1637,119 @@ function createFooter(element, expVar2, isUndo) {
         document.getElementById(element).appendChild(footer);
     }
 }
+
+
+//***************************************************************************   model
+//******* for rotated factors table data  handsontable version **********************
+//***********************************************************************************
+function calculateEigenvaluesAndVariance() {
+
+    var numberSorts = localStorage.getItem("qavTotalNumberSorts");
+    var factorMatrix = JSON.parse(localStorage.getItem("rotFacStateArray"));
+
+    var factorMatrix2 = _.cloneDeep(factorMatrix);
+
+    var factorMatrix1 = _.zip.apply(_, factorMatrix2);
+
+    var j, num, eigen, totalVariance;
+    var eigenvalues = {};
+    var explainedVariance = {};
+    var loopLen1 = factorMatrix1.length;
+    var results = [];
+    var factorNumber, factorSig;
+
+    eigenvalues = {
+        respondent: "Eigenvalues"
+    };
+    explainedVariance = {
+        respondent: "% Expln Var"
+    };
+
+    for (j = 0; j < loopLen1; j++) {
+        num = factorMatrix1[j];
+        for (var k = 0; k < num.length; k++) {
+            num[k] = evenRound((num[k] * num[k]), 8);
+        }
+        eigen = evenRound((_.reduce(num, function (sum, num2) {
+            return sum + num2;
+        })), 5);
+
+        factorNumber = "factor" + (j + 1);
+
+        factorSig = "factorSig" + (j + 1);
+        totalVariance = evenRound((100 * (eigen / numberSorts)), 0);
+
+        eigenvalues[factorNumber] = eigen;
+        explainedVariance[factorNumber] = totalVariance;
+
+        eigenvalues[factorSig] = "";
+        explainedVariance[factorSig] = "";
+
+    }
+    eigenvalues.communality = "";
+    explainedVariance.communality = "";
+
+    results.push(eigenvalues);
+
+    localStorage.setItem("expVar", JSON.stringify(explainedVariance));
+
+    return results;
+}
+
+
+//***************************************************************************   model
+//******* for rotated factors table data - datatables version ***********************
+//***********************************************************************************
+function calculateEigenvaluesAndVariance2() {
+
+    var numberSorts = localStorage.getItem("qavTotalNumberSorts");
+    var factorMatrix = JSON.parse(localStorage.getItem("rotFacStateArray"));
+    var factorMatrix2 = _.cloneDeep(factorMatrix);
+    var factorMatrix1 = _.zip.apply(_, factorMatrix2);
+    var j, num, eigen, totalVariance;
+    var eigenvalues = {};
+    var explainedVariance = {};
+    var loopLen1 = factorMatrix1.length;
+    var results = [];
+    var factorNumber, factorSig;
+
+    eigenvalues = ["Eigenvalues"];
+    explainedVariance = ["% Expln Var"];
+
+    for (j = 0; j < loopLen1; j++) {
+        num = factorMatrix1[j];
+        for (var k = 0; k < num.length; k++) {
+            num[k] = evenRound((num[k] * num[k]), 8);
+        }
+        eigen = evenRound((_.reduce(num, function (sum, num2) {
+            return sum + num2;
+        })), 5);
+
+        factorNumber = "factor" + (j + 1);
+
+        factorSig = "factorSig" + (j + 1);
+        totalVariance = evenRound((100 * (eigen / numberSorts)), 0);
+
+        eigenvalues.push(eigen);
+        explainedVariance.push(totalVariance);
+
+        eigenvalues.push("");
+        explainedVariance.push("");
+    }
+    eigenvalues.push("");
+    explainedVariance.push("");
+
+    results.push(eigenvalues);
+
+    // results.push(explainedVariance);
+    explainedVariance.splice(1, 0, "", "");
+    localStorage.setItem("expVar", JSON.stringify(explainedVariance));
+
+    return results;
+
+}
+
+
 
 
 // todo - confirm to see if 2 factor updates significance checking and auto flagging

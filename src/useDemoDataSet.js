@@ -41,10 +41,10 @@ $(document).ready(function () {
             returnQuotes();
         }
 
-        var $inputButton = $('<input type="button" class="blackHover" id="beginAnalysisLocalData" onclick=callCentroidFromLocalDemoData() value="Create Correlation Table">');
-        if ($('#beginAnalysisLocalData').length === 0) {
-            $inputButton.appendTo($('#localDataButtonDiv'));
-        }
+        //        var $inputButton = $('<input type="button" class="blackHover" id="beginAnalysisLocalData" onclick=CENTROID.callCentroidFromLocalDemoData value="Create Correlation Table">');
+        //        if ($('#beginAnalysisLocalData').length === 0) {
+        //            $inputButton.appendTo($('#localDataButtonDiv'));
+        //        }
         // auto-navigate to next section
         // $("#analysisPrep")[0].click();
 
