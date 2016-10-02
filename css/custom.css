@@ -54,6 +54,20 @@ div.two.columns {
     stroke: #000;
 }
 
+.dotText {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    cursor: default;
+}
+
+.dot2 {
+    fill: white;
+    stroke: black;
+    stroke-width: 1.5px;
+}
+
 
 /*
 rotation chart labels
@@ -438,19 +452,15 @@ input:hover {
 
 #chartAndTableContainerDiv {
     display: -webkit-box;
-    display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
     -webkit-box-orient: horizontal;
     -webkit-box-direction: normal;
-    -webkit-flex-direction: row;
     -ms-flex-direction: row;
     flex-direction: row;
-    -webkit-flex-wrap: nowrap;
     -ms-flex-wrap: nowrap;
     flex-wrap: nowrap;
     -webkit-box-align: stretch;
-    -webkit-align-items: stretch;
     -ms-flex-align: stretch;
     align-items: stretch;
     /*
@@ -1005,9 +1015,12 @@ div.d3Tooltip {
     font: 12px sans-serif;
     color: black;
     background: white;
-    border: 0px;
+    border: 2px;
+    border-style: solid;
+    border-color: black;
     border-radius: 8px;
     pointer-events: none;
+    z-index: 999;
 }
 
 .radvizContainer1 .panel {
@@ -1113,19 +1126,33 @@ div.d3Tooltip {
 }
 
 .linkUnderline:link {
-    border-bottom: 3px solid #b4e7f8;
-    box-shadow: 0px -4px 0px #b4e7f8 inset;
+    border-bottom: 3px solid #38acec;
+    opacity: 0.6;
+    box-shadow: 0px -4px 0px #38acec inset;
     color: black !important;
     text-decoration: none !important;
 }
 
 .linkUnderline:hover {
-    background-color: #b4e7f8;
+    background-color: #38acec;
+    opacity: 0.6;
+}
+
+#section4 path {
+    stroke: black;
+    stroke-width: 2;
+    fill: none;
+}
+
+#section4 .axis path,
+#section4 .axis line {
+    fill: none;
+    stroke: grey;
+    stroke-width: 1;
+    shape-rendering: crispEdges;
 }
 
 
 /*
-
-
 
 td.dt-head-right*/

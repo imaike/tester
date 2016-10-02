@@ -8,11 +8,9 @@
 
 
 // JSlint declarations
-/* global numeric, CENTROID, window, QAV, $, document, JQuery, evenRound, UTIL, localStorage, _ */
+/* global numeric, CENTROID, window, QAV, $, document, INPUT, JQuery, FileReader, XLSX, evenRound, UTIL, localStorage, _ */
 
 (function (EXCEL, QAV, undefined) {
-
-
 
     //
     // **************************************************************************  model
@@ -31,34 +29,34 @@
         // export file line #1 - calculate number of respondents
         var temp1, temp1a, temp2, temp3, temp3a, temp3b;
         temp1 = output.length;
-        temp1a = String(threeDigitPadding(temp1));
+        temp1a = String(UTIL.threeDigitPadding(temp1));
 
 
         // grab Project Name
-        temp2 = JSON.parse(localStorage.getItem("qavProjectName"));
+        temp2 = QAV.getState("qavProjectName");
 
 
         // calculating the number of statements
-        temp3 = JSON.parse(localStorage.getItem("qavCurrentStatements"));
+        temp3 = QAV.getState("qavCurrentStatements");
         temp3a = temp3.length;
-        temp3b = String(threeDigitPadding(temp3a));
+        temp3b = String(UTIL.threeDigitPadding(temp3a));
 
 
         // get max range numbers
-        var temp5 = JSON.parse(localStorage.getItem("qavSortTriangleShape"));
+        var temp5 = QAV.getState("qavSortTriangleShape");
         var temp5b = _.min(temp5);
         var temp5c = _.max(temp5);
-        var temp5d = String(threeDigitPadding(+temp5b));
-        var temp5e = String(threeDigitPadding(+temp5c));
+        var temp5d = String(UTIL.threeDigitPadding(+temp5b));
+        var temp5e = String(UTIL.threeDigitPadding(+temp5c));
 
 
         // get triange shape
-        var temp6 = JSON.parse(localStorage.getItem("multiplierArray"));
+        var temp6 = QAV.getState("multiplierArray");
 
         var temp6a = "";
         var temp6b = "";
         for (var i = 0; i < 20; i++) {
-            temp6a = String(threeDigitPadding(temp6[i]));
+            temp6a = String(UTIL.threeDigitPadding(temp6[i]));
             temp6b += temp6a;
         }
 
@@ -74,7 +72,7 @@
             var temp8 = output[j].split(",");
 
             var respondentName = temp8[0];
-            var temp8a = sanitizeRespondentName(respondentName);
+            var temp8a = INPUT.sanitizeRespondentName(respondentName);
 
             var temp8c = temp8.slice(1, temp8.length);
 
@@ -100,7 +98,7 @@
         // pull all data from hidden export prep box
         var exportData = $('#excelSortExportBox').val();
 
-        var timeStamp = currentDate1() + "-" + currentTime1();
+        var timeStamp = UTIL.currentDate1() + "-" + UTIL.currentTime1();
 
         var blob = new Blob([exportData], {
             type: "text/plain;charset=us-ascii"
@@ -111,8 +109,6 @@
         // clear the hidden export box
         $("#excelSortExportBox").html("");
     };
-
-
 
     //
     // **************************************************************************  model
@@ -161,10 +157,15 @@
 
 
     //
-    // **************************************************************************  model
-    // ***** Import KEN-Q OUTPUT File ****************************************************
-    // *********************************************************************************
+    // ***************************************************************  model
+    // ***** Import KEN-Q OUTPUT File ***************************************
+    // **********************************************************************
     EXCEL.filePickedKenq = function (e) {
+
+        var language = QAV.getState("language");
+        var localText1 = resources[language]["translation"]["Project Overview"];
+        var localText2 = resources[language]["translation"]["Statements"];
+
 
         var files = e.target.files[0];
         var reader = new FileReader();
@@ -184,12 +185,12 @@
 
                 var tempArray;
 
-                if (y === "Project Info") {
+                if (y === localText1) {
                     tempArray = [];
                     var tester6 = XLSX.utils.sheet_to_json(worksheet);
                     tempArray.push(tester6);
 
-                } else if (y === "Sorts") {
+                } else if (y === "Q-sorts") {
                     var tester = XLSX.utils.sheet_to_csv(worksheet);
                     var tester2 = tester.split(/\n/);
                     tempArray = [];
@@ -197,35 +198,32 @@
                         var tester3 = entry.split(',');
                         tempArray.push(tester3);
                     });
-                } else if (y === "Statements") {
+                } else if (y === localText2) {
                     tempArray = [];
                     var tester4 = XLSX.utils.sheet_to_json(worksheet);
                     tempArray.push(tester4);
                 }
-
                 allWorksheets.push(tempArray);
 
             });
             formatKenqUploadForDisplay(allWorksheets);
         };
         reader.readAsBinaryString(files);
-    }
-
-
+    };
 
 
     //
-    // **************************************************************************  model
-    // ***** Format Hand-Coded File for Display ****************************************
-    // *********************************************************************************
+    // ***************************************************************  model
+    // ***** Format Hand-Coded File for Display *****************************
+    // **********************************************************************
 
     function formatUploadForDisplay(data) {
 
         // QAV #1
         var qavProjectName = data[0][0][1];
-        localStorage.setItem("qavProjectName", JSON.stringify(qavProjectName));
+        QAV.setState("qavProjectName", qavProjectName);
 
-        // QAV #2
+        // QAV #2  -  todo - fix loop function
         var qavSortTriangleShape = [];
         var multiplierArray = [];
         for (var i = 4; i < 24; i++) {
@@ -241,15 +239,16 @@
                 });
             }
         }
-        localStorage.setItem("qavSortTriangleShape", JSON.stringify(qavSortTriangleShape));
-        localStorage.setItem("multiplierArray", JSON.stringify(multiplierArray));
+
+        QAV.setState("qavSortTriangleShape", qavSortTriangleShape);
+        QAV.setState("multiplierArray", multiplierArray);
 
         // QAV #3
         var qavOriginalSortSize = qavSortTriangleShape.length; // number of statements
-        localStorage.setItem("qavOriginalSortSize", JSON.stringify(qavOriginalSortSize));
+        QAV.setState("qavOriginalSortSize", qavOriginalSortSize);
         // todo - fix qavOriginalSortSize and qavTotalStatements are same - symmetry check functions
-        localStorage.setItem("qavTotalStatements", JSON.stringify(qavOriginalSortSize));
 
+        QAV.setState("qavTotalStatements", qavOriginalSortSize);
         QAV.setState("originalSortSize", qavOriginalSortSize);
 
         // QAV PREP
@@ -296,13 +295,14 @@
             }
         }
 
-        localStorage.setItem("qavRespondentNames", JSON.stringify(qavRespondentNames));
-        QAV.respondentNames = qavRespondentNames;
+        // todo - fix double coverage of res names
+        QAV.setState("qavRespondentNames", qavRespondentNames);
+        QAV.setState("respondentNames", qavRespondentNames);
 
         // QAV #5
         var qavTotalNumberSorts = qavRespondentNames.length;
-        localStorage.setItem("qavTotalNumberSorts", JSON.stringify(qavTotalNumberSorts));
-        QAV.totalNumberSorts = qavTotalNumberSorts;
+        QAV.setState("qavTotalNumberSorts", qavTotalNumberSorts);
+        QAV.setState("totalNumberSorts", qavTotalNumberSorts);
 
         // QAV #6   respondent sorts
         var sortDataTransposed = _.zip.apply(_, sortData);
@@ -325,7 +325,7 @@
             }
             respondentDataSorts3.push(tempArray3);
         }
-        localStorage.setItem("qavRespondentSortsFromDbStored", JSON.stringify(respondentDataSorts3));
+        QAV.setState("qavRespondentSortsFromDbStored", respondentDataSorts3);
         var qavRespondentSortsFromDbStored = _.cloneDeep(respondentDataSorts3);
 
         // QAV #7
@@ -337,8 +337,7 @@
                 qavCurrentStatements.push(temp12);
             }
         }
-        localStorage.setItem("qavCurrentStatements", JSON.stringify(qavCurrentStatements));
-
+        QAV.setState("qavCurrentStatements", qavCurrentStatements);
 
         // SYMMETRY TESTING
         var shouldDisplayResults = [];
@@ -374,9 +373,8 @@
                 $("#existingDatabaseRespondentList").append("<li>" + respondent + "," + sortItem + "</li>");
             }
         }
-        localStorage.setItem("qavRespondentSortsFromDbStored", JSON.stringify(respondentSorts));
+        QAV.setState("qavRespondentSortsFromDbStored", respondentSorts);
     }
-
 
     //
     // ********************************************************************  model
@@ -385,63 +383,60 @@
 
     function formatKenqUploadForDisplay(data) {
 
-        var spliceLength1 = data.length - 3;
-
-        var projectInfo = data.splice(spliceLength1, 3);
-
-
         // QAV #1
-        var qavProjectName = projectInfo[2][0][0]["1"];
-        localStorage.setItem("qavProjectName", JSON.stringify(qavProjectName));
+        var qavProjectName = data[0][0][0][""];
+
+        QAV.setState("qavProjectName", qavProjectName);
 
         // QAV #2
         // todo - remember this JSON.parse trick to convert text to array
-        var qavSortTriangleShape1 = projectInfo[2][0][2]["1"];
+        var qavSortTriangleShape1 = data[0][0][4][""];
+
         var qavSortTriangleShape = JSON.parse("[" + qavSortTriangleShape1 + "]");
-        localStorage.setItem("qavSortTriangleShape", JSON.stringify(qavSortTriangleShape));
+        QAV.setState("qavSortTriangleShape", qavSortTriangleShape);
 
         // QAV #3
         var qavOriginalSortSize = qavSortTriangleShape.length; // number of statements
-        localStorage.setItem("qavOriginalSortSize", JSON.stringify(qavOriginalSortSize));
+        QAV.setState("qavOriginalSortSize", qavOriginalSortSize);
         // todo - fix qavOriginalSortSize and qavTotalStatements are same - symmetry check functions
-        localStorage.setItem("qavTotalStatements", JSON.stringify(qavOriginalSortSize));
+        QAV.setState("qavTotalStatements", qavOriginalSortSize);
         QAV.originalSortSize = qavOriginalSortSize;
 
         // QAV #4
         var qavRespondentNames = [];
-        for (var j = 1; j < data[1].length; j++) {
-            var temp1 = data[1][j][0];
+        for (var j = 1; j < data[2].length; j++) {
+            var temp1 = data[2][j][0];
             if (temp1 === "") {} else {
                 qavRespondentNames.push(temp1);
             }
         }
-        localStorage.setItem("qavRespondentNames", JSON.stringify(qavRespondentNames));
-        QAV.respondentNames = qavRespondentNames;
+        QAV.setState("qavRespondentNames", qavRespondentNames);
+        QAV.setState("respondentNames", qavRespondentNames);
         // QAV #5
         var qavTotalNumberSorts = qavRespondentNames.length;
-        localStorage.setItem("qavTotalNumberSorts", JSON.stringify(qavTotalNumberSorts));
-        QAV.totalNumberSorts = qavTotalNumberSorts;
+        QAV.setState("qavTotalNumberSorts", qavTotalNumberSorts);
+        QAV.setState("totalNumberSorts", qavTotalNumberSorts);
 
         // QAV #6
         var qavRespondentSortsFromDbStored = [];
-        for (var k = 1; k < data[1].length; k++) {
+        for (var k = 1; k < data[2].length; k++) {
             var tempArray1 = [];
 
-            var isEmpty = data[1][k][1];
+            var isEmpty = data[2][k][1];
             if (isEmpty === "" || isEmpty === null || isEmpty === undefined) {} else {
 
-                var temp2 = data[1][k][1];
+                var temp2 = data[2][k][1];
 
                 var start = sanitizeSortValues(temp2);
 
                 tempArray1.push(+start);
                 var mLength = qavOriginalSortSize;
                 for (var m = 2; m < mLength; m++) {
-                    var temp3 = data[1][k][m];
+                    var temp3 = data[2][k][m];
                     tempArray1.push(+temp3);
                 }
 
-                var finish2 = data[1][k][mLength];
+                var finish2 = data[2][k][mLength];
                 var finish = sanitizeSortValues(finish2);
                 tempArray1.push(+finish);
                 qavRespondentSortsFromDbStored.push(tempArray1);
@@ -450,16 +445,18 @@
 
         // QAV #7
         var qavCurrentStatements = [];
-        for (var p = 0; p < data[0][0].length; p++) {
-            var temp11 = data[0][0][p].Statement;
+
+        var language = QAV.getState("language");
+        var localText1 = resources[language]["translation"]["Statements"];
+
+        for (var p = 0; p < data[1][0].length; p++) {
+            var temp11 = data[1][0][p][localText1];
 
             if (temp11 === "" || temp11 === undefined || temp11 === null) {} else {
                 qavCurrentStatements.push(temp11);
             }
         }
-
-        localStorage.setItem("qavCurrentStatements", JSON.stringify(qavCurrentStatements));
-
+        QAV.setState("qavCurrentStatements", qavCurrentStatements);
 
         // SYMMETRY TESTING
         var shouldDisplayResults = [];
@@ -494,9 +491,8 @@
                 $("#existingDatabaseRespondentList").append("<li>" + respondent + "," + sortItem + "</li>");
             }
         }
-        localStorage.setItem("qavRespondentSortsFromDbStored", JSON.stringify(respondentSorts));
+        QAV.setState("qavRespondentSortsFromDbStored", respondentSorts);
     }
-
 
     // HELPER FUNCTIONS
     function sortFunction(a, b) {
@@ -516,7 +512,5 @@
         var arrayDifferences = _.xor(inputArraySorted, triangleShapeArray);
         return arrayDifferences;
     }
-
-
 
 }(window.EXCEL = window.EXCEL || {}, QAV));

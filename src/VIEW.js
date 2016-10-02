@@ -8,7 +8,7 @@
 
 
 // JSlint declarations
-/* global window, $, localStorage, QAV, setTimeout, PCA, document, performance*/
+/* global window, LOAD, $, localStorage, QAV, setTimeout, PCA, document, performance*/
 
 
 (function (VIEW, QAV, undefined) {
@@ -34,26 +34,19 @@
         $("#heroSection")[0].click();
     });
 
-
     $(function () {
-
         // display the first div by default.
         $("#accordion div").first().css('display', 'block');
-
 
         // Get all the links.
         var link = $("#accordion a");
 
         // On clicking of the links open / close.
         link.on('click', function (e) {
-
             e.preventDefault();
-
             var a = $(this).attr("href");
-
             $(a).slideDown('fast');
 
-            //$(a).slideToggle('fast');
             $("#accordion div").not(a).slideUp('fast');
 
         });
@@ -67,11 +60,12 @@
     $(function () {
         $('#section2 input[type=radio]').each(function () {
             var state = JSON.parse(localStorage.getItem('radio_' + this.id));
-            if (state) this.checked = state.checked;
-            var radioValue = $("input[name='radio']:checked").attr("id");
-            inputTypeDisplay(radioValue);
+            if (state) {
+                this.checked = state.checked;
+                var radioValue = $("input[name='radio']:checked").attr("id");
+                inputTypeDisplay(radioValue);
+            }
         });
-
 
         $(window).bind('unload', function () {
             $('#section2 input[type=radio]').each(function () {
@@ -83,7 +77,6 @@
             });
         });
 
-
         $("#section2 input[type='radio']").click(function () {
             var radioValue = $("input[name='radio']:checked").attr("id");
             $("#existingDatabaseStatementList").empty();
@@ -94,16 +87,16 @@
                 $('#correlationTable2').DataTable().destroy();
                 $('#correlationTable2').html("");
             }
-
             inputTypeDisplay(radioValue);
         });
-
     });
-
-
 
     // **** SECTION 3 **** //
     VIEW.destroyExtractionTables = function () {
+
+        var language = QAV.getState("language");
+        var centFacButText = resources[language]["translation"]["Extract centroid factors"];
+        var PcaButText = resources[language]["translation"]["Extract principal components"];
 
         var table = $('#factorRotationTable1').DataTable();
         if (table) {
@@ -119,7 +112,7 @@
                 factorExtractionButton.removeClass("buttonActionComplete");
                 factorExtractionButton.addClass("blackHover");
             }
-            factorExtractionButton.prop('value', 'Centroid Factors');
+            factorExtractionButton.prop('value', centFacButText);
             factorExtractionButton.prop('disabled', false);
 
             var PcaExtractionButton = $("#PcaExtractionButton");
@@ -127,12 +120,10 @@
                 PcaExtractionButton.removeClass("buttonActionComplete");
                 PcaExtractionButton.addClass("blackHover");
             }
-            PcaExtractionButton.prop('value', 'Principal Components');
+            PcaExtractionButton.prop('value', PcaButText);
             PcaExtractionButton.prop('disabled', false);
-
         }
     };
-
 
     // SECTION 4
 
@@ -159,7 +150,6 @@
         });
     });
 
-    // 
     VIEW.clearSections_4_5_6 = function () {
 
         $("#judgementalRotationContainer").hide();
@@ -197,15 +187,13 @@
         }
 
         // destroy quick results tables if present
-        clearPreviousTables();
+        VIEW.clearPreviousTables();
 
         // remove checkboxes
-        removeOutputFactorCheckboxes();
+        VIEW.removeOutputFactorCheckboxes();
 
         $("#downloadResultsButton").hide();
-
         $("#clearStorageButton").hide();
-
     };
 
     VIEW.showDisabledFunctionsAfterSplitModal = function () {
@@ -214,8 +202,6 @@
             $('.functionDisabledModal').toggleClass('active');
         }, 1500);
     };
-
-
 
     // ******* helper function to show / hide input methods   ************************
 
@@ -250,8 +236,6 @@
         }
     }
 
-
-
     // ************************************************************  view
     // ******* SECTION 5 - factor loadings table  ***********************
     // ******************************************************************
@@ -272,8 +256,8 @@
             if (inputValue > 8 || inputValue < 1) {
                 return false;
             } else {
-                var currentRotationTable = JSON.parse(localStorage.getItem("rotFacStateArray"));
-                factorInvertFunction(inputValue, currentRotationTable);
+                var currentRotationTable = QAV.getState("rotFacStateArray");
+                LOAD.factorInvertFunction(inputValue, currentRotationTable);
                 $('#invertModal').toggleClass('active');
                 $('.successModal').toggleClass('active');
                 setTimeout(function () {
@@ -294,7 +278,7 @@
             if (inputValue > 8 || inputValue < 1) {
                 return false;
             } else {
-                factorSplitFunction(inputValue);
+                LOAD.factorSplitFunction(inputValue);
                 $('#splitModal').toggleClass('active');
                 $('.successModal').toggleClass('active');
                 setTimeout(function () {
@@ -304,7 +288,6 @@
         });
     });
 
-
     // cancel and close button across all modal windows
     $(function () {
         $('.button-cancel').on('click', function (e) {
@@ -313,5 +296,35 @@
         });
     });
 
+    // ************************************************************  view
+    // ******* SECTION 6 - output tables  *******************************
+    // ******************************************************************
+
+    VIEW.removeOutputFactorCheckboxes = function () {
+        var temp = document.getElementById("selectFactorsForOutputDiv");
+        if (temp) {
+            while (temp.firstChild) {
+                temp.removeChild(temp.firstChild);
+            }
+        }
+    };
+
+    // ***********************************************************************  view
+    // ******  remove previous tables from the DOM  ********************************
+    // *****************************************************************************
+    // todo - dry and clean-up this block
+
+    VIEW.clearPreviousTables = function () {
+        var $temp = $("#factorCorrelationTableTitle");
+        var $temp3 = $("#factorCorrelationTableDiv");
+        if ($temp) {
+            $temp.empty();
+            $temp3.empty();
+        }
+        var $temp2 = $("#factorTables");
+        if ($temp2) {
+            $temp2.empty();
+        }
+    };
 
 }(window.VIEW = window.VIEW || {}, QAV));

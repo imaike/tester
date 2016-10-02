@@ -31,7 +31,7 @@
 
         // get statements as array and store
         statements = PASTE.pullStatementsIntoAnalysis("statementsInputBoxPqmethod");
-        localStorage.setItem("qavCurrentStatements", JSON.stringify(statements));
+        QAV.setState("qavCurrentStatements", statements);
         // todo - add statements to stage textarea
 
         for (i = 0; i < statements.length; i++) {
@@ -49,17 +49,17 @@
         // parsing first line of PQMethod file to set qav variables
         var numberSorts = parseInt(projectTitleString.slice(3, 6)); // lipset 9
 
-        localStorage.setItem("qavTotalNumberSorts", numberSorts);
+        QAV.setState("qavTotalNumberSorts", numberSorts);
         QAV.totalNumberSorts = numberSorts;
 
         var originalSortSize = parseInt(projectTitleString.slice(7, 9)); // lipset 33
         var qavProjectName3 = (projectTitleString.slice(10, 70));
         var qavProjectName2 = qavProjectName3.trim();
         var qavProjectName = sanitizeProjectName(qavProjectName2);
-        localStorage.setItem("qavProjectName", JSON.stringify(qavProjectName));
+        QAV.setState("qavProjectName", qavProjectName);
 
-        localStorage.setItem("qavTotalStatements", originalSortSize);
-        localStorage.setItem("qavOriginalSortSize", originalSortSize);
+        QAV.setState("qavTotalStatements", originalSortSize);
+        QAV.setState("qavOriginalSortSize", originalSortSize);
         QAV.setState("originalSortSize", originalSortSize);
 
         // parsing and coercing second line of PQMethod file
@@ -69,7 +69,7 @@
         var temp1 = temp1a.map(Number);
         var pyramidShapeNumbers = temp1.slice(3, temp1.length);
 
-        localStorage.setItem("qavPyramidShape", JSON.stringify(pyramidShapeNumbers));
+        QAV.setState("qavPyramidShape", pyramidShapeNumbers);
 
         UTIL.calculateSortTriangleShape(pyramidShapeNumbers);
 
@@ -87,16 +87,14 @@
             }
         }).value();
 
-        localStorage.setItem("qavRespondentSortsFromDbStored", JSON.stringify(sorts));
         QAV.setState("qavRespondentSortsFromDbStored", sorts);
 
         // to prevent errors in zScore calcs and issues with "." in datatables
         var names2 = UTIL.checkUniqueName(names);
 
-        // set respondent names for later
-        localStorage.setItem("qavRespondentNames", JSON.stringify(names2));
+        // set respondent names for later  todo - delete doubles
+        QAV.setState("qavRespondentNames", names2);
         QAV.setState("respondentNames", names2);
-
 
         // format pasted data
         var sortsAsNumbers = CENTROID.convertSortsTextToNumbers(sorts, originalSortSize);
@@ -106,14 +104,7 @@
             var respondent = names2[j];
             $("#existingDatabaseRespondentList").append("<li>" + respondent + "&nbsp;&nbsp;&nbsp" + sortItem + "</li>");
         }
-
-        // get correlations for pasted data
-        //  var correlationTable = calculateCorrelations(sortsAsNumbers, names2);
-
-        // display the correlation table for the pasted PQMethod data
-        // createDisplayTableJQUERY(correlationTable, "correlationTable2")
     };
-
 
     /****************************************************************  view control
      ********* Pull variables helper functions ************************************
@@ -129,7 +120,7 @@
         var cleanStatements = [];
 
         $.each(arr, function () {
-            var temp1 = sanitizeUserInputText(this);
+            var temp1 = UTIL.sanitizeUserInputText(this);
             cleanStatements.push($.trim(temp1));
         });
         return cleanStatements;
@@ -140,7 +131,6 @@
         var dataSetName = document.getElementById(projectNameInputId).value;
         return dataSetName;
     };
-
 
     function sanitizeProjectName(qavProjectName2) {
         if (qavProjectName2 === '') {
@@ -167,20 +157,16 @@
         reader.readAsText(files, "ASCII");
     };
 
-
-
     // ******************************************************************  model
     // ***** Import User Statements File ***************************************
     // *************************************************************************
     PASTE.filePickedTextSTA = function (e) {
-
         var files = e.target.files[0];
         var reader = new FileReader();
         reader.onload = function (e) {
             var data = e.target.result;
             $("#statementsInputBoxPqmethod").val(data);
             localStorage.setItem("qavStatementsInputBoxPqmethod", data);
-
         }; // end of reader function
         reader.readAsText(files, "ASCII");
     };

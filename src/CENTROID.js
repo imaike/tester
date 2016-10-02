@@ -12,67 +12,18 @@
 
 (function (CENTROID, QAV, undefined) {
 
-    // misnamed - creates correlation table  -  todo - rename
-    CENTROID.fireCentroidFromLocalData = function () {
-
-        var t0 = performance.now();
-
-        var namesFromExistingData2 = JSON.parse(localStorage.getItem("qavRespondentNames"));
-
-        // to prevent errors in zScores and datatable error when "." in name
-        var namesFromExistingData = UTIL.checkUniqueName(namesFromExistingData2);
-
-        localStorage.setItem("qavRespondentNames", JSON.stringify(namesFromExistingData));
-        QAV.respondentNames = namesFromExistingData;
-
-
-        if (namesFromExistingData.length > 25) {
-
-            $("#correlationsSpinner").append('<p id="spinnerText">&nbsp&nbsp Calculating, <i>please wait</i>&nbsp&nbsp</p>').fadeIn(300);
-        }
-
-        $("#calculatingCorrelationsModal").toggleClass('active');
-
-        // setTimeout to force display of spinner
-        setTimeout(function () {
-            // database data analysis
-            var originalSortSize2 = localStorage.getItem("qavOriginalSortSize");
-
-            localStorage.setItem("qavTotalNumberSorts", namesFromExistingData.length);
-
-            QAV.totalNumberSorts = namesFromExistingData.length;
-
-            var sortsFromExistingData = JSON.parse(localStorage.getItem("qavRespondentSortsFromDbStored"));
-
-
-            var sortsAsNumbers2 = CENTROID.convertSortsTextToNumbers(sortsFromExistingData, originalSortSize2);
-
-
-            var createCorrelationTable = calculateCorrelations(sortsAsNumbers2, namesFromExistingData);
-
-            createDisplayTableJQUERY(createCorrelationTable, 'correlationTable');
-
-            $("#correlationsSpinner").children("p").remove();
-
-        }, 10);
-        var t1 = performance.now();
-        console.log('%c Correlation Table completed in ' + (t1 - t0).toFixed(0) + ' milliseconds', 'background: black; color: white');
-
-    };
-
-
     // todo - fix parseInt by adding second value
-    // **********************************************************************  controller
-    // ***** controller for factor extraction *******************************************
-    // **********************************************************************************
+    // ******************************************************  controller
+    // ***** controller for factor extraction **************************
+    // *****************************************************************
     // todo - refactor onclick handler from html
     CENTROID.fireFactorExtraction = function () {
         console.time("total factor extraction time is ");
         var factors = document.getElementById("factorSelect");
         var selectedNumberFactors = factors.options[factors.selectedIndex].value;
         var loopLength = parseInt(selectedNumberFactors);
-        localStorage.setItem("numberFactorsExtracted", loopLength);
-        var dataArray = JSON.parse(localStorage.getItem("originalCorrelationValues"));
+        QAV.setState("numberFactorsExtracted", loopLength);
+        var dataArray = QAV.getState("originalCorrelationValues");
 
         QAV.numFactorsExtracted = loopLength;
 
@@ -93,9 +44,13 @@
             isRotatedFactorsTableUpdate = "no";
         }
 
+        var language = QAV.getState("language");
+        var facText = resources[language]["translation"]["Factor"];
+
+        // used for section 6 text labels
         for (var i = 1; i < (loopLength + 1); i++) {
-            factorName = "factor " + i;
-            d3FactorName = "factor" + i;
+            factorName = facText + " " + i;
+            d3FactorName = facText + " " + i;
             // added for D3 because of unknown comma insertion in factorDispalyNameArray
             d3ChartFactorNames.push(d3FactorName);
             tempArray = CENTROID.calculateFactorLoadings(dataArray);
@@ -103,7 +58,8 @@
             dataArray = tempArray[1];
             factorDisplayNameArray.push(factorName);
         }
-        localStorage.setItem("factorLabels", JSON.stringify(factorDisplayNameArray));
+
+        QAV.setState("factorLabels", factorDisplayNameArray);
         QAV.factorLabels = factorDisplayNameArray;
 
         // todo - separate model from controller
@@ -112,10 +68,10 @@
 
         // send and save  to varimax rotation
         // todo - change this name to clarify for PCA
-        localStorage.setItem("centroidFactors", JSON.stringify(centroidFactors));
+        QAV.setState("centroidFactors", centroidFactors);
 
         // todo change to analysis global object setting
-        numberSorts = localStorage.getItem("qavTotalNumberSorts");
+        numberSorts = QAV.getState("qavTotalNumberSorts");
 
         // eigenvalue calculations
         for (var j = 0; j < factorMatrix1.length; j++) {
@@ -128,7 +84,7 @@
             })), 5);
 
             eigenvalues.push(eigen);
-            respondentNames = JSON.parse(localStorage.getItem("qavRespondentNames"));
+            respondentNames = QAV.getState("qavRespondentNames");
             totalVariance = evenRound((100 * (eigen / numberSorts)), 0);
             explainedVariance.push(totalVariance);
         }
@@ -147,8 +103,13 @@
 
         var factorMatrixTransposed = _.zip.apply(_, factorMatrixToFixed5);
 
-        eigenvalues.unshift("Eigenvalues");
-        explainedVariance.unshift("% Expln Var");
+        var language = QAV.getState("language");
+        var varText = resources[language]["translation"]["% explained variance"];
+        var eigenText = resources[language]["translation"]["Eigenvalues"];
+
+
+        eigenvalues.unshift(eigenText);
+        explainedVariance.unshift(varText);
 
         QAV.centroidEigenvalues = eigenvalues;
 
@@ -159,10 +120,10 @@
 
 
         var expVar2 = factorMatrixTransposed.pop();
-        localStorage.setItem("expVarCentroid", JSON.stringify(expVar2));
+        QAV.setState("expVarCentroid", expVar2);
 
         // add to qav - used in results download cumulative commonalities section
-        localStorage.setItem("factorMatrixTransposed", JSON.stringify(factorMatrixTransposed));
+        QAV.setState("factorMatrixTransposed", factorMatrixTransposed);
 
         console.timeEnd("total factor extraction time is ");
 
@@ -171,77 +132,10 @@
         var rotFacStateArrayPrep1 = _.cloneDeep(factorMatrixToFixed5);
         rotFacStateArrayPrep1.shift();
         var rotFacStateArrayPrep2 = _.zip.apply(_, rotFacStateArrayPrep1);
-
         QAV.centroidFactors = rotFacStateArrayPrep2;
     };
 
-
-
-
-    //****************************************************************************  model
-    //****  calculate PQMethod type correlations    *************************************
-    //***********************************************************************************
-
-    CENTROID.getPqmethodCorrelation = function (x, y) {
-
-        var xLen = x.length;
-        var yLen = y.length;
-
-        var colMeansX = (_.reduce(x, function (sum, num) {
-            return sum + num;
-        })) / xLen;
-        var colMeansY = (_.reduce(y, function (sum, num) {
-            return sum + num;
-        })) / yLen;
-
-        var xSquareDiffMean = 0;
-        for (var i = 0; i < xLen; i++) {
-            var temp = ((x[i] - colMeansX) * (x[i] - colMeansX));
-            xSquareDiffMean = xSquareDiffMean + temp;
-        }
-
-        var ySquareDiffMean = 0;
-        for (var j = 0; j < yLen; j++) {
-            var temp2 = ((x[j] - colMeansY) * (x[j] - colMeansY));
-            ySquareDiffMean = ySquareDiffMean + temp2;
-        }
-
-        var xWork2 = Math.sqrt(xSquareDiffMean / xLen); // todo - add error message?
-        var yWork2 = Math.sqrt(ySquareDiffMean / yLen); // aka standard dev
-
-        var xStandardizedValues = [];
-        for (var k = 0; k < xLen; k++) {
-            var temp3 = (x[k] - colMeansX) / (Math.sqrt(xLen) * xWork2);
-            xStandardizedValues.push(temp3);
-        }
-
-        var yStandardizedValues = [];
-        var temp4;
-        for (var m = 0; m < xLen; m++) {
-            temp4 = (y[m] - colMeansY) / (Math.sqrt(yLen) * yWork2);
-            yStandardizedValues.push(temp4);
-        }
-
-        var answers = [];
-        var temp5;
-        for (var p = 0; p < xLen; p++) {
-            temp5 = (xStandardizedValues[p] * yStandardizedValues[p]);
-            answers.push(temp5);
-        }
-
-        var answer = (_.reduce(answers, function (sum, num) {
-            return (sum + num);
-        }));
-
-        var answer1 = [evenRound((answer), 5), evenRound((answer * 100), 0)];
-
-        return answer1;
-    };
-
-
-
     CENTROID.calculateFactorLoadings = function (dataArray) {
-
         var reflectedArray = checkPositiveManifold(dataArray);
         var reflectedArray1 = reflectedArray[0]; // reflected array
         var reflectedArrayColumnTotals = reflectedArray[1]; // column totals
@@ -260,14 +154,6 @@
         return results;
     }; // end function fireCalculateFactors
 
-
-
-
-
-
-
-
-
     CENTROID.drawExtractedFactorsTable = function () {
 
         var centroidFactors = QAV.getState("centroidFactors");
@@ -285,17 +171,22 @@
             centroidFactors[i].unshift(j, names[i]);
         }
 
+        var language = QAV.getState("language");
+        var facText = resources[language]["translation"]["Factor"];
+        var respondText = resources[language]["translation"]["Respondent"];
+        var appendText = resources[language]["translation"]["Centroid Factors Extracted"];
+
         headers = [{
             title: "Num."
         }, {
-            title: "Respond."
+            title: respondText
         }];
 
         // make headers dynamic
         loopLen = (centroidFactors[0].length) - 2;
         for (k = 0; k < loopLen; k++) {
             temp1 = {};
-            temp1.title = "Factor " + (k + 1);
+            temp1.title = facText + " " + (k + 1);
             headers.push(temp1);
         }
 
@@ -327,7 +218,7 @@
 
         UTIL.drawDatatable(configObj);
 
-        $("#rotationHistoryList").append('<li>' + QAV.numFactorsExtracted + ' Centroid Factors Extracted</li>');
+        $("#rotationHistoryList").append('<li>' + QAV.numFactorsExtracted + appendText + '</li>');　
 
         CENTROID.createFooterTable(headers, slicedTargets);
 
@@ -341,10 +232,9 @@
 
         eigenValues = QAV.getState("centroidEigenvalues");
         eigenValues.unshift("");
-        percentExplainedVariance = JSON.parse(localStorage.getItem("expVarCentroid"));
+        percentExplainedVariance = QAV.getState("expVarCentroid");
         percentExplainedVariance.unshift("");
         loopLen1 = percentExplainedVariance.length;
-
 
         var value = 0;
         for (m = 2; m < loopLen1; m++) {
@@ -352,7 +242,9 @@
             tempArray.push(value);
         }
 
-        tempArray.unshift("", "Cum % Expln Var");
+        var language = QAV.getState("language");
+        var cumVarText = resources[language]["translation"]["Cum % Expln Var"];
+        tempArray.unshift("", cumVarText);
 
         data.push(eigenValues, percentExplainedVariance, tempArray);
 
@@ -387,11 +279,10 @@
         UTIL.drawDatatable(configObj);
     };
 
-
-    /* ***************************************************************************  model
-// **************** convert sorts and shift to positive values **********************
-// **********************************************************************************
-*/
+    /* *******************************************************************  model
+    // ************ convert sorts and shift to positive values **********************
+    // ******************************************************************************
+    */
     CENTROID.convertSortsTextToNumbers = function (sortsTextFromDb, originalSortSize) {
 
         console.time("convertNumbers");
@@ -419,7 +310,7 @@
         } else {
             sortsAsNumbers = _.cloneDeep(sortsTextFromDb);
         }
-        localStorage.setItem("sortsAsNumbers", JSON.stringify(sortsAsNumbers));
+        QAV.setState("sortsAsNumbers", sortsAsNumbers);
 
         // shift sorts to positive range
         maxArrayValue = _.max(sortsAsNumbers[0]);
@@ -431,12 +322,10 @@
                 element[j] = element[j] + maxArrayValue + 1;
             }
         }).value();
-        localStorage.setItem("positiveShiftedRawSorts", JSON.stringify(sortsAsNumbers));
+        QAV.setState("positiveShiftedRawSorts", sortsAsNumbers);
         console.timeEnd("convertNumbers");
         return sortsAsNumbers;
     };
-
-
 
     // ***********************************************************************   model
     // ***** Calculate Factors *******************************************************
@@ -530,13 +419,11 @@
         }
     }
 
-
-    // **************************************************************************   model
-    // ***** remove factor  correlations*************************************************
-    // **********************************************************************************
+    // **************************************************************   model
+    // ***** remove factor  correlations************************************
+    // *********************************************************************
     function removeCorrelations(array, factorLoadings) {
         var factorCorrelations = [];
-
 
         function helper1(factorLoadings) {
             _(factorLoadings).forEach(function (num) {
@@ -595,76 +482,9 @@
         return factorResults;
     }
 
-
-
-
-    //*********************************************************************   model
-    //******* create Correlation Table ********************************************
-    //*****************************************************************************
-    function calculateCorrelations(sortsAsNumbers, names) {
-
-        console.time("correlation calculations and table display ");
-
-        // todo - get a proper read of the length and add missing name error testing
-        var totalSorts = names.length;
-        var sortsAsNumbersCloned = _.cloneDeep(sortsAsNumbers);
-        var correlationTableArray = [];
-        var correlationTableArrayFormatted = [];
-
-        for (var m = 0; m < totalSorts; m++) {
-            correlationTableArray[m] = [];
-        }
-
-        for (var n = 0; n < totalSorts; n++) {
-            correlationTableArrayFormatted[n] = [];
-        }
-
-
-        for (var i = 0; i < totalSorts; i++) {
-            var pullX = sortsAsNumbersCloned[i];
-
-            var correlationValue = CENTROID.getPqmethodCorrelation(sortsAsNumbersCloned[i], sortsAsNumbersCloned[i]);
-
-
-            correlationTableArray[0][0] = correlationValue[0];
-            correlationTableArrayFormatted[0][0] = correlationValue[1];
-
-            for (var k = i; k < totalSorts; k++) {
-                var correlationValue2 = CENTROID.getPqmethodCorrelation(pullX, sortsAsNumbersCloned[k]);
-
-                correlationTableArray[i][k] = correlationValue2[0];
-                correlationTableArrayFormatted[i][k] = correlationValue2[1];
-
-                if (k === i) {} else {
-                    // var nextArray = k + 1;
-                    correlationTableArray[k][i] = correlationValue2[0];
-                    correlationTableArrayFormatted[k][i] = correlationValue2[1];
-                }
-            } // end of k loop
-        } //  end of i loop
-
-
-
-        for (var j = 0; j < totalSorts; j++) {
-            var pullName = names[j];
-            correlationTableArrayFormatted[j].unshift(pullName);
-        }
-        names.unshift("");
-        correlationTableArrayFormatted.unshift(names);
-
-        localStorage.setItem("correlationTableArrayFormatted", JSON.stringify(correlationTableArrayFormatted));
-        localStorage.setItem("respondentNames", JSON.stringify(names));
-        localStorage.setItem("originalCorrelationValues", JSON.stringify(correlationTableArray));
-
-        console.timeEnd("correlation calculations and table display ");
-
-        return correlationTableArrayFormatted;
-    }
-
-
-    // **************************************************************************   model
-    // ***** check for positive manifold ************************************************
-    // **********************************************************************************
+    // ***************************************************************   model
+    // ***** check for positive manifold *************************************
+    // ***********************************************************************
 
     // todo - check this function - seems a bit wanky  - is pos shift check needed
 
@@ -683,10 +503,9 @@
         }
     }
 
-
-    // *************************************************************************   model
-    // ***** calculate positive manifold ***********************************************
-    // *********************************************************************************
+    // ***************************************************************   model
+    // ***** calculate positive manifold ************************************
+    // **********************************************************************
     function calculatePositiveManifold(manifoldArray, minColumnSum) {
         // todo limit to 200-300 iterations? - see qmethod source code
         // todo - check this also - is it a bit wanky?
@@ -715,7 +534,6 @@
         }
     }
 
-
     // ******************************************************************   model
     // ***** Calculate Column Sums **********************************************
     // **************************************************************************
@@ -737,7 +555,6 @@
         }
         return columnTotals;
     }
-
 
     // **************************************************************   model
     // ***** calculate Minimum Value and Array Index Value ******************
@@ -782,87 +599,5 @@
         }
         return columnTotals;
     }
-
-
-    function createDisplayTableJQUERY(dataSet, node) {
-
-        var headerText = dataSet[0];
-        dataSet.shift();
-
-        for (var j = 0; j < dataSet.length; j++) {
-            dataSet[j].unshift(j + 1);
-        }
-
-        var tempObj;
-        var headerArray = [];
-
-        for (var i = 0; i < headerText.length; i++) {
-            tempObj = {};
-            tempObj.title = headerText[i];
-            headerArray.push(tempObj);
-        }
-
-        var blank = headerArray.shift();
-        var respondent = {
-            "title": "Respon."
-        };
-
-        headerArray.unshift(respondent);
-        headerArray.unshift(blank);
-
-        var columnTargets = [];
-        for (var k = 2; k < headerText.length + 1; k++) {
-            columnTargets.push(k);
-        }
-
-        //  var tableWidth = ($("#section3").width()) * .9;
-
-        // todo - create clear-outs of analysis and results for change in factors extracted drop-down selection
-
-        $("#correlationTable2").DataTable({
-            "fixedColumns": {
-                leftColumns: 2
-            },
-            "retrieve": true,
-            "searching": false,
-            "ordering": true,
-            "info": false,
-            "scrollY": 800,
-            "scrollCollapse": true,
-            "scrollX": true,
-            "paging": false,
-            data: dataSet,
-            "columns": headerArray,
-            "columnDefs": [{
-                targets: columnTargets,
-                className: 'dt-head-center dt-body-right',
-        }, {
-                targets: [0, 1],
-                className: 'dt-body-center dt-body-name'
-        }, {
-                targets: '_all',
-                "createdCell": function (td, cellData, rowData, row, col) {
-                    if (cellData < 0) {
-                        $(td).css('color', 'red');
-                    }
-                }
-        }],
-        });
-
-        var table = $("#correlationTable2").DataTable();
-        $('#correlationTable2 tbody')
-            .on('mouseenter', 'td', function () {
-                var colIdx = table.cell(this).index().column;
-                $(table.cells().nodes()).removeClass('highlight');
-                $(table.column(colIdx).nodes()).addClass('highlight');
-            })
-            .on('mouseleave', function () {
-                $(table.cells().nodes()).removeClass('highlight');
-                $(table.columns().nodes()).removeClass('highlight');
-            });
-    }
-
-
-
 
 }(window.CENTROID = window.CENTROID || {}, QAV));

@@ -9,7 +9,7 @@
 
 // JSlint declarations
 /* global numeric, window, QAV, $, document, JQuery, evenRound, UTIL, localStorage, _ */
- 
+
 (function (PCA, QAV, undefined) {
 
     PCA.doPrincipalComponents = function (X) {
@@ -36,24 +36,22 @@
         numberFactorsExtracted = _.min(pcaFactorsToExtractArray);
 
         numberofPrincipalComps = numberFactorsExtracted;
-
-        localStorage.setItem("numberFactorsExtracted", numberFactorsExtracted);
+        QAV.setState("numberFactorsExtracted", numberFactorsExtracted);
         QAV.pcaNumberFactorsExtracted = numberFactorsExtracted;
         UTIL.addFactorSelectCheckboxesRotation(numberFactorsExtracted);
+
 
         // labels according to factors extacted (above)
         for (m = 0; m < numberFactorsExtracted; m++) {
             factorLabels.push("Factor " + (m + 1));
         }
 
-
         QAV.setState("factorLabels", factorLabels);
 
         // svd = matrix of all principle components as column vectors          
         m = X.length;
-        // m = 4;
-        // sigma = numeric.div(numeric.dot(numeric.transpose(X), X), m);
-        svd = numeric.svd(X).U;
+        sigma = numeric.div(numeric.dot(numeric.transpose(X), X), m);
+        svd = numeric.svd(sigma).U;
 
 
         // eigens = eigenvalues for data X 
@@ -121,8 +119,9 @@
         QAV.setState("eigenValuesCumulPercentArray", eigenValuesCumulPercentArray);
         QAV.setState("eigenVecs", eigenVecs);
 
-        $("#rotationHistoryList").append('<li>8 Principal Components Extracted</button></li>');
-
+        var language = QAV.getState("language");
+        var appendText = resources[language]["translation"]["8 Principal Components Extracted"];
+        $("#rotationHistoryList").append('<li>' + appendText + '</button></li>');
 
         return [eigenValuesSorted, eigenValuesAsPercents, eigenValuesCumulPercentArray, eigenVecs];
     };
@@ -137,35 +136,39 @@
             eigenVecs[i].unshift(j, names[j]);
         }
 
+        var language = QAV.getState("language");
+        var facText = resources[language]["translation"]["Factor"];
+        var respondText = resources[language]["translation"]["Respondent"];
+
         pcaHeaders = [
             {
                 title: "Number"
             }, {
-                title: "Respondent"
+                title: respondText
             },
             {
-                title: "Factor 1"
+                title: facText + " 1"
             },
             {
-                title: "Factor 2"
+                title: facText + " 2"
             },
             {
-                title: "Factor 3"
+                title: facText + " 3"
             },
             {
-                title: "Factor 4"
+                title: facText + " 4"
             },
             {
-                title: "Factor 5"
+                title: facText + " 5"
             },
             {
-                title: "Factor 6"
+                title: facText + " 6"
             },
             {
-                title: "Factor 7"
+                title: facText + " 7"
             },
             {
-                title: "Factor 8"
+                title: facText + " 8"
             }
         ];
 
@@ -210,16 +213,23 @@
         // create footer
         var footer, temp, temp2, temp3, tableArray, array, array2, array3, tr, th;
         var pcaFooterTableHeaders;
+
+        var language = QAV.getState("language");
+        var cumVarText = resources[language]["translation"]["Cum % Expln Var"];
+        var varText = resources[language]["translation"]["% explained variance"];
+        var eigenText = resources[language]["translation"]["Eigenvalues"];
+
+
         temp = QAV.getState("eigenValuesSorted");
-        temp.unshift("", "Eigenvalues");
+        temp.unshift("", eigenText);
         array = temp.slice(0, 10);
 
         temp2 = QAV.getState("eigenValuesAsPercents");
-        temp2.unshift("", "% Exp Var");
+        temp2.unshift("", varText);
         array2 = temp2.slice(0, 10);
 
         temp3 = QAV.getState("eigenValuesCumulPercentArray");
-        temp3.unshift("", "Cum % Exp Var");
+        temp3.unshift("", cumVarText);
         array3 = temp3.slice(0, 10);
 
 

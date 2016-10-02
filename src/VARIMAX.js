@@ -13,19 +13,14 @@
 (function (VARIMAX, QAV, undefined) {
 
     VARIMAX.fireVarimaxRotation = function () {
+        var getFactorsForRotation = QAV.getState("centroidFactors");
 
-        // archiveFactorScoreStateMatrixAndDatatable();
-
-        var getFactorsForRotation = JSON.parse(localStorage.getItem("centroidFactors"));
-        // var testVar = _.cloneDeep(QAV.centroidFactors);
+        // archive factor rotation table
+        UTIL.archiveFactorScoreStateMatrixAndDatatable();
 
         // rotation routine
         standardizeMatrix(getFactorsForRotation);
-
-        // clear out two factor rotation chart and D3 plot
-        // reInitializePlotAndChart();
     };
-
 
     // ***********************************************************  model
     // ***** Calculate Original Communalities ***************************
@@ -33,7 +28,6 @@
     // ******************************************************************
 
     function standardizeMatrix(factorMatrix) {
-
         var sumSquares = [];
         var loopLen = factorMatrix.length;
         var temp1;
@@ -83,8 +77,11 @@
 
         var tableResults = calculateVarianceForFactorMatrix(standarizedFactorMatrix, sumSquares);
 
+        var language = QAV.getState("language");
+        var appendText = resources[language]["translation"]["Varimax rotation applied"];
+        var appendText2 = resources[language]["translation"]["Undo"];
         // the "varimax called" class is for toggling color of varimax button 
-        $("#rotationHistoryList").append('<li>Varimax Rotation <button class="deleteButton  varimaxCalled">undo</button></li>');
+        $("#rotationHistoryList").append('<li>' + appendText + '<button class="deleteButton  varimaxCalled">' + appendText2 + '</button></li>');
 
         console.timeEnd("varimax rotation");
 
@@ -143,7 +140,6 @@
                 return sum + num;
             }), 8);
 
-            // BB = evenRound((AA * AA), 8);
             BB = evenRound((AA * AA), 8);
 
             // FN is number factors, AA is total of sumSquares, BB is square of total of sumSquares, FFN is number factors squared
@@ -484,23 +480,20 @@
         var rotFacStateArrayPrep1 = _.cloneDeep(resultsTransposed);
 
         // send to rotFactorStateArray
-        localStorage.setItem("rotFacStateArray", JSON.stringify(rotFacStateArrayPrep1));
+        QAV.setState("rotFacStateArray", rotFacStateArrayPrep1);
 
         // prep for chart
-        calculateCommunalities(rotFacStateArrayPrep1);
+        ROTA.calculateCommunalities(rotFacStateArrayPrep1);
 
         // gets array for fSig testing from LS of calculateCommunalities - sets fSigCriterionResults
-        calculatefSigCriterionValues("noFlag");
+        ROTA.calculatefSigCriterionValues("noFlag");
 
         // re-draw rotation table
         // var isRotatedFactorsTableUpdate = "yes";
         var isRotatedFactorsTableUpdate = "destroy";
-        drawRotatedFactorsTable2(isRotatedFactorsTableUpdate, "noFlag");
+        LOAD.drawRotatedFactorsTable2(isRotatedFactorsTableUpdate, "noFlag");
 
         return resultsTransposed;
     }
-
-
-
 
 }(window.VARIMAX = window.VARIMAX || {}, QAV));

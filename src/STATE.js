@@ -13,8 +13,12 @@
 // QAV is the global state data store
 (function (QAV, undefined) {
 
+    // set default language
+    QAV.language = "en-us";
+
     QAV.setState = function (key, value) {
-        QAV[key] = value;
+        var value2 = _.cloneDeep(value);
+        QAV[key] = value2;
     };
 
     QAV.getState = function (key) {

@@ -8,7 +8,7 @@
 
 
 // JSlint declarations
-/* global window, $, window, localStorage, QAV, PCA, document, performance*/
+/* global window, $, d3, resources, window, _, ROTA, localStorage, QAV, PCA, document, performance*/
 
 
 //***************************************************************************   model
@@ -26,9 +26,6 @@ function evenRound(num, decimalPlaces) {
         ((i % 2 === 0) ? i : i + 1) : Math.round(n);
     return d ? r / m : r;
 }
-
-
-
 
 (function (UTIL, QAV, undefined) {
 
@@ -63,12 +60,15 @@ function evenRound(num, decimalPlaces) {
     };
 
     UTIL.addFactorSelectCheckboxesRotation = function (loopLength) {
-        //       
+
         // clear checkboxes if previously added to DOM
         var checkboxFrameCheck = $("#checkboxFrame");
         if (checkboxFrameCheck.length > 0) {
             checkboxFrameCheck.empty();
         }
+
+        var language = QAV.getState("language");
+        var facText = resources[language]["translation"]["Factor"];
 
         // add checkboxes to DOM according to number factors extracted
         for (var k = 0; k < loopLength; k++) {
@@ -84,21 +84,16 @@ function evenRound(num, decimalPlaces) {
             var label = document.createElement('label');
             label.htmlFor = "checkChart" + incrementedK;
             label.className = "checkboxLabel";
-            label.appendChild(document.createTextNode("Factor " + incrementedK));
+            label.appendChild(document.createTextNode(facText + " " + incrementedK));
 
             document.getElementById("checkboxFrame").appendChild(checkbox);
             document.getElementById("checkboxFrame").appendChild(label);
-            // document.getElementById("checkboxFrame").appendChild(checkboxDiv1);
-            // document.getElementById("checkboxFrame").appendChild(checkboxDiv1);
         }
-
-
     };
 
-
-    // **************************************************************************   model
-    // ***** check for unique names and sanitize  ***************************************
-    // **********************************************************************************
+    // ***************************************************************   model
+    // ***** check for unique names and sanitize  ****************************
+    // ***********************************************************************
     UTIL.checkUniqueName = function (namesFromExistingData) {
         var namesUniqueArrayTest2 = _.cloneDeep(namesFromExistingData);
         var namesUniqueArrayTest = _.uniq(namesUniqueArrayTest2);
@@ -120,9 +115,6 @@ function evenRound(num, decimalPlaces) {
         return namesFromExistingData;
     };
 
-
-
-
     UTIL.calculateSortTriangleShape = function (pyramidShapeNumbers) {
 
         var sortPossibleValues = [-6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
@@ -133,21 +125,238 @@ function evenRound(num, decimalPlaces) {
                 qavSortTriangleShape.push(sortPossibleValues[i]);
             }
         }
-        localStorage.setItem("qavSortTriangleShape", JSON.stringify(qavSortTriangleShape));
         QAV.setState("qavSortTriangleShape", qavSortTriangleShape);
     };
 
+    UTIL.sanitizeUserInputText = function (input) {
+        var output = input.replace(/<script[^>]*?>.*?<\/<\/script>/gi, '').
+        replace(/<[\/\!]*?[^<>]*?>/gi, '').
+        replace(/<style[^>]*?>.*?<\/style>/gi, '').
+        replace(/<![\s\S]*?--[ \t\n\r]*>/gi, '');
+        return output;
+    };
+
+    // helper function for export routines
+    UTIL.threeDigitPadding = function (e) {
+        if (e < 0) {
+            return " " + e;
+        } else if (e < 10) {
+            return "  " + e;
+        } else if (e > 99) {
+            return e;
+        } else {
+            return " " + e;
+        }
+    };
+
+    UTIL.currentDate1 = function () {
+        var currentDate = new Date();
+        var Day = currentDate.getDate();
+        if (Day < 10) {
+            Day = '0' + Day;
+        }
+        var Month = currentDate.getMonth() + 1;
+        if (Month < 10) {
+            Month = '0' + Month;
+        }
+        var Year = currentDate.getFullYear();
+        var fullDate = Year + "-" + Month + "-" + Day;
+        return fullDate;
+    };
+
+    UTIL.currentTime1 = function () {
+        var currentTime = new Date();
+        var Minutes = currentTime.getMinutes();
+        if (Minutes < 10) {
+            Minutes = '0' + Minutes;
+        }
+        var Hour = currentTime.getHours();
+        if (Hour < 10) {
+            Hour = '0' + Hour;
+        }
+
+        var Time = String(Hour) + "-" + String(Minutes);
+
+        return Time;
+    };
+
+    // *************************************************************  Data Model
+    // **********  Archive function to allow undo of rotations *****************
+    // *************************************************************************
+
+    UTIL.archiveFactorScoreStateMatrixAndDatatable = function () {
+
+        // saveRotationArchieveCounter is reset to 1 on centroid extraction function call
+
+        // get current table data including flags
+        var table = $('#factorRotationTable2').dataTable();
+        var chartData = table.fnGetData();
 
 
-    // todo - remove autocomplete="off" from index.html and use this
+        // get current footer data and push into table data
+        var footerData = QAV.getState("expVar");
+
+        // get copy of current state matrix
+        var rotFacStateArray = QAV.getState("rotFacStateArray");
+
+        // get copy of current rotation table headers (for undo bipolar split charting)
+        var columnHeadersArray = QAV.getState("columnHeadersArray");
+
+        var archiveArray = [];
+
+        // store curr rotation data, chartdata with user flags, and headers in archive array
+        archiveArray.push(rotFacStateArray, chartData, columnHeadersArray, footerData);
+
+        // archive both in local storage with key + counter
+        QAV.setState("rotFacStateArrayArchive" + ROTA.saveRotationArchiveCounter("get"), archiveArray);
+
+        ROTA.saveRotationArchiveCounter("increase");
+    };
+
+    // todo - remove autocomplete="off" for Firefox from index.html and use this
     //    (function () {
     //        $(window).unload(function() {
     //            $('#existingDatabaseSelect select option').remove();
-    //           
     //
     //        });
     //    })();
     //
 
+    UTIL.drawScreePlot = function (dataArray) {
+        var i, data, chartSize, margin, width, height;
+        var tempArray, maxValue, xTicks;
+
+        maxValue = _.max(dataArray);
+        if (maxValue < 10 && maxValue > 5) {
+            maxValue = 10;
+        } else if (maxValue < 5) {
+            maxValue = 5;
+        }
+
+        xTicks = dataArray.length;
+        if (xTicks < 5) {
+            xTicks = 5;
+        }
+
+        data = [];
+        for (i = 0; i < dataArray.length; i++) {
+            tempArray = {};
+            tempArray.eigen = dataArray[i];
+            tempArray.factor = (i + 1);
+            data.push(tempArray);
+        }
+
+        chartSize = $(window).width() / 1.25;
+
+        margin = {
+            top: 150,
+            right: 10,
+            bottom: 40,
+            left: 100
+        };
+
+        width = chartSize - margin.left - margin.right;
+        if (width > 700) {
+            width = 700;
+        }
+        height = width - margin.bottom - 80;
+
+        // get current language value  
+        var language = QAV.getState("language");
+        var plotTitle = resources[language]["translation"]["Scree Plot"];
+        var xAxisTitle = resources[language]["translation"]["Factor Number"];
+        var yAxisTitle = resources[language]["translation"]["Eigenvalues"];
+
+        // Set the ranges
+        var x = d3.scale.linear().range([0, width]);
+        var y = d3.scale.linear().range([height, 0]);
+
+        // Define the axes    todo - fix bug with subdivide when less than 4 fac
+        var xAxis = d3.svg.axis().scale(x).tickSubdivide(false)
+            .orient("bottom").ticks(8);
+
+        var yAxis = d3.svg.axis().scale(y).tickSubdivide(true)
+            .orient("left").ticks(maxValue);
+
+        // Define the line
+        var valueline = d3.svg.line()
+            .x(function (d) {
+                return x(d.factor);
+            })
+            .y(function (d) {
+                return y(d.eigen);
+            });
+
+        // Adds the svg canvas
+        var svg = d3.select("#screePlotDiv")
+            .append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+            .attr("transform",
+                "translate(" + margin.left + "," + margin.top + ")");
+
+        // Scale the range of the data
+        x.domain([0, 8]);
+        y.domain([0, d3.max(data, function (d) {
+            return d.eigen < 10 ? maxValue : d.eigen;
+        })]);
+
+        // create x axis title
+        svg.append("text")
+            .attr("x", width / 2)
+            .attr("y", height + 35)
+            .style("text-anchor", "middle")
+            .style("font-weight", "bold")
+            .style("margin-top", "10px")
+            .text(xAxisTitle);
+
+        // create Y axis label
+        svg.append("text")
+            .attr("transform", "rotate(-90)")
+            .attr("y", 0 - (margin.left / 2))
+            .attr("x", 0 - (height / 2))
+            .attr("dy", "1em")
+            .style("text-anchor", "middle")
+            .style("font-weight", "bold")
+            .text(yAxisTitle);
+
+        // create chart title
+        svg.append("text")
+            .attr("x", (width / 2))
+            .attr("y", 0 - (margin.top / 8))
+            .attr("text-anchor", "middle")
+            .style("font-size", "26px")
+            .text(plotTitle);
+
+        // Add the valueline path.
+        svg.append("path")
+            .attr("class", "line")
+            .attr("d", valueline(data));
+
+        // Add the X Axis
+        svg.append("g")
+            .attr("class", "x axis")
+            .attr("transform", "translate(0," + height + ")")
+            .call(xAxis);
+
+        // Add the Y Axis
+        svg.append("g")
+            .attr("class", "y axis")
+            .call(yAxis);
+
+        svg.selectAll(".dot2")
+            .data(data)
+            .enter().append("circle")
+            .attr("class", "dot2")
+            .attr("cx", function (data) {
+                return x(data.factor);
+            })
+            .attr("cy", function (data) {
+                return y(data.eigen);
+            })
+            .attr("r", 3.5);
+
+    };
 
 }(window.UTIL = window.UTIL || {}, QAV));
