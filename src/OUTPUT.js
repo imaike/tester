@@ -31,9 +31,10 @@
 
         var data = QAV.getState("outputSpreadsheetArray");
 
-        var newData = data[5];
+        var newData = data[6];
 
-        var columnHeadersArray = data[5][0];
+        //        var columnHeadersArray = data[5][0];
+        var columnHeadersArray = data[6][0];
         var columnHeaders = [];
         for (var i = 0; i < columnHeadersArray.length; i++) {
             var tempObj = {};
