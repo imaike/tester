@@ -10,7 +10,7 @@
 // JSlint declarations
 /* global numeric, window, QAV, $, document, JQuery, evenRound, UTIL, localStorage, _ */
 
-(function (PCA, undefined) {
+(function (PCA, QAV, undefined) {
 
     PCA.doPrincipalComponents = function (X) {
 
@@ -19,42 +19,40 @@
         var eigenValuesCumulPercentArray, eigenValuesPercent, pcaFactorsToExtractArray;
         var eigenValueCumulPercentAccum, k;
         var critInflectionValue, temp4, i, j, temp1, temp3, temp5, s, t;
-        var centroidFactors, numberFactorsExtracted;
+        var numberFactorsExtracted;
         var factorLabels = [];
-        var numberofPrincipalComps = 8;
+        var numberofPrincipalComps;
         var inflectionArray = [];
 
         // to differentiate output functions
-        QAV.typeOfFactor = "PCA";
+        QAV.setState("typeOfFactor", "PCA");
 
-        numberOfSorts = QAV.totalNumberSorts;
+        numberOfSorts = QAV.getState("totalNumberSorts");
 
-
-        // to determine the max number of factors to extract
-        temp4 = QAV.originalSortSize;
-        temp5 = QAV.totalNumberSorts;
+        // determine the max number of factors to extract
+        temp4 = QAV.getState("originalSortSize");
+        temp5 = QAV.getState("totalNumberSorts");
         pcaFactorsToExtractArray = [8, temp4, temp5];
         numberFactorsExtracted = _.min(pcaFactorsToExtractArray);
 
-        // console.log(JSON.stringify(pcaFactorsToExtractArray));
-
-        // console.log(JSON.stringify(numberFactorsExtracted));
-
-        localStorage.setItem("numberFactorsExtracted", numberFactorsExtracted);
+        numberofPrincipalComps = numberFactorsExtracted;
+        QAV.setState("numberFactorsExtracted", numberFactorsExtracted);
+        QAV.pcaNumberFactorsExtracted = numberFactorsExtracted;
         UTIL.addFactorSelectCheckboxesRotation(numberFactorsExtracted);
+
 
         // labels according to factors extacted (above)
         for (m = 0; m < numberFactorsExtracted; m++) {
             factorLabels.push("Factor " + (m + 1));
         }
 
-        QAV.factorLabels = factorLabels;
+        QAV.setState("factorLabels", factorLabels);
 
         // svd = matrix of all principle components as column vectors          
         m = X.length;
-        // m = 4;
         sigma = numeric.div(numeric.dot(numeric.transpose(X), X), m);
         svd = numeric.svd(sigma).U;
+
 
         // eigens = eigenvalues for data X 
         eigens = numeric.eig(X);
@@ -115,69 +113,86 @@
             }
         }
 
-        QAV.centroidFactors = centroidFactors;
-        QAV.eigenValuesSorted = eigenValuesSorted;
-        QAV.eigenValuesAsPercents = eigenValuesAsPercents;
-        QAV.eigenValuesCumulPercentArray = eigenValuesCumulPercentArray;
-        QAV.eigenVecs = eigenVecs;
+        QAV.setState("centroidFactors", eigenVecs);
+        QAV.setState("eigenValuesSorted", eigenValuesSorted);
+        QAV.setState("eigenValuesAsPercents", eigenValuesAsPercents);
+        QAV.setState("eigenValuesCumulPercentArray", eigenValuesCumulPercentArray);
+        QAV.setState("eigenVecs", eigenVecs);
 
-        $("#rotationHistoryList").append('<li>8 Principal Components Extracted</button></li>');
-
+        var language = QAV.getState("language");
+        var appendText = resources[language]["translation"]["8 Principal Components Extracted"];
+        $("#rotationHistoryList").append('<li>' + appendText + '</button></li>');
 
         return [eigenValuesSorted, eigenValuesAsPercents, eigenValuesCumulPercentArray, eigenVecs];
     };
 
     PCA.drawExtractedFactorsTable = function () {
-        var eigenVecs = _.cloneDeep(QAV.eigenVecs);
-        var i, j, names;
+        var eigenVecs = QAV.getState("eigenVecs");
+        var i, j, names, pcaHeaders, headersLength, pcaTableHeaders, pcaTargets, pcaTableTargets;
 
-        names = QAV.respondentNames;
+        names = QAV.getState("respondentNames");
         for (i = 0; i < eigenVecs.length; i++) {
             j = i + 1;
             eigenVecs[i].unshift(j, names[j]);
         }
 
+        var language = QAV.getState("language");
+        var facText = resources[language]["translation"]["Factor"];
+        var respondText = resources[language]["translation"]["Respondent"];
+
+        pcaHeaders = [
+            {
+                title: "Number"
+            }, {
+                title: respondText
+            },
+            {
+                title: facText + " 1"
+            },
+            {
+                title: facText + " 2"
+            },
+            {
+                title: facText + " 3"
+            },
+            {
+                title: facText + " 4"
+            },
+            {
+                title: facText + " 5"
+            },
+            {
+                title: facText + " 6"
+            },
+            {
+                title: facText + " 7"
+            },
+            {
+                title: facText + " 8"
+            }
+        ];
+
+        pcaTargets = [2, 3, 4, 5, 6, 7, 8, 9];
+
+
+        headersLength = QAV.pcaNumberFactorsExtracted + 2;
+        pcaTableHeaders = pcaHeaders.slice(0, headersLength);
+        pcaTableTargets = pcaTargets.slice(0, QAV.pcaNumberFactorsExtracted);
+
+        QAV.pcaTableHeaders = pcaTableHeaders;
+        QAV.pcaTableTargets = pcaTableTargets;
+
         var configObj = {};
         configObj.domElement = "#factorRotationTable1";
         configObj.fixed = false;
         configObj.data = eigenVecs;
-        configObj.headers = [
-            {
-                title: "Number"
-            }, {
-                title: "Respondent"
-                    },
-            {
-                title: "Factor 1"
-                    },
-            {
-                title: "Factor 2"
-                    },
-            {
-                title: "Factor 3"
-                    },
-            {
-                title: "Factor 4"
-                    },
-            {
-                title: "Factor 5"
-                    },
-            {
-                title: "Factor 6"
-                    },
-            {
-                title: "Factor 7"
-                    },
-            {
-                title: "Factor 8"
-                    },
-                ];
+        configObj.headers = pcaTableHeaders;
         configObj.colDefs = [{
                 targets: [0, 1],
                 className: 'dt-head-center dt-body-center dt-body-name'
         },
             {
-                targets: [2, 3, 4, 5, 6, 7, 8, 9],
+                targets: pcaTableTargets,
                 className: 'dt-head-center dt-body-right'
                              },
             {
@@ -197,22 +212,35 @@
     PCA.createFooter = function () {
         // create footer
         var footer, temp, temp2, temp3, tableArray, array, array2, array3, tr, th;
+        var pcaFooterTableHeaders;
 
-        temp = _.clone(QAV.eigenValuesSorted);
-        temp.unshift("", "Eigenvalues");
+        var language = QAV.getState("language");
+        var cumVarText = resources[language]["translation"]["Cum % Expln Var"];
+        var varText = resources[language]["translation"]["% explained variance"];
+        var eigenText = resources[language]["translation"]["Eigenvalues"];
+
+
+        temp = QAV.getState("eigenValuesSorted");
+        temp.unshift("", eigenText);
         array = temp.slice(0, 10);
 
-        temp2 = _.clone(QAV.eigenValuesAsPercents);
-        temp2.unshift("", "% Exp Var");
+        temp2 = QAV.getState("eigenValuesAsPercents");
+        temp2.unshift("", varText);
         array2 = temp2.slice(0, 10);
 
-        temp3 = _.clone(QAV.eigenValuesCumulPercentArray);
-        temp3.unshift("", "Cum % Exp Var");
+        temp3 = QAV.getState("eigenValuesCumulPercentArray");
+        temp3.unshift("", cumVarText);
         array3 = temp3.slice(0, 10);
 
 
         tableArray = [];
         tableArray.push(array, array2, array3);
+
+        pcaFooterTableHeaders = QAV.getState("pcaTableHeaders");
+        pcaFooterTableHeaders[0].title = "";
+        pcaFooterTableHeaders[0].sTitle = "";
+        pcaFooterTableHeaders[1].title = "";
+        pcaFooterTableHeaders[1].sTitle = "";
 
 
         var configObj = {};
@@ -220,43 +248,13 @@
         configObj.fixed = false;
         configObj.data = tableArray;
         configObj.ordering = false;
-        configObj.headers = [
-            {
-                title: ""
-            }, {
-                title: ""
-            },
-            {
-                title: "Factor 1"
-            },
-            {
-                title: "Factor 2"
-            },
-            {
-                title: "Factor 3"
-            },
-            {
-                title: "Factor 4"
-            },
-            {
-                title: "Factor 5"
-            },
-            {
-                title: "Factor 6"
-            },
-            {
-                title: "Factor 7"
-            },
-            {
-                title: "Factor 8"
-            },
-        ];
+        configObj.headers = pcaFooterTableHeaders;
         configObj.colDefs = [{
                 targets: [0, 1],
                 className: 'dt-head-center dt-body-center dt-body-name'
         },
             {
-                targets: [2, 3, 4, 5, 6, 7, 8, 9],
+                targets: _.clone(QAV.pcaTableTargets),
                 className: 'dt-head-center dt-body-right'
                              },
             {
@@ -272,4 +270,4 @@
 
     };
 
-}(window.PCA = window.PCA || {}));
+}(window.PCA = window.PCA || {}, QAV));
