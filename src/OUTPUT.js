@@ -1226,8 +1226,14 @@
             // SYNTHETIC FACTOR OUTPUT STARTS FROM HERE
             // convert arrays to object
             var synFactorArray = [];
+
+            console.log(JSON.stringify(analysisOutput, null, 2));
+
             for (var m = 0; m < analysisOutput[0].length; m++) {
                 var tempObj = {};
+
+
+
                 tempObj[appendText3] = analysisOutput[j][m].statement;
                 tempObj[appendText4] = analysisOutput[j][m].sortStatement;
                 tempObj[appendText5] = analysisOutput[j][m].zScore;
@@ -1235,11 +1241,25 @@
                 for (var s = 0; s < rawSorts[j].length; s++) {
                     tempObj["Raw Sort " + sigSortsArray[j].SigSorts[s]] = rawSorts[j][s][m];
                 }
+                console.log(JSON.stringify(tempObj, null, 2));
                 synFactorArray.push(tempObj);
             }
 
+
+            console.log(JSON.stringify(synFactorArray));
+
+
+            var synFactorArray1 = synFactorArray.slice(0);
+            synFactorArray1.sort(function (a, b) {
+                return b[appendText5] - a[appendText5];
+            });
+
             // todo - bug fix - find out why alasql is not sorting array
-            var synFactorArray1 = alasql("SELECT * FROM ? ORDER BY zScore DESC", [synFactorArray]);
+
+
+
+            console.log(JSON.stringify(synFactorArray1, null, 2));
+
             output.push(synFactorArray1);
         }
         pushFactorPowerSetDiffsToOutputArray(sheetNames, output, analysisOutput2);
@@ -1600,7 +1620,7 @@
         QAV.setState("outputSpreadsheetArray", output);
         QAV.setState("outputSpreadsheetSheetNamesArray", sheetNames);
         // for output testing
-        console.log(JSON.stringify(output, null, 2));
+        // console.log(JSON.stringify(output, null, 2));
     }
 
     //*******************************************************************************
