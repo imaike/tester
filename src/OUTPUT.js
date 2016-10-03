@@ -1604,7 +1604,7 @@
         QAV.setState("outputSpreadsheetArray", output);
         QAV.setState("outputSpreadsheetSheetNamesArray", sheetNames);
         // for output testing
-        console.log(JSON.stringify(output, null, 2));
+        console.log(JSON.stringify(output));
     }
 
     //*******************************************************************************
