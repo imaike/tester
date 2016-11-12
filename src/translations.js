@@ -210,8 +210,8 @@ var resources = {
             "Display distinguishing statement comparison symbols?": "Display distinguishing statement comparison symbols?",
             "Raw Q-Sort Value Match Counts": "Raw Q-Sort Value Match Counts",
             "Display matching count of raw Q-sort values?": "Display matching count of raw Q-sort values?",
-            "Display matching count caution indicator?": "Display matching count caution indictor?",
-            "Set caution indicator cutoff level": "-- Set caution indicator cutoff level at less than or equal to",
+            "Display matching count caution indicator?": "Display low matching count indictor?",
+            "Set caution indicator cutoff level": "-- Set low matching count indicator cutoff level at less than or equal to",
             "Downloads": "Downloads",
             "Add custom name to image downloads?": "Add custom name to image downloads?",
             "Name": "Name",
@@ -229,8 +229,8 @@ var resources = {
             "Display consensus statements?": "Display consensus statements?",
             "Hex Codes": "Hex Codes",
             "Set custom color?": "Set custom color?",
-            "Set caution indicator type?": "-- Set caution indicator type?",
-            "Set overlap indicator type?": "Set overlap inidcator type?",
+            "Set caution indicator type?": "-- Set matching count indicator type?",
+            "Set overlap indicator type?": "Set overlap indicator type?",
             "CROSSHATCH": "CROSSHATCH",
             "Distinguishing statement at P < 0.05": "Distinguishing statement at P < 0.05",
             "Distinguishing statement at P < 0.01": "Distinguishing statement at P < 0.01",
@@ -481,18 +481,18 @@ var resources = {
 // JSlint declarations
 /* global $, i18n, QAV, document */
 
-(function() {
+(function () {
     i18n
         .init({
             "lng": 'en-us',
             "resStore": resources,
             "useDataAttrOptions": true,
             "fallbackLng": 'en-us'
-        }, function() {
+        }, function () {
             $(document).i18n();
         });
 
-    $('#languageSelect').on("change", function() {
+    $('#languageSelect').on("change", function () {
         var lang = $(this).val();
         console.log(lang);
 
@@ -501,7 +501,7 @@ var resources = {
 
         i18n.init({
             lng: lang
-        }, function() {
+        }, function () {
             $(document).i18n();
         });
     });
