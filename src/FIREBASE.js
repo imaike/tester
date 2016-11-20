@@ -74,7 +74,7 @@
         JsonObj = QAV.getState("JsonObj");
         keys = Object.keys(JsonObj);
         for (i=0, iLen=keys.length; i<iLen; i++ ) {
-            if (id === "ID" ) {
+            if (id === "id" ) {
                 // create unique id from key
                 temp1 = keys[i].slice(-10);
                 qavRespondentNames.push(temp1);
