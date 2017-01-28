@@ -733,7 +733,12 @@
             sortingArray.push(tempObj);
         }
 
-        var factorSortedArray = alasql('SELECT * FROM ? ORDER BY indexValue ASC, subSortValue DESC', [sortingArray]);
+        var factorSortedArray = _.cloneDeep(sortingArray);
+        // sort object by two properties
+        factorSortedArray.sort(function(a, b) {
+            var value = a.indexValue - b.indexValue;
+            return value ? value : b.subSortValue - a.subSortValue;
+        });
 
         var modifiedIndexValue = {
             1: 1,
