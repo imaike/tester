@@ -776,7 +776,7 @@
     (function() {
         $("#rotationChartOptionsModal").on('input', '#chartFontSizeInputBox', function() {
             var rotChartConfig = QAV.getState("rotChartConfig") || {};
-            var customFontSize = $('#rotationChartOptionsModal, #chartFontSizeInputBox').val();
+            var customFontSize = $('#chartFontSizeInputBox').val();
             rotChartConfig.customFontSize = customFontSize;
             QAV.setState("rotChartConfig", rotChartConfig);
         });

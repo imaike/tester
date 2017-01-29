@@ -277,9 +277,6 @@
         freeDistributionArray.unshift(spacer);
         freeDistributionArray.unshift(fdTitle);
 
-        console.log(JSON.stringify(freeDistributionArray));
-
-
         QAV.setState("freeDistributionArray", freeDistributionArray);
 
         pushCorrelationArray(sheetNames, output, outputData, sheetNamesXlsx, colSizes);
@@ -963,7 +960,6 @@
             var rank1 = synFactorArray1[0][k][appendText7];
             tempArray1.Rank1 = rank1;
             var tempSortValue = synFactorArray1[0][k]["Composite Sort"];
-            console.log(tempSortValue);
             rankingTempArray.push(tempSortValue);
             for (var m = 1, mLen = synFactorArray1.length; m < mLen; m++) {
                 var mm = m + 1;
@@ -1123,12 +1119,8 @@
         }
         correlationTableArray.unshift(tempArray3);
 
-        console.log(JSON.stringify(correlationTableArray));
-
-
         QAV.setState("correlationTableArrayHolder", correlationTableArray);
         output.push(correlationTableArray);
-
 
         outputData.push(correlationTableArray);
 
@@ -1161,12 +1153,6 @@
         var sigSortsArray = QAV.getState("sigSortsArray");
         var maxStatementLength = QAV.getState("maxStatementLength");
         var spacer = ["", ""];
-
-        console.log(JSON.stringify(factorWeightFactorArray));
-        console.log(JSON.stringify(miniCorrelationArray));
-        console.log(JSON.stringify(compositeFactorMasterArray));
-
-
 
         for (var ii = 0, iiLen = userSelectedFactors.length; ii < iiLen; ii++) {
 
@@ -1305,10 +1291,6 @@
             }];
             colSizes.push(columns);
         }
-
-        console.log(JSON.stringify());
-        console.log(JSON.stringify(outputData));
-
 
         // push each pair to output
         for (var m = 0; m < factorPairs.length; m++) {
@@ -1894,7 +1876,6 @@
                 return a[appendText3] - b[appendText3];
             });
 
-            console.log(JSON.stringify(statementRankingArray));
             // append the ranking arrays
             for (var k = 0, kLen = factorInformation.length; k < kLen; k++) {
                 factorInformation[k].rankArray = statementRankingArray[k];
@@ -1935,7 +1916,7 @@
                     // currentRank = factorInformation[r].rankArray[j];
                     maxRankValue = _.max(factorInformation[r].rankArray);
 
-                    console.log(currentRank, maxRankValue);
+                    // console.log(currentRank, maxRankValue);
 
                     if (compositeSortValue === maxRankValue) {
                         tempObj3.stateNum = factorInformation[r]["State Num"];
@@ -2351,15 +2332,11 @@
             printArray.push(printArray3[r]);
         }
 
-        console.log(formatDistingArrayForDownload.calledTimes);
-
         var lookupValue2 = formatDistingArrayForDownload.calledTimes;
 
         var modifiedIndexValue = [4, 7, 10, 13, 16, 19, 22, 25];
 
         var indexer = modifiedIndexValue[lookupValue2];
-
-        console.log(indexer);
 
         distinguishingSheetArray2.sort(function(a, b) {
             if (a[indexer] === b[indexer]) {
@@ -2369,17 +2346,9 @@
             }
         });
 
-        console.log(JSON.stringify(distinguishingSheetArray));
-        console.log(JSON.stringify(distinguishingSheetArray2));
-
         var finalSheetArray = distinguishingSheetArray.concat(distinguishingSheetArray2);
 
-        console.log(JSON.stringify(finalSheetArray));
-
-
         formatDistingArrayForDownload.calledTimes++;
-
-        console.log(JSON.stringify(printArray));
 
         return [printArray, finalSheetArray];
     }
@@ -2422,10 +2391,6 @@
         var data = QAV.getState("dataXlsx");
         var ws_name = QAV.getState("sheetNamesXlsx");
         var wscols = QAV.getState("colSizes");
-
-        console.log(JSON.stringify(data));
-        console.log(JSON.stringify(ws_name));
-        console.log(JSON.stringify(wscols));
 
         function sheet_from_array_of_arrays(data, opts) {
             var ws = {};
