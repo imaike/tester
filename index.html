@@ -138,6 +138,7 @@
                             <li>Dropped alasql dependency</li>
                             <li>Improved output formatting in Excel</li>
                             <li>Added audio feedback to manual input of Q-sorts</li>
+                            <li>Added Watts and Stenner-type crib sheets to Excel output file</li>
                         </ul>
                     </div>
 
@@ -285,8 +286,14 @@
                         <label for="radio1" class="radioHighlight2 vertical" data-i18n="Demo Data"></label>
                     </div>
                 </div>
+
+                <div class="helpImageDiv u-pull-right rightMargin">
+                    <a href="https://shawnbanasick.github.io/ken-q-analysis-help/data.html" target="_blank" style="target-new: tab;"></a>
+                    <p class="helpImageDivText"><strong>?</strong></p>
+                </div>
                 <!-- end three column div     -->
             </div>
+
             <!-- end skeleton row div     -->
 
             <!-- Subsection USE EXISTING DATA SET Layout ***************************––––––––––––––––––––––––––––––––––––––––––––––––– -->
@@ -319,11 +326,6 @@
                             <input class="useLocal useLocalInput" id="projectNameMI" size="40" type="text" name="projectName" autocomplete="off" placeholder="Name" value="" required/>
                         </form>
                     </div>
-                    <div class="helpImageDiv vertical u-pull-right rightMargin">
-                        <a href="https://shawnbanasick.github.io/ken-q-analysis-help/data.html" target="_blank" style="target-new: tab;"></a>
-                        <p class="helpImageDivText"><strong>?</strong></p>
-                    </div>
-
                 </div>
                 <div class="row">
 
@@ -1025,10 +1027,6 @@
                         <span data-i18n="TYPE 3　 KEN-Q OUTPUT FILE FROM PREVIOUS SESSION"></span>
                         <input accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" id="fileSelectKenq" type="file" />
                     </div>
-                    <div class="helpImageDiv vertical u-pull-right rightMargin">
-                        <a href="https://shawnbanasick.github.io/ken-q-analysis-help/data.html" target="_blank" style="target-new: tab;"></a>
-                        <p class="helpImageDivText"><strong>?</strong></p>
-                    </div>
                 </div>
                 <br>
                 <div class="row">
@@ -1682,12 +1680,13 @@
                 <br>
                 <h5 class="eleven columns">Libraries:</h5>
                 <ul class="eleven columns">
-                    <li>D3.js (BSD license)</li>
                     <li>SheetJS (Apache license, Version 2.0)</li>
+                    <li>D3.js (BSD license)</li>
                     <li>Datatables JQuery Plug-in (MIT license)</li>
                     <li>Iscroll-Lite (MIT license)</li>
                     <li>JQuery (MIT license)</li>
                     <li>Lo-Dash (MIT license)</li>
+                    <li>Filesaver.js - (MIT license)</li>
                     <li>numeric.js - Copyright (C) 2011 by Sébastien Loisel</li>
                     <li>Blob.js - Copyright (C) 2014 by Eli Grey</li>
                 </ul>
