@@ -56,6 +56,7 @@
     // ************************************************************  view
     // ******* SECTION 2 - persist radio button selections     **********
     // ******************************************************************
+    // DATA SECTION
 
     $(function () {
         $('#section2 input[type=radio]').each(function () {
@@ -65,7 +66,7 @@
                 var radioValue = $("input[name='radio']:checked").attr("id");
                 $("#" + radioValue).parent().addClass("selected");
                 inputTypeDisplay(radioValue);
-            }
+            } 
         });
 
         $(window).bind('unload', function () {
@@ -236,7 +237,7 @@
             $(".pqmButton").hide();
             break;
 
-        case "radio5":
+        case "radio1":  // radio5
             $("#databaseSelectDiv").hide(300);
             $("#rawSorts").hide(300);
             $("#pasteExcelDataDiv").hide(300);
@@ -251,9 +252,10 @@
             $("#rawSorts").hide(300);
             $("#pasteExcelDataDiv").hide(300);
             $(".firebaseDataInputDiv").hide(300);
+            $(".analysisDataDiv").show(300);
             $("#databaseSelectDiv").show(300);
             $(".pqmButton").hide();
-
+            //$("#radio_radio1").parent().addClass("selected");
         }
     }
 

@@ -10,7 +10,7 @@
 // JSlint declarations
 /* global window, $, _ */
 
-// QAV is the global state data store
+// QAV is the global state data store 
 (function (QAV, undefined) {
 
     // set default language
