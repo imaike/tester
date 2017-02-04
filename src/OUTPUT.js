@@ -53,7 +53,6 @@
         settings.push(totalNumberStatementsArray, spacer);
         dataXlsx.push(totalNumberStatementsArray, spacer);
 
-
         var sortTriangleShape = QAV.getState("qavSortTriangleShape");
         var sortTriangleShape2 = sortTriangleShape.join();
         var sortTriangleShapeArray = [appendText5, sortTriangleShape2];
@@ -89,7 +88,6 @@
         settings.push(spacer, ["Language", outputLanguage]);
         dataXlsx.push(spacer, ["Language", outputLanguage]);
 
-
         var timeCompleted = UTIL.currentDate1() + " at " + UTIL.currentTime1();
         settings.push(spacer, [
             appendText3 + timeCompleted,
@@ -101,15 +99,14 @@
             ""
         ]);
 
-
         settings.push(spacer, ["Version Number: ", versionNum]);
         dataXlsx.push(spacer, ["Version Number: ", versionNum]);
 
         var colSizes = [
-            [{
-                    wch: 40
-                },
+            [
                 {
+                    wch: 40
+                }, {
                     wch: 70
                 }
             ]
@@ -136,7 +133,9 @@
 
         var maxStatementLength = 0;
         var arrayOfStatements = [];
-        arrayOfStatements.push(["", ""], [appendText2, appendText1]);
+        arrayOfStatements.push([
+            "", ""
+        ], [appendText2, appendText1]);
         for (var ii = 0, iiLen = statements.length; ii < iiLen; ii++) {
             var tempArray1 = [];
             tempArray1.push((ii + 1), statements[ii]);
@@ -148,10 +147,10 @@
         }
         outputData.push(arrayOfStatements);
 
-        var columns = [{
-                wch: 10
-            },
+        var columns = [
             {
+                wch: 10
+            }, {
                 wch: maxStatementLength
             }
         ];
@@ -177,34 +176,36 @@
 
         var language = QAV.getState("language");
         var appendText1 = resources[language].translation["Q-sorts"];
-        var appendText2 = resources[language].translation.Respondent;
-        var appendText3 = resources[language].translation.Mean;
+        var appendText2 = resources[language].translation["Respondent"];
+        var appendText3 = resources[language].translation["Mean"];
         var appendText4 = resources[language].translation["Standard Deviation"];
+        var appendText5 = resources[language].translation["Free Distribution Data Results"];
+        var appendText6 = resources[language].translation["Q-sorts"];
 
-        var newSheet = {
-            sheetid: appendText1,
-            header: true
-        };
-        sheetNames.push(newSheet);
+        // var newSheet = {
+        //     sheetid: appendText1,
+        //     header: true
+        // };
+        // sheetNames.push(newSheet);
         sheetNamesXlsx.push(appendText1);
-
 
         var sortsAsNumbers = QAV.getState("sortsAsNumbers");
         var respondentNames = QAV.getState("qavRespondentNames");
         var dataArray = [];
 
         // set up column widths
-        var columns = [{
-            wch: 10
-        }, ];
+        var columns = [
+            {
+                wch: 15
+            }
+        ];
         for (var ii = 0, iiLen = sortsAsNumbers[0].length + 2; ii < iiLen; ii++) {
-            columns.push({
-                wch: 5
-            });
+            columns.push({wch: 5});
         }
         colSizes.push(columns);
 
-        var stddev, statementSort;
+        var stddev,
+            statementSort;
         // create sheet header
         var headerArray = [appendText2];
         for (var jj = 0, jjLen = sortsAsNumbers[0].length; jj < jjLen; jj++) {
@@ -212,7 +213,13 @@
             headerArray.push(statementSort);
         }
         headerArray.push(appendText3, appendText4);
-        dataArray.push(["", ""], headerArray);
+        dataArray.push([
+            "", ""
+        ], [
+            appendText6, ""
+        ], [
+            "", ""
+        ], headerArray);
 
         // modify and delete this with old alasql code
         var sortsAsNumbers2 = _.cloneDeep(sortsAsNumbers);
@@ -231,7 +238,8 @@
         var freeDistributionArray = [];
 
         var sortsArray = [];
-        var tempObj, tempObjFD;
+        var tempObj,
+            tempObjFD;
         // loop through sorts
         for (var i = 0; i < sortsAsNumbers.length; i++) {
             tempObj = {};
@@ -258,14 +266,14 @@
         output.push(sortsArray);
 
         var fdTitle = {};
-        fdTitle[appendText2] = "Free Distribution Data Results";
-        fdTitle[appendText3] = "";
-        fdTitle[appendText4] = "";
+        fdTitle[appendText2] = appendText5;
+        //fdTitle[appendText3] = "";
+        // fdTitle[appendText4] = "";
 
         var fdHeader = {};
-        fdHeader[appendText2] = "QSORT";
-        fdHeader[appendText3] = "MEAN";
-        fdHeader[appendText4] = "ST. DEV.";
+        fdHeader[appendText2] = appendText1;
+        fdHeader[appendText3] = appendText3;
+        fdHeader[appendText4] = appendText4;
 
         var spacer = {};
         spacer[appendText2] = "";
@@ -286,12 +294,13 @@
 
         var language = QAV.getState("language");
         var appendText1 = resources[language].translation["Correlation matrix"];
+        var appendText2 = resources[language].translation["between Q-sorts"];
 
-        var newSheet = {
-            sheetid: appendText1,
-            headers: false
-        };
-        sheetNames.push(newSheet);
+        // var newSheet = {
+        //     sheetid: appendText1,
+        //     headers: false
+        // };
+        //sheetNames.push(newSheet);
         sheetNamesXlsx.push(appendText1);
 
         // delete after dropping alasql
@@ -314,13 +323,13 @@
         // set up column spacing
         var columns = [];
         for (var j = 0, jLen = (correlationTableArrayFormatted3[0].length + 1); j < jLen; j++) {
-            columns.push({
-                wch: respondentNameMaxLength
-            });
+            columns.push({wch: respondentNameMaxLength});
         }
         colSizes.push(columns);
 
-        correlationTableArrayFormatted3.unshift(["", ""]);
+        correlationTableArrayFormatted3.unshift([
+            "", ""
+        ], [appendText1 + appendText2], ["", ""]);
         outputData.push(correlationTableArrayFormatted3);
 
         output.push(correlationTableArrayFormatted2);
@@ -359,13 +368,13 @@
         sheetNamesXlsx.push(appendText1);
 
         // set excel column widths
-        var columns = [{
-            wch: 20
-        }];
+        var columns = [
+            {
+                wch: 20
+            }
+        ];
         for (var iii = 0, iiiLen = temp1.length; iii < iiLen; iii++) {
-            columns.push({
-                wch: 8
-            });
+            columns.push({wch: 8});
         }
         colSizes.push(columns);
 
@@ -397,16 +406,17 @@
                 unrotatedFactors[ii][jj] = evenRound(unrotatedFactors[ii][jj], 4);
             }
         }
-        unrotatedFactors.unshift(["", ""]);
+        unrotatedFactors.unshift([
+            "", ""
+        ], [appendText1], ["", ""]);
         outputData.push(unrotatedFactors);
 
-
         // deleteable code
-        newSheet = {
-            sheetid: appendText1,
-            headers: true
-        };
-        sheetNames.push(newSheet);
+        // newSheet = {
+        //     sheetid: appendText1,
+        //     headers: true
+        // };
+        // sheetNames.push(newSheet);
 
         // convert array to object
         centroidsArray = [];
@@ -440,12 +450,13 @@
         var appendText1 = resources[language].translation["Cumul Comm Matrix"];
         var appendText2 = resources[language].translation["cumulative % explained variance"];
         var appendText4 = resources[language].translation.Respondent;
+        var appendText5 = resources[language].translation["Cumulative Communalities Matrix"];
 
-        newSheet = {
-            sheetid: appendText1,
-            headers: false
-        };
-        sheetNames.push(newSheet);
+        // newSheet = {
+        //     sheetid: appendText1,
+        //     headers: false
+        // };
+        // sheetNames.push(newSheet);
 
         sheetNamesXlsx.push(appendText1);
 
@@ -453,13 +464,13 @@
         cumulCommMatrix9 = _.cloneDeep(factorMatrixTransposed);
 
         // set excel column widths
-        var columns = [{
-            wch: 30
-        }];
+        var columns = [
+            {
+                wch: 30
+            }
+        ];
         for (var ii = 0, iiLen = cumulCommMatrix9[0].length; ii < iiLen; ii++) {
-            columns.push({
-                wch: 8
-            });
+            columns.push({wch: 8});
         }
         colSizes.push(columns);
 
@@ -495,7 +506,9 @@
         output.push(cumulCommMatrix9);
         // format for excel
         cumulCommMatrix9[0][0] = appendText4;
-        cumulCommMatrix9.unshift(["", ""]);
+        cumulCommMatrix9.unshift([
+            "", ""
+        ], [appendText5], ["", ""]);
         outputData.push(cumulCommMatrix9);
 
         pushRotatedFactorsArrayToOutputArray(sheetNames, output, outputData, sheetNamesXlsx, colSizes);
@@ -507,21 +520,14 @@
         var language = QAV.getState("language");
         var appendText1 = resources[language].translation.Loadings;
         var appendText2 = resources[language].translation.Flagged;
+        var appendText3 = resources[language].translation["Factor Matrix with Defining Sorts Flagged"];
 
-        var newSheet = {
-            sheetid: appendText1,
-            headers: false
-        };
-        sheetNames.push(newSheet);
         sheetNamesXlsx.push(appendText1);
 
         var formattedResults = [];
-
         var jLoopLen = results[0].length;
-
         var i,
             j;
-
         var iLoopLen = results.length;
         var temp;
         var tempArray = [];
@@ -555,19 +561,21 @@
         formattedResults.push(expVar);
 
         // set excel column widths
-        var columns = [{
-            wch: 20
-        }];
+        var columns = [
+            {
+                wch: 20
+            }
+        ];
         for (var ii = 0, iiLen = formattedResults[0].length; ii < iiLen; ii++) {
-            columns.push({
-                wch: 8
-            });
+            columns.push({wch: 8});
         }
         colSizes.push(columns);
 
         output.push(formattedResults);
 
-        formattedResults.unshift(["", ""]);
+        formattedResults.unshift([
+            "", ""
+        ], [appendText3], ["", ""]);
         outputData.push(formattedResults);
         pushFreeDistributionDataToOutputArray(sheetNames, output, outputData, sheetNamesXlsx, colSizes);
     }
@@ -575,6 +583,9 @@
     function pushFreeDistributionDataToOutputArray(sheetNames, output, outputData, sheetNamesXlsx, colSizes) {
         var language = QAV.getState("language");
         var appendText1 = resources[language].translation["Free Dist"];
+        var appendText2 = resources[language].translation.Respondent;
+        var appendText3 = resources[language].translation.Mean;
+        var appendText4 = resources[language].translation["Standard Deviation"];
 
         var newSheet = {
             sheetid: appendText1,
@@ -583,13 +594,15 @@
         sheetNames.push(newSheet);
         sheetNamesXlsx.push(appendText1);
 
-        var columns = [{
-            wch: 20
-        }, {
-            wch: 10
-        }, {
-            wch: 10
-        }];
+        var columns = [
+            {
+                wch: 20
+            }, {
+                wch: 10
+            }, {
+                wch: 10
+            }
+        ];
         colSizes.push(columns);
 
         var freeDistributionArray = QAV.getState("freeDistributionArray");
@@ -600,7 +613,7 @@
         for (var i = 0, iLen = freeDistributionArray.length; i < iLen; i++) {
             var temp1 = freeDistributionArray[i];
             var temp2 = [];
-            temp2.push(temp1.Respondent, temp1.Mean, temp1["Standard Deviation"]);
+            temp2.push(temp1[appendText2], temp1[appendText3], temp1[appendText4]);
             freeDistributionData.push(temp2);
         }
         freeDistributionData.unshift(["", ""]);
@@ -635,7 +648,6 @@
         var sheetNamesHolder1 = [];
         var sheetNamesHolder2 = [];
         var sheetNamesHolder3 = [];
-
 
         for (var i = 0; i < analysisOutput.length; i++) {
             var temp1 = {};
@@ -805,10 +817,8 @@
         QAV.setState("matchCount", matchCount);
         QAV.setState("compositeFactorMasterArray", compositeFactorMasterArray);
 
-
         pushFactorScoreComparisonRanksTableToOutputArray(sheetNames, output, outputData, sheetNamesXlsx, colSizes);
     }
-
 
     function pushFactorScoreComparisonRanksTableToOutputArray(sheetNames, output, outputData, sheetNamesXlsx, colSizes) {
         var language = QAV.getState("language");
@@ -819,11 +829,13 @@
         var appendText5 = resources[language].translation["Z-score"];
         var appendText6 = resources[language].translation["Factor Scores with Corresponding Ranks"];
         var appendText7 = resources[language].translation.Rank;
-        // var appendText8 = resources[language].translation["Composite Sort"];
+        var appendText8 = resources[language].translation["Sort Values"];
 
         var synFactorArray1 = QAV.getState("synFactorArray1Holder");
         var userSelectedFactors = QAV.getState("userSelectedFactors");
-        var tempArray1, rankValue, rankingTempArray;
+        var tempArray1,
+            rankValue,
+            rankingTempArray;
         var statementRankingArray = [];
 
         var newSheet = {
@@ -834,38 +846,40 @@
         sheetNamesXlsx.push(appendText1);
 
         var maxStatementLength = QAV.getState("maxStatementLength");
-        var columns = [{
-            wch: 8
-        }, {
-            wch: maxStatementLength
-        }, {
-            wch: 8
-        }];
+        var columns = [
+            {
+                wch: 8
+            }, {
+                wch: maxStatementLength
+            }, {
+                wch: 8
+            }
+        ];
         for (var ss = 0, ssLen = (userSelectedFactors.length * 2); ss < ssLen; ss++) {
-            columns.push({
-                wch: 7
-            });
+            columns.push({wch: 7});
         }
         colSizes.push(columns);
 
-
         // add factor ranks and round at 2 digits
         for (var j = 0, jLen = synFactorArray1.length; j < jLen; j++) {
-            synFactorArray1[j].sort(function(a, b) {
-                return b[appendText5] - a[appendText5];
-            });
+            synFactorArray1[j]
+                .sort(function(a, b) {
+                    return b[appendText5] - a[appendText5];
+                });
             for (var i = 0, iLen = synFactorArray1[j].length; i < iLen; i++) {
                 rankValue = (i + 1);
                 synFactorArray1[j][i].Rank = rankValue;
                 synFactorArray1[j][i][appendText5] = evenRound((synFactorArray1[j][i][appendText5]), 2);
             }
-            synFactorArray1[j].sort(function(a, b) {
+            synFactorArray1[j]
+                .sort(function(a, b) {
+                    return a[appendText3] - b[appendText3];
+                });
+        }
+        synFactorArray1[0]
+            .sort(function(a, b) {
                 return a[appendText3] - b[appendText3];
             });
-        }
-        synFactorArray1[0].sort(function(a, b) {
-            return a[appendText3] - b[appendText3];
-        });
 
         var compositeFactorMasterArray = QAV.getState("compositeFactorMasterArray");
         var factorScoreRanksArray = [];
@@ -875,7 +889,9 @@
             if (a[0] === b[0]) {
                 return 0;
             } else {
-                return (a[0] < b[0]) ? -1 : 1;
+                return (a[0] < b[0])
+                    ? -1
+                    : 1;
             }
         });
         for (var ww = 0, wwLen = compositeFactorMasterArray[0].length; ww < wwLen; ww++) {
@@ -889,13 +905,16 @@
         // cycle through user selected factors to get zScore and rank
         for (var jj = 0, jjLen = compositeFactorMasterArray.length; jj < jjLen; jj++) {
             // sort by statement number
-            compositeFactorMasterArray[jj].sort(function(a, b) {
-                if (a[0] === b[0]) {
-                    return 0;
-                } else {
-                    return (a[0] < b[0]) ? -1 : 1;
-                }
-            });
+            compositeFactorMasterArray[jj]
+                .sort(function(a, b) {
+                    if (a[0] === b[0]) {
+                        return 0;
+                    } else {
+                        return (a[0] < b[0])
+                            ? -1
+                            : 1;
+                    }
+                });
             // insert zScore
             for (var ii = 0, iiLen = compositeFactorMasterArray[jj].length; ii < iiLen; ii++) {
                 var tempZscore = evenRound(compositeFactorMasterArray[jj][ii][2], 2);
@@ -908,7 +927,9 @@
                 if (a[placeSetter] === b[placeSetter]) {
                     return 0;
                 } else {
-                    return (b[placeSetter] < a[placeSetter]) ? -1 : 1;
+                    return (b[placeSetter] < a[placeSetter])
+                        ? -1
+                        : 1;
                 }
             });
 
@@ -918,14 +939,16 @@
             }
 
             // re-sort to statement number
-            compositeFactorMasterArray[jj].sort(function(a, b) {
-                if (a[0] === b[0]) {
-                    return 0;
-                } else {
-                    return (a[0] < b[0]) ? -1 : 1;
-                }
-            });
-
+            compositeFactorMasterArray[jj]
+                .sort(function(a, b) {
+                    if (a[0] === b[0]) {
+                        return 0;
+                    } else {
+                        return (a[0] < b[0])
+                            ? -1
+                            : 1;
+                    }
+                });
 
             // get and push ranking numbers
             for (var pp = 0, ppLen = compositeFactorMasterArray[jj].length; pp < ppLen; pp++) {
@@ -947,7 +970,6 @@
         factorScoreRanksArray.unshift(spacer, tempArrayHeader, spacer, tempArrayHeader2, tempSubHeader);
         outputData.push(factorScoreRanksArray);
 
-
         // setup the array of ranked statements
         var factorScoreComparisonArray = [];
         for (var k = 0, kLen = synFactorArray1[0].length; k < kLen; k++) {
@@ -959,13 +981,13 @@
             tempArray1.Zscore1 = synFactorArray1[0][k][appendText5];
             var rank1 = synFactorArray1[0][k][appendText7];
             tempArray1.Rank1 = rank1;
-            var tempSortValue = synFactorArray1[0][k]["Composite Sort"];
+            var tempSortValue = synFactorArray1[0][k][appendText8];
             rankingTempArray.push(tempSortValue);
             for (var m = 1, mLen = synFactorArray1.length; m < mLen; m++) {
                 var mm = m + 1;
                 tempArray1["Zscore" + mm] = synFactorArray1[m][k][appendText5];
                 tempArray1["Rank" + mm] = synFactorArray1[m][k][appendText7];
-                var tempSortValue2 = synFactorArray1[m][k]["Composite Sort"];
+                var tempSortValue2 = synFactorArray1[m][k][appendText8];
                 rankingTempArray.push(tempSortValue2);
             }
             factorScoreComparisonArray.push(tempArray1);
@@ -975,16 +997,16 @@
         QAV.setState("statementRankingArray", statementRankingArray);
 
         // since spacer is the first row, it must have data for all columns for them to be shown
-        var spacer = {};
-        spacer.Num1 = "";
-        spacer.Statement = "";
-        spacer.Num2 = "";
-        spacer.Zscore1 = "";
-        spacer.Rank1 = "";
+        var spacer2 = {};
+        spacer2.Num1 = "";
+        spacer2.Statement = "";
+        spacer2.Num2 = "";
+        spacer2.Zscore1 = "";
+        spacer2.Rank1 = "";
         for (var r = 0, rLen = userSelectedFactors.length; r < rLen; r++) {
             var counter2 = r + 1;
-            spacer["Zscore" + counter2] = "";
-            spacer["Rank" + counter2] = "";
+            spacer2["Zscore" + counter2] = "";
+            spacer2["Rank" + counter2] = "";
         }
 
         var header2 = {};
@@ -998,7 +1020,7 @@
             header2["Zscore" + counter1] = facNumber;
             header2["Rank" + counter1] = facNumber;
         }
-        factorScoreComparisonArray.unshift(header2, spacer);
+        factorScoreComparisonArray.unshift(header2, spacer2);
 
         var header1 = {};
         header1.Num1 = "";
@@ -1020,11 +1042,9 @@
 
         output.push(factorScoreComparisonArray);
 
-
         //pushFactorPowerSetDiffsToOutputArray(sheetNames, output);
         pushFactorScoreCorrelationsToOutputArray(sheetNames, output, outputData, sheetNamesXlsx, colSizes);
     }
-
 
     function pushFactorScoreCorrelationsToOutputArray(sheetNames, output, outputData, sheetNamesXlsx, colSizes) {
 
@@ -1046,14 +1066,13 @@
             temp2,
             tempArray;
 
-
-        var columns = [{
-            wch: 7
-        }];
-        for (var ss = 0, ssLen = (userSelectedFactors.length); ss < ssLen; ss++) {
-            columns.push({
+        var columns = [
+            {
                 wch: 7
-            });
+            }
+        ];
+        for (var ss = 0, ssLen = (userSelectedFactors.length); ss < ssLen; ss++) {
+            columns.push({wch: 7});
         }
         colSizes.push(columns);
 
@@ -1119,6 +1138,10 @@
         }
         correlationTableArray.unshift(tempArray3);
 
+        correlationTableArray.unshift([
+            "", ""
+        ], [appendText1], ["", ""]);
+
         QAV.setState("correlationTableArrayHolder", correlationTableArray);
         output.push(correlationTableArray);
 
@@ -1139,7 +1162,6 @@
         // var appendText6 = resources[language].translation["Sort Values"];
         var appendText7 = resources[language].translation["Raw Sort"];
         var appendText8 = resources[language].translation["Sort Values"];
-
 
         var sheetNamesHolder1 = QAV.getState("sheetNamesHolder1");
         var sheetNamesHolder2 = QAV.getState("sheetNamesHolder2");
@@ -1162,11 +1184,13 @@
             sheetNamesXlsx.push((sheetNamesHolder1[ii].sheetid));
 
             // set weights columns
-            var columns = [{
-                wch: 8
-            }, {
-                wch: 8
-            }];
+            var columns = [
+                {
+                    wch: 8
+                }, {
+                    wch: 8
+                }
+            ];
             colSizes.push(columns);
 
             // set weights sheet
@@ -1177,13 +1201,13 @@
             sheetNamesXlsx.push((sheetNamesHolder2[ii].sheetid));
 
             // set sorts corr cols
-            var columns2 = [{
-                wch: 8
-            }];
-            for (var ss = 0, ssLen = (userSelectedFactors.length); ss < ssLen; ss++) {
-                columns2.push({
+            var columns2 = [
+                {
                     wch: 8
-                });
+                }
+            ];
+            for (var ss = 0, ssLen = (userSelectedFactors.length); ss < ssLen; ss++) {
+                columns2.push({wch: 8});
             }
             colSizes.push(columns2);
 
@@ -1195,19 +1219,19 @@
             sheetNamesXlsx.push((sheetNamesHolder3[ii].sheetid));
 
             // set factor sheet cols
-            var columns3 = [{
-                wch: 8
-            }, {
-                wch: maxStatementLength
-            }, {
-                wch: 9
-            }, {
-                wch: 12
-            }];
-            for (var tt = 0, ttLen = sigSortsArray[ii].SigSorts.length; tt < ttLen; tt++) {
-                columns3.push({
+            var columns3 = [
+                {
+                    wch: 8
+                }, {
+                    wch: maxStatementLength
+                }, {
+                    wch: 9
+                }, {
                     wch: 12
-                });
+                }
+            ];
+            for (var tt = 0, ttLen = sigSortsArray[ii].SigSorts.length; tt < ttLen; tt++) {
+                columns3.push({wch: 12});
             }
             colSizes.push(columns3);
 
@@ -1217,7 +1241,9 @@
                 if (a[2] === b[2]) {
                     return 0;
                 } else {
-                    return (b[2] < a[2]) ? -1 : 1;
+                    return (b[2] < a[2])
+                        ? -1
+                        : 1;
                 }
             });
 
@@ -1249,7 +1275,6 @@
         var maxStatementLength = QAV.getState("maxStatementLength");
         var spacer = ["", ""];
 
-
         var factorPairs = [];
         for (var i = 0; i < analysisOutput.length - 1; i++) {
             for (var j = i; j < analysisOutput.length - 1; j++) {
@@ -1260,7 +1285,6 @@
             }
         }
         var diffArraySorted;
-
 
         var sheetHeader1Array = [];
 
@@ -1278,17 +1302,19 @@
             sheetHeader1.push(oneFactor, anotherFactor, chartText2);
             sheetHeader1Array.push(sheetHeader1);
 
-            var columns = [{
-                wch: 8
-            }, {
-                wch: maxStatementLength
-            }, {
-                wch: 8
-            }, {
-                wch: 8
-            }, {
-                wch: 10
-            }];
+            var columns = [
+                {
+                    wch: 8
+                }, {
+                    wch: maxStatementLength
+                }, {
+                    wch: 8
+                }, {
+                    wch: 8
+                }, {
+                    wch: 10
+                }
+            ];
             colSizes.push(columns);
         }
 
@@ -1322,7 +1348,9 @@
                 if (a[4] === b[4]) {
                     return 0;
                 } else {
-                    return (b[4] < a[4]) ? -1 : 1;
+                    return (b[4] < a[4])
+                        ? -1
+                        : 1;
                 }
             });
             diffArrayXlsx.unshift(spacer, sheetHeader1Array[m]);
@@ -1360,19 +1388,17 @@
         sheetNamesXlsx.push(chartText2);
 
         // set factor sheet cols
-        var columns = [{
-            wch: 8
-        }, {
-            wch: maxStatementLength
-        }];
-        for (var tt = 0, ttLen = userSelectedFactors.length; tt < ttLen; tt++) {
-            columns.push({
+        var columns = [
+            {
                 wch: 8
-            });
+            }, {
+                wch: maxStatementLength
+            }
+        ];
+        for (var tt = 0, ttLen = userSelectedFactors.length; tt < ttLen; tt++) {
+            columns.push({wch: 8});
         }
-        columns.push({
-            wch: 15
-        });
+        columns.push({wch: 15});
         colSizes.push(columns);
 
         var consensusDisagreeArray = [];
@@ -1407,7 +1433,9 @@
             if (a[locator] === b[locator]) {
                 return 0;
             } else {
-                return (a[locator] < b[locator]) ? -1 : 1;
+                return (a[locator] < b[locator])
+                    ? -1
+                    : 1;
             }
         });
         consensusDisagreeArray.unshift(spacer, tableHeader2);
@@ -1438,13 +1466,13 @@
         sheetNamesXlsx.push(chartText1);
 
         // set factor sheet col widths
-        var columns = [{
-            wch: 20
-        }];
+        var columns = [
+            {
+                wch: 20
+            }
+        ];
         for (var tt = 0, ttLen = userSelectedFactors.length; tt < ttLen; tt++) {
-            columns.push({
-                wch: 8
-            });
+            columns.push({wch: 8});
         }
         colSizes.push(columns);
 
@@ -1542,13 +1570,13 @@
         sheetNamesXlsx.push(chartText1);
 
         // set factor sheet col widths
-        var columns = [{
-            wch: 8
-        }];
-        for (var tt = 0, ttLen = userSelectedFactors.length; tt < ttLen; tt++) {
-            columns.push({
+        var columns = [
+            {
                 wch: 8
-            });
+            }
+        ];
+        for (var tt = 0, ttLen = userSelectedFactors.length; tt < ttLen; tt++) {
+            columns.push({wch: 8});
         }
         colSizes.push(columns);
 
@@ -1623,25 +1651,31 @@
 
             sheetNamesXlsx.push(chartText1 + sigSortsArray[i]["Factor Number"]);
 
-            // set up col widths for excel output
-            var columns = [{
-                wch: 8
-            }, {
-                wch: maxStatementLength
-            }, {
-                wch: 8
-            }];
+            // set up col widths for excel output - todo - change maxStatementLength?
+            var columns = [
+                {
+                    wch: 8
+                }, {
+                    wch: maxStatementLength
+                }, {
+                    wch: 8
+                }
+            ];
+            // for (var tt = 0, ttLen = userSelectedFactors.length; tt < ttLen; tt++) {
+            //     columns.push([{
+            //
+            //         wch: 8
+            //     }, {
+            //         wch: maxStatementLength
+            //     }, {wch: 8}]);
             for (var tt = 0, ttLen = userSelectedFactors.length; tt < ttLen; tt++) {
                 columns.push({
                     wch: 8
                 }, {
                     wch: 8
-                }, {
-                    wch: 8
-                });
+                }, {wch: 8});
             }
             colSizes.push(columns);
-
 
             var newSheet = {
                 sheetid: chartText1 + sigSortsArray[i]["Factor Number"],
@@ -1650,12 +1684,16 @@
             sheetNames.push(newSheet);
         }
 
-
         // starting calcs for distinguishing factors
-        var sedComparisonValue, j, k, m;
+        var sedComparisonValue,
+            j,
+            k,
+            m;
         var consensusStatementComparisonArray05 = [];
         var consensusStatementComparisonArray01 = [];
         var distStatementDataVizArray = [];
+        var masterDistingStatementNumbersArray05 = [];
+        var masterDistingStatementNumbersArray01 = [];
 
         // looping through all factors to determine if distinguishing!
         // todo - create if statement for case of only two sig factors-bypass processing of second c 4894
@@ -1732,6 +1770,11 @@
             var distingStatementsTransferArray01b = _.uniq(distingStatementsTransferArray01, true);
             var distingStatementsTransferArray05c = _.difference(distingStatementsTransferArray05b, distingStatementsTransferArray01b);
 
+            masterDistingStatementNumbersArray05.push(distingStatementsTransferArray05c);
+            masterDistingStatementNumbersArray01.push(distingStatementsTransferArray01b);
+            console.log(JSON.stringify(masterDistingStatementNumbersArray05));
+            console.log(JSON.stringify(masterDistingStatementNumbersArray01));
+
             consensusStatementComparisonArray05.push(consensusStatementTransferArray05);
             consensusStatementComparisonArray01.push(consensusStatementTransferArray01);
 
@@ -1745,9 +1788,12 @@
             outputData.push(formattedDistingStatements[1]);
         }
 
+        QAV.setState("masterDistingStatementNumbersArray01", masterDistingStatementNumbersArray01);
+        QAV.setState("masterDistingStatementNumbersArray05", masterDistingStatementNumbersArray05);
 
+        // ******
         // develop consensus statement data
-
+        // ******
         var outputForDataViz = _.cloneDeep(analysisOutput);
         QAV.setState("distStatementDataVizArray", distStatementDataVizArray);
         QAV.setState("outputForDataViz", outputForDataViz);
@@ -1765,6 +1811,11 @@
 
         var consensus01 = _.xor(consensus05, consensusStatementComparisonArray01b);
 
+        console.log(JSON.stringify(consensus05));
+        console.log(JSON.stringify(consensus01));
+        QAV.setState("consensus05Statements", consensus05);
+        QAV.setState("consensus01Statements", consensus01);
+
         var newSheet2 = {
             sheetid: chartText2,
             headers: false
@@ -1773,23 +1824,23 @@
         sheetNamesXlsx.push(chartText2);
 
         // set up col widths for excel output
-        var columns2 = [{
-            wch: 12
-        }, {
-            wch: 12
-        }, {
-            wch: maxStatementLength
-        }, {
-            wch: 12
-        }];
+        var columns2 = [
+            {
+                wch: 12
+            }, {
+                wch: 12
+            }, {
+                wch: maxStatementLength
+            }, {
+                wch: 12
+            }
+        ];
         for (var ttt = 0, tttLen = userSelectedFactors.length; ttt < tttLen; ttt++) {
             columns2.push({
                 wch: 12
             }, {
                 wch: 15
-            }, {
-                wch: 15
-            });
+            }, {wch: 15});
         }
         colSizes.push(columns2);
 
@@ -1802,27 +1853,40 @@
         pushCribSheetsToOutput(sheetNames, output, outputData, sheetNamesXlsx, colSizes);
     }
 
-
     function pushCribSheetsToOutput(sheetNames, output, outputData, sheetNamesXlsx, colSizes) {
         var language = QAV.getState("language");
         var appendText1 = resources[language].translation[" Rel. Ranks"];
         var appendText2 = resources[language].translation["Relative Ranking of Statements in "];
         var appendText3 = resources[language].translation["Statement Number"];
         var appendText5 = resources[language].translation["Z-score"];
-        var appendTextHeader1 = resources[language].translation["Statements Ranked at +"];
-        var appendTextHeader2a = resources[language].translation["Statements Ranked Higher in "];
+        var appendText9 = resources[language].translation.Distinguishing;
+        var appendText8 = resources[language].translation.Consensus;
+        var appendTextHeader1 = resources[language].translation["Highest Ranked Statements"];
+        var appendTextHeader2a = resources[language].translation["Positive Statements Ranked Higher in "];
         var appendTextHeader2b = resources[language].translation["Array than in Other Factor Arrays"];
-        var appendTextHeader3a = resources[language].translation["Statements Ranked Lower in "];
-        var appendTextHeader3b = resources[language].translation["Array than in Other Factor Arrays"];
-        var appendTextHeader4 = resources[language].translation["Statements Ranked at "];
+        var appendTextHeader3a = resources[language].translation["Negative Statements Ranked Lower in "];
+        var appendTextHeader3b = resources[language].translation["Array than in Other Factor ArraysB"];
+        var appendTextHeader4 = resources[language].translation["Lowest Ranked Statements"];
         var maxStatementLength = QAV.getState("maxStatementLength");
+        var appendText6 = resources[language].translation.Statement;
+        var appendText7 = resources[language].translation["Sort Values"];
 
         var statementRankingArray = QAV.getState("statementRankingArray");
         var userSelectedFactors = QAV.getState("userSelectedFactors");
-        var factorInformation, lowestRankStatements, tempObj1, cribArray = [];
-        var highestRankStatements, tempObj2, tempObj3, tempObj4;
-        var maxRankValue, minRankValue, compositeSortValue, compositeSortValue2;
-        var currentRank, currentRank2;
+        var factorInformation,
+            lowestRankStatements,
+            tempObj1,
+            cribArray = [];
+        var highestRankStatements,
+            tempObj2,
+            tempObj3,
+            tempObj4;
+        var maxRankValue,
+            minRankValue,
+            compositeSortValue,
+            compositeSortValue2;
+        var currentRank,
+            currentRank2;
 
         // determine the number of statements in the extreme columns
         var sortTriangleShape = QAV.getState("qavSortTriangleShape");
@@ -1835,6 +1899,9 @@
         var maxCounts = triangleCounts[arrayMax];
         var minCounts = triangleCounts[arrayMin];
 
+        //console.log(minCounts);
+        //console.log(maxCounts);
+
         // loop through factors
         for (var j = 0, jLen = userSelectedFactors.length; j < jLen; j++) {
 
@@ -1845,28 +1912,25 @@
             sheetNames.push(newSheet);
             sheetNamesXlsx.push(userSelectedFactors[j] + appendText1);
 
-            var columns = [{
-                wch: 8
-            }, {
-                wch: maxStatementLength
-            }, {
-                wch: 8
-            }];
+            var columns = [
+                {
+                    wch: 8
+                }, {
+                    wch: 80
+                }, {
+                    wch: 8
+                }, {
+                    wch: 12
+                }
+            ];
             colSizes.push(columns);
 
-
             cribArray = [
-                [],
-                [],
-                [],
-                []
+                [], [], [], []
             ];
 
             cribArray2 = [
-                [],
-                [],
-                [],
-                []
+                [], [], [], []
             ];
 
             factorInformation = _.cloneDeep(synFactorArray1Holder[j]);
@@ -1876,129 +1940,163 @@
                 return a[appendText3] - b[appendText3];
             });
 
+            //console.log(JSON.stringify(factorInformation));
+
             // append the ranking arrays
             for (var k = 0, kLen = factorInformation.length; k < kLen; k++) {
                 factorInformation[k].rankArray = statementRankingArray[k];
             }
 
             // resort back to high to low z-score sort
-            factorInformation.sort(function(a, b) {
-                return b[appendText5] - a[appendText5];
-            });
+            factorInformation
+                .sort(function(a, b) {
+                    return b[appendText5] - a[appendText5];
+                });
+
+            // console.log(JSON.stringify(factorInformation));
 
             // push highest to cribArray
             for (var m = 0; m < minCounts; m++) {
-                tempObj1 = {};
+                // tempObj1 = {};
                 highestRankStatements = factorInformation.shift();
-                tempObj1.stateNum = highestRankStatements["State Num"];
-                tempObj1.statement = highestRankStatements.Statement;
-                cribArray[0].push(tempObj1);
-                cribArray2[0].push([(highestRankStatements["State Num"]), (highestRankStatements.Statement)]);
+                var stateNum0 = highestRankStatements[appendText3];
+                var statement0 = highestRankStatements[appendText6];
+                var checkIfDisOrCon0 = checkIfDistinguishingOrConsensus(stateNum0, j);
+                var compositeSortValue0 = highestRankStatements[appendText7];
+                var otherValues = _.clone(highestRankStatements.rankArray);
+                otherValues.splice(j, 1);
+                var array0 = [stateNum0, statement0, compositeSortValue0, checkIfDisOrCon0];
+                var array0a = array0.concat(otherValues);
+                jlog("array0a", array0a);
+                cribArray2[0].push(array0a);
             }
 
             // push lowest to cribArray
             for (var p = 0; p < maxCounts; p++) {
-                tempObj2 = {};
+                // tempObj2 = {};
                 lowestRankStatements = factorInformation.pop();
-                tempObj2.stateNum = lowestRankStatements["State Num"];
-                tempObj2.statement = lowestRankStatements.Statement;
-                cribArray[3].push(tempObj2);
-                cribArray2[3].push([(lowestRankStatements["State Num"]), (lowestRankStatements.Statement)]);
+                var stateNum3 = lowestRankStatements[appendText3];
+                var statement3 = lowestRankStatements[appendText6];
+                var checkIfDisOrCon3 = checkIfDistinguishingOrConsensus(stateNum3, j);
+                var compositeSortValue3 = lowestRankStatements[appendText7];
+                var otherValues3 = _.clone(lowestRankStatements.rankArray);
+                otherValues3.splice(j, 1);
+                var array3 = [stateNum3, statement3, compositeSortValue3, checkIfDisOrCon3];
+                var array3a = array3.concat(otherValues3);
+
+                cribArray2[3].push(array3a);
             }
 
             // look for higher relative statements and push to cribArray
             for (var r = 0, rLen = factorInformation.length; r < rLen; r++) {
-                tempObj3 = {};
-                // console.log(maxRankValue);
-                // console.log(factorInformation[r].rankArray[j]);
-                compositeSortValue = factorInformation[r]["Composite Sort"];
+                compositeSortValue = factorInformation[r][appendText7];
                 if (compositeSortValue > -1) {
-                    // currentRank = factorInformation[r].rankArray[j];
                     maxRankValue = _.max(factorInformation[r].rankArray);
-
-                    // console.log(currentRank, maxRankValue);
-
                     if (compositeSortValue === maxRankValue) {
-                        tempObj3.stateNum = factorInformation[r]["State Num"];
-                        tempObj3.statement = factorInformation[r].Statement;
-                        tempObj3.sortValue = compositeSortValue;
-                        cribArray[1].push(tempObj3);
-                        cribArray2[1].push([(factorInformation[r]["State Num"]), (factorInformation[r].Statement), (compositeSortValue)]);
+                        var otherValues2 = _.clone(factorInformation[r].rankArray);
+                        otherValues2.splice(j, 1);
+                        var stateNum = factorInformation[r][appendText3];
+                        var checkIfDisOrCon = checkIfDistinguishingOrConsensus(stateNum, j);
+                        var tempArray22 = [
+                            stateNum,
+                            (factorInformation[r][appendText6]),
+                            (compositeSortValue),
+                            checkIfDisOrCon
+                        ];
+                        var combinedArray1 = tempArray22.concat(otherValues2);
+                        cribArray2[1].push(combinedArray1);
+                    }
+                }
+                if (compositeSortValue < 1) {
+                    minRankValue = _.min(factorInformation[r].rankArray);
+                    currentRank2 = factorInformation[r].rankArray[j];
+                    if (compositeSortValue === minRankValue) {
+                        var otherValuesLower = _.clone(factorInformation[r].rankArray);
+                        otherValuesLower.splice(j, 1);
+                        var stateNum2 = factorInformation[r][appendText3];
+                        var checkIfDisOrCon2 = checkIfDistinguishingOrConsensus(stateNum2, j);
+                        var tempArray33 = [
+                            stateNum2,
+                            (factorInformation[r][appendText6]),
+                            (compositeSortValue),
+                            checkIfDisOrCon2
+                        ];
+                        var combinedArray2 = tempArray33.concat(otherValuesLower);
+                        cribArray2[2].push(combinedArray2);
                     }
                 }
             }
 
-            // look for the lower statements and push to cribArray
-            for (var s = 0, sLen = factorInformation.length; s < sLen; s++) {
-                tempObj4 = {};
-                compositeSortValue2 = factorInformation[s]["Composite Sort"];
-                if (compositeSortValue2 < 1) {
-                    minRankValue = _.min(factorInformation[s].rankArray);
-                    currentRank2 = factorInformation[s].rankArray[j];
-                    if (compositeSortValue2 === minRankValue) {
-                        tempObj4.stateNum = factorInformation[s]["State Num"];
-                        tempObj4.statement = factorInformation[s].Statement;
-                        tempObj4.sortValue = compositeSortValue2;
-                        cribArray[2].push(tempObj4);
-                        cribArray2[2].push([(factorInformation[s]["State Num"]), (factorInformation[s].Statement), (compositeSortValue2)]);
-                    }
-                }
-            }
-
-            var spacer = {};
+            // var spacer = {};
             var spacerArray = ["", ""];
-            var headerArray = ["", (appendText2 + facName)];
-            spacer.stateNum = "";
-            spacer.statement = "";
-            spacer.sortValue = "";
+            // var headerArray = [
+            //     "",
+            //     (appendText2 + facName)
+            // ];
+            // spacer.stateNum = "";
+            // spacer.statement = "";
+            // spacer.sortValue = "";
 
             // construct headers for statement groups
             var facName = userSelectedFactors[j];
 
-            var header0 = {};
-            header0.stateNum = "";
-            header0.statement = "Watts and Stenner style crib sheet";
-            header0.sortValue = "";
+            // create column headers for other factors
+            var otherFactorNames = _.clone(userSelectedFactors);
+            otherFactorNames.splice(j, 1);
+            var higherRankedHeader = [
+                "", appendTextHeader2a + facName + appendTextHeader2b
+            ];
 
-            var header05 = {};
-            header05.stateNum = "";
-            header05.statement = appendText2 + facName;
+            var header1 = [
+                "", appendText2 + facName
+            ];
+            header0 = ["", appendTextHeader1, facName, appendText9].concat(otherFactorNames);
+            cribArray2[0].unshift(spacerArray, header1, [
+                "", "", "", appendText8
+            ], header0);
 
-            var header1 = {};
-            header1.stateNum = "";
-            header1.statement = appendTextHeader1 + arrayMax;
-            header1.sortValue = "";
-            cribArray[0].unshift(header0, spacer, spacer, header05, spacer, header1);
-            cribArray2[0].unshift(spacerArray, ["", appendText2 + facName], spacerArray, ["", appendTextHeader1 + arrayMax, ""]);
-
-            var header2 = {};
-            header2.stateNum = "";
-            header2.statement = appendTextHeader2a + facName + appendTextHeader2b;
-            header2.sortValue = "";
-            cribArray[1].unshift(spacer, header2);
-            cribArray2[1].unshift(spacerArray, ["", appendTextHeader2a + facName + appendTextHeader2b, ""]);
+            cribArray2[1].unshift(spacerArray, higherRankedHeader);
 
             var header3 = {};
             header3.stateNum = "";
             header3.statement = appendTextHeader3a + facName + appendTextHeader3b;
             header3.sortValue = "";
-            cribArray[2].unshift(spacer, header3);
-            cribArray2[2].unshift(spacerArray, ["", (appendTextHeader3a + facName + appendTextHeader3b), ""]);
+            // cribArray[2].unshift(spacer, header3);
+            cribArray2[2].unshift(spacerArray, [
+                "",
+                (appendTextHeader3a + facName + appendTextHeader3b),
+                ""
+            ]);
 
             var header4 = {};
             header4.stateNum = "";
-            header4.statement = appendTextHeader4 + arrayMin;
+            header4.statement = appendTextHeader4;
             header4.sortValue = "";
-            cribArray[3].unshift(spacer, header4);
-            cribArray2[3].unshift(spacerArray, ["", (appendTextHeader4 + arrayMin), ""]);
+            // cribArray[3].unshift(spacer, header4);
+            cribArray2[3].unshift(spacerArray, ["", (appendTextHeader4), ""]);
 
             output.push(_.flattenDeep(cribArray));
             outputData.push(_.flatten(cribArray2));
-
-            // console.log(JSON.stringify(cribArray, null, 2));
-            // console.log(JSON.stringify(factorInformation, null, 2));
         }
 
+        // helper function
+        function checkIfDistinguishingOrConsensus(statementNumber, loopNumber) {
+            var masterDistingStatementNumbersArray01 = QAV.getState("masterDistingStatementNumbersArray01");
+            var masterDistingStatementNumbersArray05 = QAV.getState("masterDistingStatementNumbersArray05");
+            var consensus05 = QAV.getState("consensus05Statements");
+            var consensus01 = QAV.getState("consensus01Statements");
+            if (_.contains(masterDistingStatementNumbersArray05[loopNumber], statementNumber)) {
+                return "  D";
+            } else if (_.contains(consensus01, statementNumber)) {
+                return "  C";
+            } else if (_.contains(masterDistingStatementNumbersArray01[loopNumber], statementNumber)) {
+                return "  D*";
+            } else if (_.contains(consensus05, statementNumber)) {
+                return "  C*";
+            } else {
+                return "";
+            }
+        }
 
         // console.log(JSON.stringify(userSelectedFactors));
         // console.log(JSON.stringify(statementRankingArray));
@@ -2062,7 +2160,6 @@
             emptyLineObj["SIG" + sigFactorNumbersArray[i]] = " ";
         }
 
-
         consensusSheetArray.push(spacer, [chartText1 + " -- " + chartText2], spacer, [chartText3], spacer, spacer);
 
         var line3Array = [];
@@ -2087,7 +2184,7 @@
         for (var j = 0; j < outputLength; j++) {
             printHeaderObj4["Q-SV-" + sigFactorNumbersArray[j]] = sigFactorNumbersArray[j] + " Q-SV";
             printHeaderObj4["Z-SCR-" + sigFactorNumbersArray[j]] = sigFactorNumbersArray[j] + " " + chartText8;
-            line3Array.push((sigFactorNumbersArray[j] + " Q-SV"), (sigFactorNumbersArray[j] + " " + chartText8))
+            line3Array.push((sigFactorNumbersArray[j] + " Q-SV"), (sigFactorNumbersArray[j] + " " + chartText8));
         }
         printArray.push(printHeaderObj4);
         consensusSheetArray.push(line3Array);
@@ -2151,7 +2248,9 @@
             if (a[0] === b[0]) {
                 return 0;
             } else {
-                return (a[0] < b[0]) ? -1 : 1;
+                return (a[0] < b[0])
+                    ? -1
+                    : 1;
             }
         });
 
@@ -2334,7 +2433,16 @@
 
         var lookupValue2 = formatDistingArrayForDownload.calledTimes;
 
-        var modifiedIndexValue = [4, 7, 10, 13, 16, 19, 22, 25];
+        var modifiedIndexValue = [
+            4,
+            7,
+            10,
+            13,
+            16,
+            19,
+            22,
+            25
+        ];
 
         var indexer = modifiedIndexValue[lookupValue2];
 
@@ -2342,7 +2450,9 @@
             if (a[indexer] === b[indexer]) {
                 return 0;
             } else {
-                return (b[indexer] < a[indexer]) ? -1 : 1;
+                return (b[indexer] < a[indexer])
+                    ? -1
+                    : 1;
             }
         });
 
@@ -2355,36 +2465,6 @@
 
     // todo - evenRound the sed comparison values in disting statements function
     // todo - check to get rid of outputcomplete check - no longer needed i think by hiding download button
-
-    // OUTPUT.downloadOutput = function() {
-    //
-    //     var outputComplete,
-    //         sheetNames,
-    //         output,
-    //         timeStamp,
-    //         projectName,
-    //         fileName,
-    //         download;
-    //     // todo - determine why this test is used
-    //     outputComplete = QAV.getState("outputComplete");
-    //
-    //     if (outputComplete === "true") {
-    //         sheetNames = QAV.getState("outputSpreadsheetSheetNamesArray");
-    //         output = QAV.getState("outputSpreadsheetArray");
-    //         timeStamp = UTIL.currentDate1() + "_" + UTIL.currentTime1();
-    //         projectName = QAV.getState("qavProjectName");
-    //         fileName = 'SELECT INTO XLSX("KenQ_output_' + projectName + '_' + timeStamp + '.xlsx", ?) FROM ?';
-    //         download = alasql(fileName, [sheetNames, output]);
-    //     } else {
-    //         OUTPUT.generateOutput();
-    //         sheetNames = QAV.getState("outputSpreadsheetSheetNamesArray");
-    //         output = QAV.getState("outputSpreadsheetArray");
-    //         timeStamp = UTIL.currentDate1() + "_" + UTIL.currentTime1();
-    //         projectName = QAV.getState("qavProjectName");
-    //         fileName = 'SELECT INTO XLSX("KenQ_output_' + projectName + '_' + timeStamp + '.xlsx", ?) FROM ?';
-    //         download = alasql(fileName, [sheetNames, output]);
-    //     }
-    // };
 
     OUTPUT.downloadExcelOutputFile = function() {
 
@@ -2406,37 +2486,46 @@
             };
             for (var R = 0; R != data.length; ++R) {
                 for (var C = 0; C != data[R].length; ++C) {
-                    if (range.s.r > R) range.s.r = R;
-                    if (range.s.c > C) range.s.c = C;
-                    if (range.e.r < R) range.e.r = R;
-                    if (range.e.c < C) range.e.c = C;
+                    if (range.s.r > R)
+                        range.s.r = R;
+                    if (range.s.c > C)
+                        range.s.c = C;
+                    if (range.e.r < R)
+                        range.e.r = R;
+                    if (range.e.c < C)
+                        range.e.c = C;
                     var cell = {
                         v: data[R][C]
                     };
-                    if (cell.v === null) continue;
-                    var cell_ref = XLSX.utils.encode_cell({
-                        c: C,
-                        r: R
-                    });
+                    if (cell.v === null)
+                        continue;
+                    var cell_ref = XLSX
+                        .utils
+                        .encode_cell({c: C, r: R});
 
-                    if (typeof cell.v === 'number') cell.t = 'n';
-                    else if (typeof cell.v === 'boolean') cell.t = 'b';
+                    if (typeof cell.v === 'number')
+                        cell.t = 'n';
+                    else if (typeof cell.v === 'boolean')
+                        cell.t = 'b';
                     else if (cell.v instanceof Date) {
                         cell.t = 'n';
                         cell.z = XLSX.SSF._table[14];
                         cell.v = datenum(cell.v);
-                    } else cell.t = 's';
+                    } else
+                        cell.t = 's';
 
                     ws[cell_ref] = cell;
                 }
             }
-            if (range.s.c < 10000000) ws['!ref'] = XLSX.utils.encode_range(range);
+            if (range.s.c < 10000000)
+                ws['!ref'] = XLSX.utils.encode_range(range);
 
             return ws;
         }
 
         function Workbook() {
-            if (!(this instanceof Workbook)) return new Workbook();
+            if (!(this instanceof Workbook))
+                return new Workbook();
             this.SheetNames = [];
             this.Sheets = {};
         }
@@ -2456,14 +2545,15 @@
         //     }
         // ];
 
-
         var wb = new Workbook();
 
         /* add worksheet to workbook */
         for (var i = 0; i < ws_name.length; i++) {
             var ws = sheet_from_array_of_arrays(data[i]);
             ws['!cols'] = wscols[i];
-            wb.SheetNames.push(ws_name[i]);
+            wb
+                .SheetNames
+                .push(ws_name[i]);
             wb.Sheets[ws_name[i]] = ws;
         }
 
@@ -2476,7 +2566,8 @@
         function s2ab(s) {
             var buf = new ArrayBuffer(s.length);
             var view = new Uint8Array(buf);
-            for (var i = 0; i != s.length; ++i) view[i] = s.charCodeAt(i) & 0xFF;
+            for (var i = 0; i != s.length; ++i)
+                view[i] = s.charCodeAt(i) & 0xFF;
             return buf;
         }
 
@@ -2484,9 +2575,7 @@
         projectName = QAV.getState("qavProjectName");
         var nameFile = 'KenQ_output_' + projectName + '_' + timeStamp + '.xlsx';
 
-        saveAs(new Blob([s2ab(wbout)], {
-            type: "application/octet-stream"
-        }), nameFile);
+        saveAs(new Blob([s2ab(wbout)], {type: "application/octet-stream"}), nameFile);
     };
 
 }(window.OUTPUT = window.OUTPUT || {}, QAV));

@@ -360,6 +360,7 @@
         // clear output checkboxes
         VIEW.removeOutputFactorCheckboxes();
 
+        // todo - check to see if firefox still needs this
         return false;
     };
 

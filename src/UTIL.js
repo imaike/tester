@@ -27,6 +27,11 @@ function evenRound(num, decimalPlaces) {
     return d ? r / m : r;
 }
 
+function jlog(text, element) {
+    return console.log(text + " = " + JSON.stringify(element));
+}
+
+
 (function(UTIL, QAV, undefined) {
 
     /*
