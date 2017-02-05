@@ -10,7 +10,7 @@
 // JSlint declarations
 /* global window, $, _ */
 
-// QAV is the global state data store 
+// QAV is the global state data store
 (function (QAV, undefined) {
 
     // set default language
@@ -37,6 +37,7 @@
     QAV.vizConfig.shouldIndicateDistinguishing = true;
     QAV.vizConfig.shouldUseUnicode = true;
     QAV.vizConfig.shouldShowZscoreArrows = true;
+    QAV.vizConfig.shouldHaveLegend = true;
 
     QAV.rotChartConfig = {};
     QAV.rotChartConfig.significanceColorAPrep = "aquamarine";
@@ -49,5 +50,6 @@
     $('#showSignificanceSymbolsDiv .vizButtonYes').addClass("active");
     $('#useUnicodeSymbolsDiv .vizButtonYes').addClass("selected");
     $('#zscoreArrowDirectionDiv .vizButtonYes').addClass("active");
+    $('#includeLegendDiv .vizButtonYes').addClass("active");
 
 }(window.QAV = window.QAV || {}));

@@ -570,8 +570,8 @@ var resources = {
             "To import unforced (non-symmetric) sorts use Type 2 format": "To import unforced (non-symmetric) sorts use Type 2 format",
             "Raw Sort": "元のQ-Sort",
             "Free Distribution Data Results": "自由の分布のデータ",
-            "Consensus": "総意 /",
-            "Distinguishing": "区別する",
+            "Consensus": "総意 (C) /",
+            "Distinguishing": "区別する (D)",
             "between Q-sorts": " between Q-sorts",
             "Cumulative Communalities Matrix": "Cumulative Communalities Matrix",
             "Factor Matrix with Defining Sorts Flagged": "Factor Matrix with Defining Sorts Flagged"

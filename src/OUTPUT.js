@@ -1870,6 +1870,7 @@
         var maxStatementLength = QAV.getState("maxStatementLength");
         var appendText6 = resources[language].translation.Statement;
         var appendText7 = resources[language].translation["Sort Values"];
+        // var appendText8 = resources[language].translation["Note: "];
 
         var statementRankingArray = QAV.getState("statementRankingArray");
         var userSelectedFactors = QAV.getState("userSelectedFactors");
