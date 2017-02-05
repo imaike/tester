@@ -1051,11 +1051,11 @@
         var language = QAV.getState("language");
         var appendText1 = resources[language].translation["Factor score correlations"];
 
-        var newSheet = {
-            sheetid: appendText1,
-            headers: false
-        };
-        sheetNames.push(newSheet);
+        // var newSheet = {
+        //     sheetid: appendText1,
+        //     headers: false
+        // };
+        // sheetNames.push(newSheet);
         sheetNamesXlsx.push(appendText1);
 
         var analysisOutput = QAV.getState("analysisOutput");
@@ -1138,12 +1138,13 @@
         }
         correlationTableArray.unshift(tempArray3);
 
+        QAV.setState("correlationTableArrayHolder", correlationTableArray);
+        output.push(correlationTableArray);
+
+        //var correlationTableArray2 = _.cloneDeep(correlationTableArray);
         correlationTableArray.unshift([
             "", ""
         ], [appendText1], ["", ""]);
-
-        QAV.setState("correlationTableArrayHolder", correlationTableArray);
-        output.push(correlationTableArray);
 
         outputData.push(correlationTableArray);
 
