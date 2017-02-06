@@ -342,13 +342,16 @@
             k,
             m,
             temp,
+            tempA,
             temp1,
-            temp2;
+            temp2,
+            temp2A;
         var newSheet,
             expVar,
             centroidsArray,
             tempObj,
-            respondentNames;
+            respondentNames,
+            numFactorsExtracted;
 
         var language = QAV.getState("language");
         var appendText1 = resources[language].translation["Unrotated Factor Matrix"];
@@ -362,6 +365,11 @@
         temp2 = QAV.getState("eigenValuesAsPercents");
         temp1 = QAV.getState("factorLabels");
         expVar = QAV.getState("expVarCentroid");
+        numFactorsExtracted = QAV.getState("numFactorsExtracted");
+
+        temp2A = temp2.slice(0, numFactorsExtracted);
+        tempA = temp.slice(0, numFactorsExtracted);
+
 
         sheetNamesXlsx.push(appendText1);
 
@@ -386,10 +394,10 @@
             factorMatrixTransposed.unshift(temp1);
 
             // add eigenvals to match data structure
-            temp.unshift(appendText2);
-            factorMatrixTransposed.push([], temp);
-            temp2.unshift("");
-            factorMatrixTransposed.push(temp2);
+            tempA.unshift(appendText2);
+            factorMatrixTransposed.push([], tempA);
+            temp2A.unshift("");
+            factorMatrixTransposed.push(temp2A);
         } else {
             factorMatrixTransposed = QAV.getState("factorMatrixTransposed");
             factorMatrixTransposed.push(expVar);
