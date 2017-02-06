@@ -103,13 +103,11 @@
         dataXlsx.push(spacer, ["Version Number: ", versionNum]);
 
         var colSizes = [
-            [
-                {
-                    wch: 40
-                }, {
-                    wch: 70
-                }
-            ]
+            [{
+                wch: 40
+            }, {
+                wch: 70
+            }]
         ];
 
         var outputData = [];
@@ -147,13 +145,11 @@
         }
         outputData.push(arrayOfStatements);
 
-        var columns = [
-            {
-                wch: 10
-            }, {
-                wch: maxStatementLength
-            }
-        ];
+        var columns = [{
+            wch: 10
+        }, {
+            wch: maxStatementLength
+        }];
         colSizes.push(columns);
         QAV.setState("maxStatementLength", maxStatementLength);
 
@@ -194,13 +190,13 @@
         var dataArray = [];
 
         // set up column widths
-        var columns = [
-            {
-                wch: 15
-            }
-        ];
+        var columns = [{
+            wch: 15
+        }];
         for (var ii = 0, iiLen = sortsAsNumbers[0].length + 2; ii < iiLen; ii++) {
-            columns.push({wch: 5});
+            columns.push({
+                wch: 5
+            });
         }
         colSizes.push(columns);
 
@@ -323,7 +319,9 @@
         // set up column spacing
         var columns = [];
         for (var j = 0, jLen = (correlationTableArrayFormatted3[0].length + 1); j < jLen; j++) {
-            columns.push({wch: respondentNameMaxLength});
+            columns.push({
+                wch: respondentNameMaxLength
+            });
         }
         colSizes.push(columns);
 
@@ -368,13 +366,13 @@
         sheetNamesXlsx.push(appendText1);
 
         // set excel column widths
-        var columns = [
-            {
-                wch: 20
-            }
-        ];
+        var columns = [{
+            wch: 20
+        }];
         for (var iii = 0, iiiLen = temp1.length; iii < iiLen; iii++) {
-            columns.push({wch: 8});
+            columns.push({
+                wch: 8
+            });
         }
         colSizes.push(columns);
 
@@ -464,13 +462,13 @@
         cumulCommMatrix9 = _.cloneDeep(factorMatrixTransposed);
 
         // set excel column widths
-        var columns = [
-            {
-                wch: 30
-            }
-        ];
+        var columns = [{
+            wch: 30
+        }];
         for (var ii = 0, iiLen = cumulCommMatrix9[0].length; ii < iiLen; ii++) {
-            columns.push({wch: 8});
+            columns.push({
+                wch: 8
+            });
         }
         colSizes.push(columns);
 
@@ -561,13 +559,13 @@
         formattedResults.push(expVar);
 
         // set excel column widths
-        var columns = [
-            {
-                wch: 20
-            }
-        ];
+        var columns = [{
+            wch: 20
+        }];
         for (var ii = 0, iiLen = formattedResults[0].length; ii < iiLen; ii++) {
-            columns.push({wch: 8});
+            columns.push({
+                wch: 8
+            });
         }
         colSizes.push(columns);
 
@@ -594,15 +592,13 @@
         sheetNames.push(newSheet);
         sheetNamesXlsx.push(appendText1);
 
-        var columns = [
-            {
-                wch: 20
-            }, {
-                wch: 10
-            }, {
-                wch: 10
-            }
-        ];
+        var columns = [{
+            wch: 20
+        }, {
+            wch: 10
+        }, {
+            wch: 10
+        }];
         colSizes.push(columns);
 
         var freeDistributionArray = QAV.getState("freeDistributionArray");
@@ -846,17 +842,17 @@
         sheetNamesXlsx.push(appendText1);
 
         var maxStatementLength = QAV.getState("maxStatementLength");
-        var columns = [
-            {
-                wch: 8
-            }, {
-                wch: maxStatementLength
-            }, {
-                wch: 8
-            }
-        ];
+        var columns = [{
+            wch: 8
+        }, {
+            wch: maxStatementLength
+        }, {
+            wch: 8
+        }];
         for (var ss = 0, ssLen = (userSelectedFactors.length * 2); ss < ssLen; ss++) {
-            columns.push({wch: 7});
+            columns.push({
+                wch: 7
+            });
         }
         colSizes.push(columns);
 
@@ -889,9 +885,9 @@
             if (a[0] === b[0]) {
                 return 0;
             } else {
-                return (a[0] < b[0])
-                    ? -1
-                    : 1;
+                return (a[0] < b[0]) ?
+                    -1 :
+                    1;
             }
         });
         for (var ww = 0, wwLen = compositeFactorMasterArray[0].length; ww < wwLen; ww++) {
@@ -910,9 +906,9 @@
                     if (a[0] === b[0]) {
                         return 0;
                     } else {
-                        return (a[0] < b[0])
-                            ? -1
-                            : 1;
+                        return (a[0] < b[0]) ?
+                            -1 :
+                            1;
                     }
                 });
             // insert zScore
@@ -927,9 +923,9 @@
                 if (a[placeSetter] === b[placeSetter]) {
                     return 0;
                 } else {
-                    return (b[placeSetter] < a[placeSetter])
-                        ? -1
-                        : 1;
+                    return (b[placeSetter] < a[placeSetter]) ?
+                        -1 :
+                        1;
                 }
             });
 
@@ -944,9 +940,9 @@
                     if (a[0] === b[0]) {
                         return 0;
                     } else {
-                        return (a[0] < b[0])
-                            ? -1
-                            : 1;
+                        return (a[0] < b[0]) ?
+                            -1 :
+                            1;
                     }
                 });
 
@@ -1066,13 +1062,13 @@
             temp2,
             tempArray;
 
-        var columns = [
-            {
-                wch: 7
-            }
-        ];
+        var columns = [{
+            wch: 7
+        }];
         for (var ss = 0, ssLen = (userSelectedFactors.length); ss < ssLen; ss++) {
-            columns.push({wch: 7});
+            columns.push({
+                wch: 7
+            });
         }
         colSizes.push(columns);
 
@@ -1185,13 +1181,11 @@
             sheetNamesXlsx.push((sheetNamesHolder1[ii].sheetid));
 
             // set weights columns
-            var columns = [
-                {
-                    wch: 8
-                }, {
-                    wch: 8
-                }
-            ];
+            var columns = [{
+                wch: 8
+            }, {
+                wch: 8
+            }];
             colSizes.push(columns);
 
             // set weights sheet
@@ -1202,13 +1196,13 @@
             sheetNamesXlsx.push((sheetNamesHolder2[ii].sheetid));
 
             // set sorts corr cols
-            var columns2 = [
-                {
-                    wch: 8
-                }
-            ];
+            var columns2 = [{
+                wch: 8
+            }];
             for (var ss = 0, ssLen = (userSelectedFactors.length); ss < ssLen; ss++) {
-                columns2.push({wch: 8});
+                columns2.push({
+                    wch: 8
+                });
             }
             colSizes.push(columns2);
 
@@ -1220,19 +1214,19 @@
             sheetNamesXlsx.push((sheetNamesHolder3[ii].sheetid));
 
             // set factor sheet cols
-            var columns3 = [
-                {
-                    wch: 8
-                }, {
-                    wch: maxStatementLength
-                }, {
-                    wch: 9
-                }, {
-                    wch: 12
-                }
-            ];
+            var columns3 = [{
+                wch: 8
+            }, {
+                wch: maxStatementLength
+            }, {
+                wch: 9
+            }, {
+                wch: 12
+            }];
             for (var tt = 0, ttLen = sigSortsArray[ii].SigSorts.length; tt < ttLen; tt++) {
-                columns3.push({wch: 12});
+                columns3.push({
+                    wch: 12
+                });
             }
             colSizes.push(columns3);
 
@@ -1242,9 +1236,9 @@
                 if (a[2] === b[2]) {
                     return 0;
                 } else {
-                    return (b[2] < a[2])
-                        ? -1
-                        : 1;
+                    return (b[2] < a[2]) ?
+                        -1 :
+                        1;
                 }
             });
 
@@ -1303,19 +1297,17 @@
             sheetHeader1.push(oneFactor, anotherFactor, chartText2);
             sheetHeader1Array.push(sheetHeader1);
 
-            var columns = [
-                {
-                    wch: 8
-                }, {
-                    wch: maxStatementLength
-                }, {
-                    wch: 8
-                }, {
-                    wch: 8
-                }, {
-                    wch: 10
-                }
-            ];
+            var columns = [{
+                wch: 8
+            }, {
+                wch: maxStatementLength
+            }, {
+                wch: 8
+            }, {
+                wch: 8
+            }, {
+                wch: 10
+            }];
             colSizes.push(columns);
         }
 
@@ -1349,9 +1341,9 @@
                 if (a[4] === b[4]) {
                     return 0;
                 } else {
-                    return (b[4] < a[4])
-                        ? -1
-                        : 1;
+                    return (b[4] < a[4]) ?
+                        -1 :
+                        1;
                 }
             });
             diffArrayXlsx.unshift(spacer, sheetHeader1Array[m]);
@@ -1389,17 +1381,19 @@
         sheetNamesXlsx.push(chartText2);
 
         // set factor sheet cols
-        var columns = [
-            {
-                wch: 8
-            }, {
-                wch: maxStatementLength
-            }
-        ];
+        var columns = [{
+            wch: 8
+        }, {
+            wch: maxStatementLength
+        }];
         for (var tt = 0, ttLen = userSelectedFactors.length; tt < ttLen; tt++) {
-            columns.push({wch: 8});
+            columns.push({
+                wch: 8
+            });
         }
-        columns.push({wch: 15});
+        columns.push({
+            wch: 15
+        });
         colSizes.push(columns);
 
         var consensusDisagreeArray = [];
@@ -1434,9 +1428,9 @@
             if (a[locator] === b[locator]) {
                 return 0;
             } else {
-                return (a[locator] < b[locator])
-                    ? -1
-                    : 1;
+                return (a[locator] < b[locator]) ?
+                    -1 :
+                    1;
             }
         });
         consensusDisagreeArray.unshift(spacer, tableHeader2);
@@ -1467,13 +1461,13 @@
         sheetNamesXlsx.push(chartText1);
 
         // set factor sheet col widths
-        var columns = [
-            {
-                wch: 20
-            }
-        ];
+        var columns = [{
+            wch: 20
+        }];
         for (var tt = 0, ttLen = userSelectedFactors.length; tt < ttLen; tt++) {
-            columns.push({wch: 8});
+            columns.push({
+                wch: 8
+            });
         }
         colSizes.push(columns);
 
@@ -1571,13 +1565,13 @@
         sheetNamesXlsx.push(chartText1);
 
         // set factor sheet col widths
-        var columns = [
-            {
-                wch: 8
-            }
-        ];
+        var columns = [{
+            wch: 8
+        }];
         for (var tt = 0, ttLen = userSelectedFactors.length; tt < ttLen; tt++) {
-            columns.push({wch: 8});
+            columns.push({
+                wch: 8
+            });
         }
         colSizes.push(columns);
 
@@ -1653,15 +1647,13 @@
             sheetNamesXlsx.push(chartText1 + sigSortsArray[i]["Factor Number"]);
 
             // set up col widths for excel output - todo - change maxStatementLength?
-            var columns = [
-                {
-                    wch: 8
-                }, {
-                    wch: maxStatementLength
-                }, {
-                    wch: 8
-                }
-            ];
+            var columns = [{
+                wch: 8
+            }, {
+                wch: maxStatementLength
+            }, {
+                wch: 8
+            }];
             // for (var tt = 0, ttLen = userSelectedFactors.length; tt < ttLen; tt++) {
             //     columns.push([{
             //
@@ -1674,7 +1666,9 @@
                     wch: 8
                 }, {
                     wch: 8
-                }, {wch: 8});
+                }, {
+                    wch: 8
+                });
             }
             colSizes.push(columns);
 
@@ -1773,8 +1767,6 @@
 
             masterDistingStatementNumbersArray05.push(distingStatementsTransferArray05c);
             masterDistingStatementNumbersArray01.push(distingStatementsTransferArray01b);
-            console.log(JSON.stringify(masterDistingStatementNumbersArray05));
-            console.log(JSON.stringify(masterDistingStatementNumbersArray01));
 
             consensusStatementComparisonArray05.push(consensusStatementTransferArray05);
             consensusStatementComparisonArray01.push(consensusStatementTransferArray01);
@@ -1812,8 +1804,6 @@
 
         var consensus01 = _.xor(consensus05, consensusStatementComparisonArray01b);
 
-        console.log(JSON.stringify(consensus05));
-        console.log(JSON.stringify(consensus01));
         QAV.setState("consensus05Statements", consensus05);
         QAV.setState("consensus01Statements", consensus01);
 
@@ -1825,23 +1815,23 @@
         sheetNamesXlsx.push(chartText2);
 
         // set up col widths for excel output
-        var columns2 = [
-            {
-                wch: 12
-            }, {
-                wch: 12
-            }, {
-                wch: maxStatementLength
-            }, {
-                wch: 12
-            }
-        ];
+        var columns2 = [{
+            wch: 12
+        }, {
+            wch: 12
+        }, {
+            wch: maxStatementLength
+        }, {
+            wch: 12
+        }];
         for (var ttt = 0, tttLen = userSelectedFactors.length; ttt < tttLen; ttt++) {
             columns2.push({
                 wch: 12
             }, {
                 wch: 15
-            }, {wch: 15});
+            }, {
+                wch: 15
+            });
         }
         colSizes.push(columns2);
 
@@ -1914,25 +1904,29 @@
             sheetNames.push(newSheet);
             sheetNamesXlsx.push(userSelectedFactors[j] + appendText1);
 
-            var columns = [
-                {
-                    wch: 8
-                }, {
-                    wch: 80
-                }, {
-                    wch: 8
-                }, {
-                    wch: 12
-                }
-            ];
+            var columns = [{
+                wch: 8
+            }, {
+                wch: 80
+            }, {
+                wch: 8
+            }, {
+                wch: 12
+            }];
             colSizes.push(columns);
 
             cribArray = [
-                [], [], [], []
+                [],
+                [],
+                [],
+                []
             ];
 
             cribArray2 = [
-                [], [], [], []
+                [],
+                [],
+                [],
+                []
             ];
 
             factorInformation = _.cloneDeep(synFactorArray1Holder[j]);
@@ -1969,7 +1963,6 @@
                 otherValues.splice(j, 1);
                 var array0 = [stateNum0, statement0, compositeSortValue0, checkIfDisOrCon0];
                 var array0a = array0.concat(otherValues);
-                jlog("array0a", array0a);
                 cribArray2[0].push(array0a);
             }
 
@@ -2250,9 +2243,9 @@
             if (a[0] === b[0]) {
                 return 0;
             } else {
-                return (a[0] < b[0])
-                    ? -1
-                    : 1;
+                return (a[0] < b[0]) ?
+                    -1 :
+                    1;
             }
         });
 
@@ -2452,9 +2445,9 @@
             if (a[indexer] === b[indexer]) {
                 return 0;
             } else {
-                return (b[indexer] < a[indexer])
-                    ? -1
-                    : 1;
+                return (b[indexer] < a[indexer]) ?
+                    -1 :
+                    1;
             }
         });
 
@@ -2503,7 +2496,10 @@
                         continue;
                     var cell_ref = XLSX
                         .utils
-                        .encode_cell({c: C, r: R});
+                        .encode_cell({
+                            c: C,
+                            r: R
+                        });
 
                     if (typeof cell.v === 'number')
                         cell.t = 'n';
@@ -2577,7 +2573,9 @@
         projectName = QAV.getState("qavProjectName");
         var nameFile = 'KenQ_output_' + projectName + '_' + timeStamp + '.xlsx';
 
-        saveAs(new Blob([s2ab(wbout)], {type: "application/octet-stream"}), nameFile);
+        saveAs(new Blob([s2ab(wbout)], {
+            type: "application/octet-stream"
+        }), nameFile);
     };
 
 }(window.OUTPUT = window.OUTPUT || {}, QAV));
