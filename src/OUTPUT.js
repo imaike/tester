@@ -810,8 +810,6 @@
             matchCount.push(matchCountArray); // push in factor arrays
             synFactorArray1 = synFactorArray.slice(0);
 
-            // jlog("synFactorArray1", synFactorArray1);
-
             synFactorArray1.sort(function(a, b) {
                 if (b[appendText5] === a[appendText5]) {
                     return b[appendText3] - a[appendText3];
@@ -879,7 +877,6 @@
             for (var jj = 0, jjLen = synFactorArray1[j].length; jj < jjLen; jj++) {
                 synFactorArray1[j][jj][appendText5] = evenRound((synFactorArray1[j][jj][appendText5]), 2);
             }
-
             synFactorArray1[j]
                 .sort(function(a, b) {
                     if (b[appendText5] === a[appendText5]) {
@@ -893,7 +890,6 @@
                 rankValue = (i + 1);
                 synFactorArray1[j][i].Rank = rankValue;
             }
-
 
             synFactorArray1[j]
                 .sort(function(a, b) {
@@ -1259,8 +1255,6 @@
                 });
             }
             colSizes.push(columns3);
-
-            // jlog("compositeFactorMasterArray[ii]", compositeFactorMasterArray[ii]);
 
             // set factor sheets
             // re-sort to zScore

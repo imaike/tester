@@ -516,9 +516,6 @@
 
             var textArray1 = outputForDataViz[z];
 
-
-            jlog("textArray1", textArray1);
-
             // sort by zScore z-score
             var textArray = textArray1.slice(0);
             textArray.sort(function(a, b) {
@@ -1145,8 +1142,6 @@
 
             var newData = synFactorArray1[j];
 
-            // jlog("synFactorArray1[j]", synFactorArray1[j]);
-            //
             // resort back to high to low z-score sort
             newData
                 .sort(function(a, b) {
@@ -1648,8 +1643,6 @@
             var factorNumbers = zScoreArray[i];
 
             var temp1 = _.cloneDeep(factorNumbers);
-
-            jlog("this one", temp1);
 
             temp1.sort(function(a, b) {
                 if (a.zScore === b.zScore) {
