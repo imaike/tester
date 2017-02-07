@@ -2009,7 +2009,7 @@
                 var array3 = [stateNum3, statement3, compositeSortValue3, checkIfDisOrCon3];
                 var array3a = array3.concat(otherValues3);
 
-                cribArray2[3].push(array3a);
+                cribArray2[3].unshift(array3a);
             }
 
             // look for higher relative statements and push to cribArray
