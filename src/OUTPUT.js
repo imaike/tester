@@ -1642,7 +1642,7 @@
 
     function pushDistinguishingStatementsToOutput(sheetNames, output, sigSortsArray, analysisOutput, stndErrorDiffDataArray, stndErrorDiffDataDistingArray, sigFactorNumbersArray, outputData, sheetNamesXlsx, colSizes) {
 
-        var langlanguage = QAV.getState("language");
+        var language = QAV.getState("language");
         var chartText1 = resources[language].translation["Dist State"];
         var chartText2 = resources[language].translation["Consensus Statements"];
         var maxStatementLength = QAV.getState("maxStatementLength");
