@@ -516,10 +516,17 @@
 
             var textArray1 = outputForDataViz[z];
 
+
+            jlog("textArray1", textArray1);
+
             // sort by zScore z-score
             var textArray = textArray1.slice(0);
             textArray.sort(function(a, b) {
-                return a.zScore - b.zScore;
+                if (a.zScore === b.zScore) {
+                    return b.statement - a.statement;
+                } else {
+                    return a.zScore - b.zScore;
+                }
             });
 
             // add location data

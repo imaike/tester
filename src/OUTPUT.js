@@ -809,8 +809,15 @@
             compositeFactorMasterArray.push(compositeFactorArray);
             matchCount.push(matchCountArray); // push in factor arrays
             synFactorArray1 = synFactorArray.slice(0);
+
+            // jlog("synFactorArray1", synFactorArray1);
+
             synFactorArray1.sort(function(a, b) {
-                return b[appendText5] - a[appendText5];
+                if (b[appendText5] === a[appendText5]) {
+                    return b[appendText3] - a[appendText3];
+                } else {
+                    return b[appendText5] - a[appendText5];
+                }
             });
 
             // output.push(synFactorArray1);
@@ -1240,11 +1247,15 @@
             }
             colSizes.push(columns3);
 
+            // jlog("compositeFactorMasterArray[ii]", compositeFactorMasterArray[ii]);
+
             // set factor sheets
             // re-sort to zScore
             compositeFactorMasterArray[ii].sort(function(a, b) {
                 if (a[2] === b[2]) {
-                    return 0;
+                    return (a[0] < b[0]) ?
+                        -1 :
+                        1;
                 } else {
                     return (b[2] < a[2]) ?
                         -1 :
@@ -1956,7 +1967,11 @@
             // resort back to high to low z-score sort
             factorInformation
                 .sort(function(a, b) {
-                    return b[appendText5] - a[appendText5];
+                    if (b[appendText5] === a[appendText5]) {
+                        return b[appendText3] - a[appendText3];
+                    } else {
+                        return b[appendText5] - a[appendText5];
+                    }
                 });
 
             // console.log(JSON.stringify(factorInformation));
