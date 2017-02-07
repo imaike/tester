@@ -1968,13 +1968,13 @@
             factorInformation
                 .sort(function(a, b) {
                     if (b[appendText5] === a[appendText5]) {
-                        return b[appendText3] - a[appendText3];
+                        return a[appendText3] - b[appendText3];
                     } else {
                         return b[appendText5] - a[appendText5];
                     }
                 });
 
-            // console.log(JSON.stringify(factorInformation));
+            console.log(JSON.stringify(factorInformation));
 
             // push highest to cribArray
             for (var m = 0; m < minCounts; m++) {

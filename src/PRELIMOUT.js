@@ -1145,6 +1145,18 @@
 
             var newData = synFactorArray1[j];
 
+            // jlog("synFactorArray1[j]", synFactorArray1[j]);
+            //
+            // resort back to high to low z-score sort
+            newData
+                .sort(function(a, b) {
+                    if (b[chartText6] === a[chartText6]) {
+                        return a[chartText4] - b[chartText4];
+                    } else {
+                        return b[chartText6] - a[chartText6];
+                    }
+                });
+
             var columnHeadersArray = Object.keys(newData[0]);
 
             // the set leftmost 4 columns
@@ -1181,9 +1193,7 @@
                 "retrieve": true,
                 "searching": false,
                 "ordering": true,
-                "order": [
-                    [2, "desc"]
-                ],
+                "order": false,
                 "info": false,
                 "scrollY": 800,
                 "scrollCollapse": true,
