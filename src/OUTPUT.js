@@ -351,6 +351,7 @@
             centroidsArray,
             tempObj,
             respondentNames,
+            typeOfFactor,
             numFactorsExtracted;
 
         var language = QAV.getState("language");
@@ -366,10 +367,7 @@
         temp1 = QAV.getState("factorLabels");
         expVar = QAV.getState("expVarCentroid");
         numFactorsExtracted = QAV.getState("numFactorsExtracted");
-
-        temp2A = temp2.slice(0, numFactorsExtracted);
-        tempA = temp.slice(0, numFactorsExtracted);
-
+        typeOfFactor = QAV.getState("typeOfFactor");
 
         sheetNamesXlsx.push(appendText1);
 
@@ -385,7 +383,11 @@
         colSizes.push(columns);
 
         // add labels to Unrotated factor data
-        if (QAV.typeOfFactor === "PCA") {
+        if (typeOfFactor === "PCA") {
+
+            temp2 = temp2.slice(0, numFactorsExtracted);
+            temp = temp.slice(0, numFactorsExtracted);
+
             // conform PCA to legacy centroid data structure
             for (m = 0; m < (respondentNames.length - 1); m++) {
                 factorMatrixTransposed[m].unshift(respondentNames[m + 1]);
@@ -394,10 +396,10 @@
             factorMatrixTransposed.unshift(temp1);
 
             // add eigenvals to match data structure
-            tempA.unshift(appendText2);
-            factorMatrixTransposed.push([], tempA);
-            temp2A.unshift("");
-            factorMatrixTransposed.push(temp2A);
+            temp.unshift(appendText2);
+            factorMatrixTransposed.push([], temp);
+            temp2.unshift("");
+            factorMatrixTransposed.push(temp2);
         } else {
             factorMatrixTransposed = QAV.getState("factorMatrixTransposed");
             factorMatrixTransposed.push(expVar);
@@ -1640,7 +1642,7 @@
 
     function pushDistinguishingStatementsToOutput(sheetNames, output, sigSortsArray, analysisOutput, stndErrorDiffDataArray, stndErrorDiffDataDistingArray, sigFactorNumbersArray, outputData, sheetNamesXlsx, colSizes) {
 
-        var language = QAV.getState("language");
+        var langlanguage = QAV.getState("language");
         var chartText1 = resources[language].translation["Dist State"];
         var chartText2 = resources[language].translation["Consensus Statements"];
         var maxStatementLength = QAV.getState("maxStatementLength");
