@@ -1648,8 +1648,15 @@
             var factorNumbers = zScoreArray[i];
 
             var temp1 = _.cloneDeep(factorNumbers);
+
+            jlog("this one", temp1);
+
             temp1.sort(function(a, b) {
-                return a.zScore - b.zScore;
+                if (a.zScore === b.zScore) {
+                    return b.statement - a.statement;
+                } else {
+                    return a.zScore - b.zScore;
+                }
             });
 
             for (var j = 0; j < qavSortTriangleShape.length; j++) {

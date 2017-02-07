@@ -873,26 +873,39 @@
         }
         colSizes.push(columns);
 
+
         // add factor ranks and round at 2 digits
         for (var j = 0, jLen = synFactorArray1.length; j < jLen; j++) {
+            for (var jj = 0, jjLen = synFactorArray1[j].length; jj < jjLen; jj++) {
+                synFactorArray1[j][jj][appendText5] = evenRound((synFactorArray1[j][jj][appendText5]), 2);
+            }
+
             synFactorArray1[j]
                 .sort(function(a, b) {
-                    return b[appendText5] - a[appendText5];
+                    if (b[appendText5] === a[appendText5]) {
+                        return a[appendText3] - b[appendText3];
+                    } else {
+                        return b[appendText5] - a[appendText5];
+                    }
                 });
+
             for (var i = 0, iLen = synFactorArray1[j].length; i < iLen; i++) {
                 rankValue = (i + 1);
                 synFactorArray1[j][i].Rank = rankValue;
-                synFactorArray1[j][i][appendText5] = evenRound((synFactorArray1[j][i][appendText5]), 2);
             }
+
+
             synFactorArray1[j]
                 .sort(function(a, b) {
                     return a[appendText3] - b[appendText3];
                 });
         }
-        synFactorArray1[0]
-            .sort(function(a, b) {
-                return a[appendText3] - b[appendText3];
-            });
+
+        // re-sort for use below?
+        // synFactorArray1[0]
+        //     .sort(function(a, b) {
+        //         return a[appendText3] - b[appendText3];
+        //     });
 
         var compositeFactorMasterArray = QAV.getState("compositeFactorMasterArray");
         var factorScoreRanksArray = [];
