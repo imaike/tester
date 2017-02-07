@@ -1981,8 +1981,6 @@
                     }
                 });
 
-            console.log(JSON.stringify(factorInformation));
-
             // push highest to cribArray
             for (var m = 0; m < minCounts; m++) {
                 // tempObj1 = {};
