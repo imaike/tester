@@ -471,7 +471,7 @@
         for (var j = 0; j < namesAndSorts.length; j++) {
             var sortItem = namesAndSorts[j];
             var respondent = qavRespondentNames[j];
-            $("#existingDatabaseRespondentList").append("<li>" + respondent + "&nbsp;&nbsp;&nbsp" + sortItem + "</li>");
+            $("#existingDatabaseRespondentList").append("<li>" + respondent + "," + sortItem + "</li>");
         }
     }
 

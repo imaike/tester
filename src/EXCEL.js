@@ -458,9 +458,12 @@
 
         QAV.setState("qavProjectName", qavProjectName);
 
+
+
         // QAV #2
         // todo - remember this JSON.parse trick to convert text to array
         var qavSortTriangleShape1 = data[0][0][4][""];
+
 
         var qavSortTriangleShape = JSON.parse("[" + qavSortTriangleShape1 + "]");
         QAV.setState("qavSortTriangleShape", qavSortTriangleShape);
@@ -502,13 +505,14 @@
         QAV.originalSortSize = qavOriginalSortSize;
 
         // QAV #4
-        var qavRespondentNames = [];
+        var qavRespondentNames2 = [];
         for (var jj = 1; jj < data[2].length; jj++) {
             var temp1 = data[2][jj][0];
             if (temp1 === "") {} else {
-                qavRespondentNames.push(temp1);
+                qavRespondentNames2.push(temp1);
             }
         }
+        var qavRespondentNames = qavRespondentNames2.slice(2);
         QAV.setState("qavRespondentNames", qavRespondentNames);
         QAV.setState("respondentNames", qavRespondentNames);
 
@@ -519,7 +523,7 @@
 
         // QAV #6
         var qavRespondentSortsFromDbStored = [];
-        for (var k = 1; k < data[2].length; k++) {
+        for (var k = 4; k < data[2].length; k++) {
             var tempArray1 = [];
 
             var isEmpty = data[2][k][1];
@@ -547,8 +551,8 @@
         var language = QAV.getState("language");
         var localText1 = resources[language].translation.Statements;
 
-        for (var pp = 0; pp < data[1][0].length; pp++) {
-            var temp11 = data[1][0][pp][localText1];
+        for (var pp = 1; pp < data[1][0].length; pp++) {
+            var temp11 = data[1][0][pp][""];
 
             if (temp11 === "" || temp11 === undefined || temp11 === null) {} else {
                 qavCurrentStatements.push(temp11);
@@ -558,20 +562,21 @@
 
         var sortsTestingArray = _.cloneDeep(qavRespondentSortsFromDbStored);
 
-        // SYMMETRY TESTING
+        // SYMMETRY TESTING  -  TODO - ADD Non-Symmetric notification
         var shouldDisplayResults = [];
-        var checkHeader = false;
-        for (var s = 0; s < sortsTestingArray.length; s++) {
-            var qsortValueMatch = checkQsortValueMatch(sortsTestingArray[s], qavSortTriangleShape);
-            if (qsortValueMatch !== 0) {
-                if (checkHeader === false) {
-                    $("#excelUploadErrorDiv h3").append(" *** Error *** ");
-                }
-                shouldDisplayResults.push(s);
-                $("#excelUploadErrorDiv ul").append("<li>The Q-sort from respondent <strong>" + qavRespondentNames[s] + "</strong> is not symmetric. </li>");
-                checkHeader = true;
-            }
-        }
+        // var checkHeader = false;
+        // for (var s = 0; s < sortsTestingArray.length; s++) {
+        //     var qsortValueMatch = checkQsortValueMatch(sortsTestingArray[s], qavSortTriangleShape);
+        //     if (qsortValueMatch !== 0) {
+        //         if (checkHeader === false) {
+        //             $("#excelUploadErrorDiv h3").append(" *** Error *** ");
+        //         }
+        //         shouldDisplayResults.push(s);
+        //         $("#excelUploadErrorDiv ul").append("<li>The Q-sort from respondent <strong>" + qavRespondentNames[s] + "</strong> is not symmetric. </li>");
+        //         checkHeader = true;
+        //     }
+        // }
+
         // Display respondents and sorts
         var respondentSorts = [];
         if (shouldDisplayResults.length === 0) {

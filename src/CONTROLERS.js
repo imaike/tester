@@ -871,7 +871,7 @@
         });
     })();
 
-    // remove items from Project history list and undo rotation 
+    // remove items from Project history list and undo rotation
     (function() {
         $("#rotationHistoryList").on("click", "button", function(e) {
             e.preventDefault();
