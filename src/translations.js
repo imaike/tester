@@ -9,7 +9,7 @@
 var resources = {
     'en-us': {
         "translation": {
-            "versionNumber": "Beta Version 0.9.0 Test Release (February 9, 2017)",
+            "versionNumber": "Beta Version 0.9.1 Test Release (February 15, 2017)",
             "Top": "Top",
             "aData": "1.Data",
             "aCorrelations": "2.Correlations",
@@ -289,12 +289,14 @@ var resources = {
             "Distinguishing": "Distinguishing",
             "between Q-sorts": " between Q-sorts",
             "Cumulative Communalities Matrix": "Cumulative Communalities Matrix",
-            "Factor Matrix with Defining Sorts Flagged": "Factor Matrix with Defining Sorts Flagged"
+            "Factor Matrix with Defining Sorts Flagged": "Factor Matrix with Defining Sorts Flagged",
+            "Click on the yellow button above for a tutorial on how to import Excel data.": "Click on the yellow button above for a tutorial on how to import Excel data.",
+            "Export statements to pqmethod": "Export statements to pqmethod"
         }
     },
     "ja": {
         "translation": {
-            "versionNumber": "Beta Version 0.9.0 Test Release (February 9, 2017)",
+            "versionNumber": "Beta Version 0.9.1 Test Release (February 15, 2017)",
             "Top": "トップに戻る",
             "aData": "1.データ",
             "aCorrelations": "2.相関関係",
@@ -574,7 +576,9 @@ var resources = {
             "Distinguishing": "区別する (D)",
             "between Q-sorts": " between Q-sorts",
             "Cumulative Communalities Matrix": "Cumulative Communalities Matrix",
-            "Factor Matrix with Defining Sorts Flagged": "Factor Matrix with Defining Sorts Flagged"
+            "Factor Matrix with Defining Sorts Flagged": "Factor Matrix with Defining Sorts Flagged",
+            "Click on the yellow button above for a tutorial on how to import Excel data.": "Click on the yellow button above for a tutorial on how to import Excel data.",
+            "Export statements to pqmethod": "Export statements to pqmethod"
         }
     }
 };
