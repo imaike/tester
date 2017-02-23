@@ -11,9 +11,10 @@
 /* global window, $, _, setTimeout, evenRound, CENTROID, QAV, UTIL, performance*/
 
 // QAV is the global state data store
-(function (CORR, QAV, undefined) {
+(function(CORR, QAV, undefined) {
+    'use strict';
 
-    CORR.createCorrelationTable = function () {
+    CORR.createCorrelationTable = function() {
         var t0 = performance.now();
 
         var namesFromExistingData2 = QAV.getState("qavRespondentNames");
@@ -32,7 +33,7 @@
         $("#calculatingCorrelationsModal").toggleClass('active');
 
         // setTimeout to force display of spinner
-        setTimeout(function () {
+        setTimeout(function() {
             // database data analysis
             var originalSortSize2 = QAV.getState("qavOriginalSortSize");
 
@@ -43,7 +44,7 @@
 
             var sortsAsNumbers2 = CORR.convertSortsTextToNumbers(sortsFromExistingData, originalSortSize2);
 
-            var createCorrelationTable = calculateCorrelations(sortsAsNumbers2, namesFromExistingData);
+            var createCorrelationTable = CORR.calculateCorrelations(sortsAsNumbers2, namesFromExistingData);
 
             createDisplayTableJQUERY(createCorrelationTable, 'correlationTable');
 
@@ -59,14 +60,14 @@
     // ************ convert sorts and shift to positive values **********************
     // ******************************************************************************
     */
-    CORR.convertSortsTextToNumbers = function (sortsTextFromDb, originalSortSize) {
+    CORR.convertSortsTextToNumbers = function(sortsTextFromDb, originalSortSize) {
         console.time("convertNumbers");
         var sortsAsNumbers = [];
         var maxArrayValue;
 
         // skip conversion if data coming from somewhere other than pasted data
         if (_.isArray(sortsTextFromDb[0]) === false) {
-            _(sortsTextFromDb).forEach(function (element) {
+            _(sortsTextFromDb).forEach(function(element) {
                 var startPoint = 0;
                 var endPoint = 2;
                 var tempArray = [];
@@ -91,7 +92,7 @@
 
         // shift sorts to positive range
         maxArrayValue = _.max(sortsAsNumbers[0]);
-        _(sortsAsNumbers).forEach(function (element) {
+        _(sortsAsNumbers).forEach(function(element) {
             var j;
             var loopLen = originalSortSize;
 
@@ -109,7 +110,7 @@
     //****  calculate PQMethod type correlations    **************************
     //************************************************************************
 
-    CORR.getPqmethodCorrelation = function (x, y) {
+    CORR.getPqmethodCorrelation = function(x, y) {
 
         /**
          *  @fileoverview Pearson correlation score algorithm.
@@ -168,7 +169,7 @@
     //*********************************************************************   model
     //******* correlations calcs       ********************************************
     //*****************************************************************************
-    function calculateCorrelations(sortsAsNumbers, names) {
+    CORR.calculateCorrelations = function(sortsAsNumbers, names) {
 
         console.time("correlation calculations and table display ");
 
@@ -217,14 +218,19 @@
         correlationTableArrayFormatted.unshift(names);
 
         QAV.setState("correlationTableArrayFormatted", correlationTableArrayFormatted);
-
         QAV.setState("respondentNames", names);
         QAV.setState("originalCorrelationValues", correlationTableArray);
 
         console.timeEnd("correlation calculations and table display ");
 
+        // var det = numeric.det(correlationTableArray);
+        // jlog("det", det);
+        //
+        // var eigen = numeric.eig(correlationTableArray);
+        // jlog("eigen", eigen);
+
         return correlationTableArrayFormatted;
-    }
+    };
 
 
     //*********************************************************************   model
@@ -287,7 +293,7 @@
                 className: 'dt-body-center dt-body-name'
             }, {
                 targets: '_all',
-                "createdCell": function (td, cellData) { // , rowData, row, col
+                "createdCell": function(td, cellData) { // , rowData, row, col
                     if (cellData < 0) {
                         $(td).css('color', 'red');
                     }
@@ -297,12 +303,12 @@
 
         var table = $("#correlationTable2").DataTable();
         $('#correlationTable2 tbody')
-            .on('mouseenter', 'td', function () {
+            .on('mouseenter', 'td', function() {
                 var colIdx = table.cell(this).index().column;
                 $(table.cells().nodes()).removeClass('highlight');
                 $(table.column(colIdx).nodes()).addClass('highlight');
             })
-            .on('mouseleave', function () {
+            .on('mouseleave', function() {
                 $(table.cells().nodes()).removeClass('highlight');
                 $(table.columns().nodes()).removeClass('highlight');
             });

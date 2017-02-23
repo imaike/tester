@@ -150,7 +150,7 @@ Hands on Table settings for Factor Rotation
 #factorRotationTable {
     display: block;
     margin-right: 2%;
-    vertical-align: top;
+    /*vertical-align: top;*/
     height: auto;
     /*    margin-left: -1%;
     */
@@ -488,9 +488,11 @@ input:hover {
 */
 }
 
+/*
 #chartTable {
-    /*    display: inline-block;*/
-}
+             display: inline-block;
+} 
+*/
 
 
 /* dataTable highlighting  */
@@ -632,13 +634,13 @@ td.negativeHighlight {
 MODAL WINDOW CSS
 */
 
-.modal {
-    /*
+/*
+.modal {  
     margin-top: 0.1% !important;
 -webkit-transition: none !important;
 transition: none !important;
-*/
 }
+*/
 
 
 /*
@@ -1006,6 +1008,14 @@ transition: none !important;
 }
 
 #section6 label.selected {
+    background-color: #38acec;
+    color: white;
+    border: 1px solid #38acec;
+    /*    box-shadow: 1px 1px 1px rgba(0, 0, 0, .2) inset;*/
+}
+
+
+.factorCheckboxSelected {
     background-color: #38acec;
     color: white;
     border: 1px solid #38acec;

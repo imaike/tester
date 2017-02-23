@@ -43,7 +43,8 @@
 
         // On clicking of the links open / close.
         link.on('click', function (e) {
-            e.preventDefault();
+            // e.preventDefault();
+            // e.stopPropagation();
             var a = $(this).attr("href");
             $(a).slideDown('fast');
 
@@ -66,7 +67,7 @@
                 var radioValue = $("input[name='radio']:checked").attr("id");
                 $("#" + radioValue).parent().addClass("selected");
                 inputTypeDisplay(radioValue);
-            } 
+            }
         });
 
         $(window).bind('unload', function () {
@@ -207,55 +208,55 @@
         //
         $("label[for='" + inputType + "']").addClass("selected");
         switch (inputType) {
-        case "radio4":
-            $("#manualInputContainer").hide(300);
-            $("#databaseSelectDiv").hide(300);
-            $("#rawSorts").hide(300);
-            $(".firebaseDataInputDiv").hide(300);
-            $("#pasteExcelDataDiv").show(300);
-            $(".analysisDataDiv").show(300);
-            $(".pqmButton").hide();
-            break;
+            case "radio4":
+                $("#manualInputContainer").hide(300);
+                $("#databaseSelectDiv").hide(300);
+                $("#rawSorts").hide(300);
+                $(".firebaseDataInputDiv").hide(300);
+                $("#pasteExcelDataDiv").show(300);
+                $(".analysisDataDiv").show(300);
+                $(".pqmButton").hide();
+                break;
 
-        case "radio3": // pqmethod pasted data
-            $("#manualInputContainer").hide(300);
-            $("#databaseSelectDiv").hide(300);
-            $("#pasteExcelDataDiv").hide(300);
-            $(".firebaseDataInputDiv").hide(300);
-            $("#rawSorts").show(300);
-            $(".analysisDataDiv").show(300);
-            $(".pqmButton").hide();
-            break;
+            case "radio3": // pqmethod pasted data
+                $("#manualInputContainer").hide(300);
+                $("#databaseSelectDiv").hide(300);
+                $("#pasteExcelDataDiv").hide(300);
+                $(".firebaseDataInputDiv").hide(300);
+                $("#rawSorts").show(300);
+                $(".analysisDataDiv").show(300);
+                $(".pqmButton").hide();
+                break;
 
-        case "radio2":
-            $("#databaseSelectDiv").hide(300);
-            $("#rawSorts").hide(300);
-            $("#pasteExcelDataDiv").hide(300);
-            $(".firebaseDataInputDiv").hide(300);
-            $("#manualInputContainer").show(300);
-            $(".analysisDataDiv").show(300);
-            $(".pqmButton").hide();
-            break;
+            case "radio2":
+                $("#databaseSelectDiv").hide(300);
+                $("#rawSorts").hide(300);
+                $("#pasteExcelDataDiv").hide(300);
+                $(".firebaseDataInputDiv").hide(300);
+                $("#manualInputContainer").show(300);
+                $(".analysisDataDiv").show(300);
+                $(".pqmButton").hide();
+                break;
 
-        case "radio1":  // radio5
-            $("#databaseSelectDiv").hide(300);
-            $("#rawSorts").hide(300);
-            $("#pasteExcelDataDiv").hide(300);
-            $("#manualInputContainer").hide(300);
-            $(".analysisDataDiv").show(300);
-            $(".firebaseDataInputDiv").show(300);
-            $(".pqmButton").hide();
-            break;
+            case "radio1": // radio5
+                $("#databaseSelectDiv").hide(300);
+                $("#rawSorts").hide(300);
+                $("#pasteExcelDataDiv").hide(300);
+                $("#manualInputContainer").hide(300);
+                $(".analysisDataDiv").show(300);
+                $(".firebaseDataInputDiv").show(300);
+                $(".pqmButton").hide();
+                break;
 
-        default:
-            $("#manualInputContainer").hide(300);
-            $("#rawSorts").hide(300);
-            $("#pasteExcelDataDiv").hide(300);
-            $(".firebaseDataInputDiv").hide(300);
-            $(".analysisDataDiv").show(300);
-            $("#databaseSelectDiv").show(300);
-            $(".pqmButton").hide();
-            //$("#radio_radio1").parent().addClass("selected");
+            default:
+                $("#manualInputContainer").hide(300);
+                $("#rawSorts").hide(300);
+                $("#pasteExcelDataDiv").hide(300);
+                $(".firebaseDataInputDiv").hide(300);
+                $(".analysisDataDiv").show(300);
+                $("#databaseSelectDiv").show(300);
+                $(".pqmButton").hide();
+                //$("#radio_radio1").parent().addClass("selected");
         }
     }
 
@@ -319,7 +320,8 @@
     // SUBMIT BUTTON event listeners
     $(function () {
         $('#invertModal').on('click', '.button-submit', function (e) {
-            e.preventDefault();
+            // e.preventDefault();
+            e.stopPropagation();
             var inputValue = $("#invertModal input").val();
             if (inputValue === false || inputValue === "") {
                 return false;
@@ -338,7 +340,7 @@
     // SUBMIT BUTTON event listeners
     $(function () {
         $('#splitModal').on('click', '.button-submit', function (e) {
-            e.preventDefault();
+           // e.preventDefault();
             var inputValue = $("#splitModal input").val();
             if (inputValue === false || inputValue === "") {
                 return false;
@@ -356,7 +358,7 @@
     // cancel and close button across all modal windows
     $(function () {
         $('.button-cancel').on('click', function (e) {
-            e.preventDefault();
+            // e.preventDefault();
             $(this).closest("div.modal").toggleClass('active');
         });
     });

@@ -1402,10 +1402,11 @@
             <br>
 
             <div class="row" id="outputResultsButtonsDiv">
-                <input type="button" name="dump" id="displayQuickResultsButton" class="blackHover" data-dump="#factorRotationTable" autocomplete="off" data-i18n="[value]Display preliminary output">
-
-                <input type="button" class="downloadHover" name="outputResults" id="downloadResultsButton" autocomplete="off" data-i18n="[value]Download complete output">
-
+                <div class="row">
+                    <input type="button" name="dump" id="displayQuickResultsButton" class="blackHover" data-dump="#factorRotationTable" autocomplete="off" data-i18n="[value]Display preliminary output">
+                    <input type="button" class="downloadHover" name="outputResults" id="downloadResultsButton" autocomplete="off" data-i18n="[value]Download complete output">
+                    <input type="button" class="downloadHover" name="outputCsvResults" id="downloadCsvResultsButton" autocomplete="off" data-i18n="[value]Download complete output in CSV format">
+                </div>
                 <input type="button" class="deleteHover u-pull-right rightMargin" name="clearStorage" autocomplete="off" id="clearStorageButton" data-i18n="[value]Permanently delete all locally-stored data">
             </div>
 

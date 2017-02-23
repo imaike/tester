@@ -145,7 +145,7 @@ var resources = {
             "(P < .05 : Asterisk (*) Indicates Significance at P < .01)": "(P < .05 : Asterisk (*) Indicates Significance at P < .01)",
             "Both the Factor Q-Sort Value and the Z-Score (Z-SCR) are Shown": "Both the Factor Q-Sort Value and the Z-Score (Z-SCR) are Shown",
             "Standard Errors": "Standard Errors",
-            "Factor Characteristics": "Factor Character",
+            "Factor Characteristics": "Factor Characteristics",
             "Consensus-Disagreement": "Consensus-Disagreement",
             "No. of Defining Variables": "No. of Defining Variables",
             "Avg. Rel. Coef.": "Avg. Rel. Coef.",
@@ -171,6 +171,7 @@ var resources = {
             "Diff": "Diff ",
             "Z-Score Variance": "Z-Score Variance",
             "Standard Errors for Diffs": "Standard Errors for Diffs",
+            "Standard Errors for Differences in Factor Z-scores": "Standard Errors for Differences in Factor Z-scores",
             "Dist State": "Dist State ",
             "All Listed Statements are Non-Significant at P > 0.01, and Those Flagged with an * are also Non-Significant at P > 0.05)": "All Listed Statements are Non-Significant at P > 0.01, and Those Flagged with an * are also Non-Significant at P > 0.05)",
             "Num": "Num",
@@ -291,7 +292,12 @@ var resources = {
             "Cumulative Communalities Matrix": "Cumulative Communalities Matrix",
             "Factor Matrix with Defining Sorts Flagged": "Factor Matrix with Defining Sorts Flagged",
             "Click on the yellow button above for a tutorial on how to import Excel data.": "Click on the yellow button above for a tutorial on how to import Excel data.",
-            "Export statements to pqmethod": "Export statements to pqmethod"
+            "Export statements to pqmethod": "Export statements to pqmethod",
+            "Download complete output in CSV format": "Download complete output in CSV format",
+            "Sorts Correlations": "Sorts Correlations",
+            "Factor Scores for ": "Factor Scores for ",
+            "Descending Array of Differences Between": "Descending Array of Differences Between",
+            "Factor Q-sort Values for Statements sorted by Consensus vs. Disagreement": "Factor Q-sort Values for Statements sorted by Consensus vs. Disagreement"
         }
     },
     "ja": {
@@ -457,6 +463,7 @@ var resources = {
             "Diff": "差額 ",
             "Z-Score Variance": "zスコアの分散",
             "Standard Errors for Diffs": "差額の標準誤差",
+            "Standard Errors for Differences in Factor Z-scores": "Standard Errors for Differences in Factor Z-scores",
             "Dist State": "区別するステートメント ",
             "All Listed Statements are Non-Significant at P > 0.01, and Those Flagged with an * are also Non-Significant at P > 0.05)": "以下のステートメントは、 P > 0.01 で有意性がありません。そして、米印が付いているステートメントは、 P > 0.05 で有意性がありません。",
             "Num": "Num",
@@ -578,7 +585,12 @@ var resources = {
             "Cumulative Communalities Matrix": "Cumulative Communalities Matrix",
             "Factor Matrix with Defining Sorts Flagged": "Factor Matrix with Defining Sorts Flagged",
             "Click on the yellow button above for a tutorial on how to import Excel data.": "Click on the yellow button above for a tutorial on how to import Excel data.",
-            "Export statements to pqmethod": "Export statements to pqmethod"
+            "Export statements to pqmethod": "Export statements to pqmethod",
+            "Download complete output in CSV format": "Download complete output in CSV format",
+            "Sorts Correlations": "Sorts Correlations",
+            "Factor Scores for ": "Factor Scores for ",
+            "Descending Array of Differences Between": "Descending Array of Differences Between",
+            "Factor Q-sort Values for Statements sorted by Consensus vs. Disagreement": "Factor Q-sort Values for Statements sorted by Consensus vs. Disagreement"
         }
     }
 };

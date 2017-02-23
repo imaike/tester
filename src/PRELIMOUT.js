@@ -10,7 +10,7 @@
 /* global resources, d3, VIEW, d3_save_svg, CORR, alasql, window, QAV, $, document, evenRound, UTIL, _  */
 
 (function(PRELIMOUT, QAV, undefined) {
-
+    'use strict';
     // ************************************************************************  view
     // ******  Preliminary Results 1 - draw factor synthetic Q-sorts visuals ********
     //  ******************************************************************************
@@ -1269,6 +1269,7 @@
             var checkbox = document.createElement('input');
             checkbox.type = "checkbox";
             checkbox.name = "analysisFactors";
+            checkbox.className = "factorSelectBox";
             checkbox.value = "value";
             checkbox.id = factorsToSelect[j];
 
@@ -1284,13 +1285,6 @@
                 .appendChild(label);
         }
     };
-
-
-
-
-
-
-
 
 
     // **********************************************************************  model
