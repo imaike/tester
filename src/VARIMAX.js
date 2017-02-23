@@ -176,11 +176,14 @@
             }
 
             // testing for convergence
-            if ((TV - TVLT) < 0.000000001) {
+            if ((TV - TVLT) < 0.00000001) {
                 NC = NC + 1;
             } else {
                 NC = 0;
             }
+
+            jlog("NV - 225 = ", NV);
+            jlog("NC - 3 = ", NC);
 
             var intermediateRotation = varimaxIteration(factorMatrix);
 
@@ -281,6 +284,7 @@
 
         // todo - integrate to clean up code (3789)
         var switchTestPrep = evenRound((T - B), 5);
+        jlog("switchTestPrep", switchTestPrep);
         if (switchTestPrep < 0) {
             rotatedFactors = lessThanZero(T, B, TAN4T, factorA, factorB);
             return rotatedFactors;

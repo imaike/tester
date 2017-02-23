@@ -611,6 +611,9 @@
 
 
     EXCEL.checkForErrors = function (testSortTriangleShapeArray, symmetryCheckArray) {
+        var language = QAV.getState("language");
+        var errorText1 = resources[language].translation["has missing statement numbers"];
+        var errorText2 = resources[language].translation["has an incorrect statement number"];
         var areThereErrors = [];
         var nonSymmetricSorts = [];
 
@@ -821,8 +824,6 @@
     }
 
     EXCEL.grabStatementsT3 = function (data) {
-        jlog("data", data);
-        // jlog("symmetryCheckArray", symmetryCheckArray);
         var qavCurrentStatements = [];
         for (var pp = 1; pp < data.length; pp++) {
             var temp11 = data[pp][""];
@@ -830,7 +831,6 @@
                 qavCurrentStatements.push(temp11);
             }
         }
-        jlog("returnedValue", qavCurrentStatements);
         return qavCurrentStatements;
     };
 

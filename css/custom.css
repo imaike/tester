@@ -46,7 +46,8 @@ div.two.columns {
 
 /*D3 styling*/
 
-.axis path, .axis line {
+.axis path,
+.axis line {
     fill: none;
     stroke: #000;
     shape-rendering: crispEdges;
@@ -488,6 +489,7 @@ input:hover {
 */
 }
 
+
 /*
 #chartTable {
              display: inline-block;
@@ -633,6 +635,7 @@ td.negativeHighlight {
 /*
 MODAL WINDOW CSS
 */
+
 
 /*
 .modal {  
@@ -980,7 +983,7 @@ transition: none !important;
     margin: 0;
 }
 
-#section6 label {
+.factorFlagging label {
     cursor: pointer;
     display: block;
     width: auto;
@@ -996,38 +999,37 @@ transition: none !important;
     border: 1px solid #bbb;
 }
 
-#section6 label:first-child {
+.factorFlagging label:first-child {
     border-left-width: 1px;
     border-top-left-radius: .2em;
     border-bottom-left-radius: .2em;
 }
 
-#section6 label:last-child {
+.factorFlagging label:last-child {
     border-top-right-radius: .2em;
     border-bottom-right-radius: .2em;
 }
 
-#section6 label.selected {
+.factorFlagging label.selected {
     background-color: #38acec;
     color: white;
     border: 1px solid #38acec;
     /*    box-shadow: 1px 1px 1px rgba(0, 0, 0, .2) inset;*/
 }
-
 
 .factorCheckboxSelected {
     background-color: #38acec;
     color: white;
     border: 1px solid #38acec;
-    /*    box-shadow: 1px 1px 1px rgba(0, 0, 0, .2) inset;*/
+    /*    box-shadow: 1px 1px 1px rgba(0, 0, 0, .2) inset; */
 }
 
-#section6 label.warning.selected {
+.factorFlagging label.warning.selected {
     background-color: red;
     border-color: darkred;
 }
 
-#section6 input[type="radio"] {
+.factorFlagging input[type="radio"] {
     position: absolute;
     visibility: hidden;
 }
@@ -1264,7 +1266,8 @@ div.d3Tooltip {
     fill: none;
 }
 
-#section4 .axis path, #section4 .axis line {
+#section4 .axis path,
+#section4 .axis line {
     fill: none;
     stroke: grey;
     stroke-width: 1;
@@ -1811,3 +1814,138 @@ input[type=color] {
     border: none;
     margin-top: .5em;
 }
+
+.section7Css .factorSelectBox {
+    opacity: 0;
+}
+
+.section7Css .checkboxLabel {
+    margin-right: 10px !important;
+}
+
+.section7Css .factorSelectBox:checked+.checkboxLabel {
+    background: none repeat scroll 0 0 #38acec !important;
+    color: #FFFFFF !important;
+}
+
+
+/* Base for label styling */
+
+.rotaTable [type="checkbox"]:not(:checked),
+[type="checkbox"]:checked {
+    position: absolute;
+    left: -9999px;
+}
+
+.rotaTable [type="checkbox"]:not(:checked)+label,
+.rotaTable [type="checkbox"]:checked+label {
+    margin-top: 4px !important;
+    position: relative;
+    /*padding-left: 1.95em;*/
+    cursor: pointer;
+    margin-bottom: 0 !important;
+}
+
+
+/* checkbox aspect - checked*/
+
+.rotaTable [type="checkbox"]:checked+label:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 22px;
+    height: 22px;
+    /*border: 2px solid #ccc;*/
+    background: #8cd0f3;
+    border-radius: 4px;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, .1);
+}
+
+
+/* checkbox aspect - not checked */
+
+.rotaTable [type="checkbox"]:not(:checked)+label:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 22px;
+    height: 22px;
+    /*border: 2px solid #ccc;*/
+    /*   background: #38acec; */
+    border-radius: 4px;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, .1);
+}
+
+
+/* checked mark aspect */
+/*
+.rotaTable [type="checkbox"]:not(:checked)+label:after,
+.rotaTable [type="checkbox"]:checked+label:after {
+    /*    content: '✔';  */
+    /*content: 'X';
+    position: absolute;*/
+    /*top: .215em;
+    left: .235em;*/
+    /*font-size: 1.5em;
+    line-height: 0.8;
+    color: #dedede;
+    transition: all .2s;
+}*/
+
+
+/* checked mark aspect changes */
+
+.rotaTable [type="checkbox"]:not(:checked)+label:after {
+    opacity: 0;
+    transform: scale(0);
+}
+
+.rotaTable [type="checkbox"]:checked+label:after {
+    opacity: 1;
+    transform: scale(1);
+}
+
+
+/* disabled checkbox */
+
+.rotaTable [type="checkbox"]:disabled:not(:checked)+label:before,
+.rotaTable [type="checkbox"]:disabled:checked+label:before {
+    box-shadow: none;
+    border-color: #bbb;
+    background-color: #ddd;
+}
+
+.rotaTable [type="checkbox"]:disabled:checked+label:after {
+    color: #999;
+}
+
+.rotaTable [type="checkbox"]:disabled+label {
+    color: #aaa;
+}
+
+
+/* accessibility */
+
+.rotaTable [type="checkbox"]:checked:focus+label:before,
+.rotaTable [type="checkbox"]:not(:checked):focus+label:before {
+    background: #d3d3d3;
+}
+
+
+/* hover style just for information */
+
+.rotaTable label:hover:before {
+     background: #d3d3d3;
+}
+
+.rotaTable label {
+    width: 22px;
+    height: 22px;
+}
+/*
+#factorRotationTable2 td {
+    width: 25px !important;
+    height: 25px !important;
+}*/

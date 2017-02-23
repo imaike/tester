@@ -191,12 +191,11 @@ function jlog(text, element) {
                 qavSortTriangleShape.push(sortPossibleValues[i]);
             }
         }
-        jlog("qavSortTriangleShape", qavSortTriangleShape);
+        QAV.setState("qavSortTriangleShape", qavSortTriangleShape);
         return qavSortTriangleShape;
     };
 
     UTIL.sanitizeUserInputText = function (input) {
-        jlog("input", input);
         if (_.isNumber(input)) {
             return input;
         } else {

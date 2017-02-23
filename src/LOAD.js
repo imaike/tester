@@ -327,12 +327,12 @@
                 'targets': columnTargets, // [2, 4, 6, 8, 10, 12, 14],
                 'searchable': false,
                 'orderable': true,
-                'render': function(data) { // (data, type, full, meta) {
+                'render': function(data, dataIndex) { // (data, type, full, meta) {
                     if (
                         data === "") {
-                        return "";
+                        return '<input type="checkbox" class="sigCheckbox" /><label></label>';
                     } else {
-                        return '<input type="checkbox" class="sigCheckbox" name="d' + data + '" value="' + data + '" defaultChecked="' + (data === 'true' ? 'checked' : '') + '"' + (data === 'true' ? 'checked="checked"' : '') + ' />';
+                        return '<input type="checkbox" class="sigCheckbox" id="d' + dataIndex + '" value="' + data + '" defaultChecked="' + (data === 'true' ? 'checked' : '') + '"' + (data === 'true' ? 'checked="checked"' : '') + ' /><label></label>';
                     }
                 }
             }],
@@ -490,15 +490,15 @@
                     'targets': columnTargets, // [ 4, 6, 8, 10, 12, 14, 16],
                     'searchable': false,
                     'orderable': true,
-                    'render': function(data) { // (data, type, full, meta) {
+                    'render': function(data, dataIndex) { // (data, type, full, meta) {
                         if (
                             data === "") {
                             return "";
                         } else if (shouldFlag === "flag") {
 
-                            return '<input type="checkbox" class="sigCheckbox" name="d' + data + '" value="' + data + '" defaultChecked="' + (data === 'true' ? 'checked' : '') + '"' + (data === 'true' ? 'checked="checked"' : '') + ' />';
+                            return '<input type="checkbox" class="sigCheckbox" id="d' + dataIndex + '" value="' + data + '" defaultChecked="' + (data === 'true' ? 'checked' : '') + '"' + (data === 'true' ? 'checked="checked"' : '') + ' /><label></label>';
                         } else {
-                            return '<input type="checkbox" class="sigCheckbox" />';
+                            return '<input type="checkbox" class="sigCheckbox" /><label></label>';
                         }
                     }
                 }],
@@ -545,11 +545,11 @@
                     'targets': columnTargets, // [2, 4, 6, 8, 10, 12, 14],
                     'searchable': false,
                     'orderable': true,
-                    'render': function(data) { // (data, type, full, meta) {
+                    'render': function(data, dataIndex) { // (data, type, full, meta) {
                         if (data === "") {
-                            return "";
+                            return '<input type="checkbox" class="sigCheckbox" /><label></label>';
                         } else {
-                            return '<input type="checkbox" class="sigCheckbox" name="d' + data + '" value="' + data + '" defaultChecked="' + (data === 'true' ? 'checked' : '') + '"' + (data === 'true' ? 'checked="checked"' : '') + ' />';
+                            return '<input type="checkbox" class="sigCheckbox" id="d' + dataIndex + '" value="' + data + '" defaultChecked="' + (data === 'true' ? 'checked' : '') + '"' + (data === 'true' ? 'checked="checked"' : '') + ' /><label></label>';
                         }
                     }
                 }],
@@ -825,12 +825,12 @@
                 'searchable': false,
                 'orderable': true,
                 'className': 'dt-body-right',
-                'render': function(data) { // (data, type, full, meta) {
+                'render': function(data, dataIndex) { // (data, type, full, meta) {
                     if (
                         data === "") {
-                        return "";
+                        return '<input type="checkbox" class="sigCheckbox" /><label></label>';
                     } else {
-                        return '<input type="checkbox" class="sigCheckbox" name="d' + data + '" value="' + data + '" defaultChecked="' + (data === 'true' ? 'checked' : '') + '"' + (data === 'true' ? 'checked="checked"' : '') + ' />';
+                        return '<input type="checkbox" class="sigCheckbox" id="d' + dataIndex + '" value="' + data + '" defaultChecked="' + (data === 'true' ? 'checked' : '') + '"' + (data === 'true' ? 'checked="checked"' : '') + ' /><label></label>';
                     }
                 }
             }],

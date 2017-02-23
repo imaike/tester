@@ -223,12 +223,6 @@
 
         console.timeEnd("correlation calculations and table display ");
 
-        // var det = numeric.det(correlationTableArray);
-        // jlog("det", det);
-        //
-        // var eigen = numeric.eig(correlationTableArray);
-        // jlog("eigen", eigen);
-
         return correlationTableArrayFormatted;
     };
 
