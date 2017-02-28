@@ -45,12 +45,15 @@
         var versionLong = platform.version;
         var version = versionLong.slice(0, 2);
         var opSystem = platform.os.family;
+        var userAgent = platform.ua;
         var browser = platform.name;
         console.log(opSystem);
         console.log(platform);
-        //console.log(platform.os);
-        //console.log(platform.os);
-        //console.log(platform.os);
+
+        if (userAgent.indexOf('Linux')>=0) {
+            var Linux = true;
+        }
+
         if (opSystem === "OS X") {
             if (browser === "Firefox") {
                 if (+version >= 51) {
@@ -67,7 +70,44 @@
             } else {
                 message = changeYourBrowser();
             }
+        } else if (opSystem === "Windows") {
+            if (browser === "Firefox") {
+                if (+version >= 51) {
+                    message = goodToGo();
+                } else {
+                    message = updateYourBrowser();
+                }
+            } else if (browser === "Chrome") {
+                if (+version >= 55) {
+                    message = goodToGo();
+                } else {
+                    message = updateYourBrowser();
+                }
+            } else {
+                message = changeYourBrowser();
+            }
+        } else if (Linux) {
+            if (browser === "Firefox") {
+                if (+version >= 47) {
+                    message = goodToGo();
+                } else {
+                    message = updateYourBrowser();
+                }
+            } else if (browser === "Chrome") {
+                if (+version >= 53) {
+                    message = goodToGo();
+                } else {
+                    message = updateYourBrowser();
+                }
+            } else {
+                message = changeYourBrowser();
+            }
         }
+
+
+
+
+
         // #section1 > div.browserDetection.flex-container > div > h3
         function goodToGo() {
             $(".browserDetection .flex-item").css("background-color", "#ccffcc");
