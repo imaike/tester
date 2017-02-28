@@ -34,24 +34,60 @@
         $("#heroSection")[0].click();
     });
 
-    $(function () {
-        // display the first div by default.
-        $("#accordion div").first().css('display', 'block');
 
-        // Get all the links.
-        var link = $("#accordion a");
+    (function () {
+        var language = QAV.getState("language");
+        var YouSeemToBeUsing = resources[language].translation["You seem to be using"];
+        var YouShouldUpdate = resources[language].translation["Please update your browser before using Ken-Q Analysis"];
+        var YouShouldSwitch = resources[language].translation["This browser is not supported by Ken-Q Analysis <br> Please use one of the browsers listed above"];
 
-        // On clicking of the links open / close.
-        link.on('click', function (e) {
-            // e.preventDefault();
-            // e.stopPropagation();
-            var a = $(this).attr("href");
-            $(a).slideDown('fast');
+        var message;
+        var versionLong = platform.version;
+        var version = versionLong.slice(0, 2);
+        var browser = platform.name;
+        if (browser === "Firefox") {
+            if (+version >= 51) {
+                message = goodToGo();
+            } else {
+                message = updateYourBrowser();
+            }
+        } else if (browser === "Chrome") {
+            if (+version >= 55) {
+                message = goodToGo();
+            } else {
+                message = updateYourBrowser();
+            }
+        } else if (browser === "Edge") {
+            if (+version >= 14) {
+                message = goodToGo();
+            } else {
+                message = updateYourBrowser();
+            }
+        } else {
+            message = changeYourBrowser();
+        }
 
-            $("#accordion div").not(a).slideUp('fast');
+        // #section1 > div.browserDetection.flex-container > div > h3
+        function goodToGo() {
+            $(".browserDetection .flex-item").css("background-color", "#ccffcc");
+            var messageReply = YouSeemToBeUsing + platform.name + " version " + version;
+            return messageReply;
+        }
 
-        });
-    });
+        function updateYourBrowser() {
+            var messageReply = YouSeemToBeUsing + platform.name + " version " + version + "<br><br>" + YouShouldUpdate;
+            $(".browserDetection .flex-item").css("background-color", "yellow");
+            return messageReply;
+        }
+
+        function changeYourBrowser() {
+            var messageReply = YouSeemToBeUsing + platform.name + " version " + version + "<br><br>" + YouShouldSwitch;
+            $(".browserDetection .flex-item").css("background-color", "yellow");
+            return messageReply;
+        }
+
+        $("#browserMessage").html(message);
+    })();
 
 
     // ************************************************************  view
@@ -340,7 +376,7 @@
     // SUBMIT BUTTON event listeners
     $(function () {
         $('#splitModal').on('click', '.button-submit', function (e) {
-           // e.preventDefault();
+            // e.preventDefault();
             var inputValue = $("#splitModal input").val();
             if (inputValue === false || inputValue === "") {
                 return false;

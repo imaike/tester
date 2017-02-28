@@ -1275,7 +1275,7 @@
 
             var label = document.createElement('label');
             label.htmlFor = factorsToSelect[j];
-            label.className = "checkboxLabel";
+            label.classList.add("checkboxLabel");
             label.appendChild(document.createTextNode(factorsToSelect[j]));
             document
                 .getElementById("selectFactorsForOutputDiv")

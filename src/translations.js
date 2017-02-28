@@ -297,7 +297,10 @@ var resources = {
             "Sorts Correlations": "Sorts Correlations",
             "Factor Scores for ": "Factor Scores for ",
             "Descending Array of Differences Between": "Descending Array of Differences Between",
-            "Factor Q-sort Values for Statements sorted by Consensus vs. Disagreement": "Factor Q-sort Values for Statements sorted by Consensus vs. Disagreement"
+            "Factor Q-sort Values for Statements sorted by Consensus vs. Disagreement": "Factor Q-sort Values for Statements sorted by Consensus vs. Disagreement",
+            "You seem to be using": "You seem to be using ",
+            "Please update your browser before using Ken-Q Analysis": "Please update your browser before using Ken-Q Analysis",
+            "This browser is not supported by Ken-Q Analysis <br> Please use one of the browsers listed above": "This browser is not supported by Ken-Q Analysis <br> Please use one of the browsers listed above"
         }
     },
     "ja": {
@@ -590,7 +593,10 @@ var resources = {
             "Sorts Correlations": "Sorts Correlations",
             "Factor Scores for ": "Factor Scores for ",
             "Descending Array of Differences Between": "Descending Array of Differences Between",
-            "Factor Q-sort Values for Statements sorted by Consensus vs. Disagreement": "Factor Q-sort Values for Statements sorted by Consensus vs. Disagreement"
+            "Factor Q-sort Values for Statements sorted by Consensus vs. Disagreement": "Factor Q-sort Values for Statements sorted by Consensus vs. Disagreement",
+            "You seem to be using": "You seem to be using ",
+            "Please update your browser before using Ken-Q Analysis": "You should update your browser before using Ken-Q Analysis",
+            "This browser is not supported by Ken-Q Analysis <br> Please use one of the browsers listed above": "This browser is not supported by Ken-Q Analysis <br> Please use one of the browsers listed above"
         }
     }
 };
@@ -598,18 +604,18 @@ var resources = {
 // JSlint declarations
 /* global $, i18n, QAV, document */
 
-(function() {
+(function () {
     i18n
         .init({
             "lng": 'en-us',
             "resStore": resources,
             "useDataAttrOptions": true,
             "fallbackLng": 'en-us'
-        }, function() {
+        }, function () {
             $(document).i18n();
         });
 
-    $('#languageSelect').on("change", function() {
+    $('#languageSelect').on("change", function () {
         var lang = $(this).val();
         console.log(lang);
 
@@ -618,7 +624,7 @@ var resources = {
 
         i18n.init({
             lng: lang
-        }, function() {
+        }, function () {
             $(document).i18n();
         });
     });

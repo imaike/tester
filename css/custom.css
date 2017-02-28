@@ -921,7 +921,7 @@ transition: none !important;
 .inputBoxAutoWidth {
     width: 95%;
 }
-
+/*
 #accordion {
     margin-top: 10px;
     margin-left: 10%;
@@ -966,7 +966,7 @@ transition: none !important;
 
 #accordionDiv {
     height: 500px;
-}
+}*/
 
 .evenFactorRow {
     background-color: pink;
@@ -1815,19 +1815,6 @@ input[type=color] {
     margin-top: .5em;
 }
 
-.section7Css .factorSelectBox {
-    opacity: 0;
-}
-
-.section7Css .checkboxLabel {
-    margin-right: 10px !important;
-}
-
-.section7Css .factorSelectBox:checked+.checkboxLabel {
-    background: none repeat scroll 0 0 #38acec !important;
-    color: #FFFFFF !important;
-}
-
 
 /* Base for label styling */
 
@@ -1880,19 +1867,25 @@ input[type=color] {
 
 
 /* checked mark aspect */
-/*
+
 .rotaTable [type="checkbox"]:not(:checked)+label:after,
 .rotaTable [type="checkbox"]:checked+label:after {
     /*    content: '✔';  */
-    /*content: 'X';
-    position: absolute;*/
-    /*top: .215em;
-    left: .235em;*/
-    /*font-size: 1.5em;
+    content: '◉';
+    position: absolute;
+    top: 22%;
+    /*bottom: 0;*/
+    left: 18%;
+    /*transform: translate(-50%, -50%);*/
+    /*right:0; */
+    /*margin: auto;
+    /*margin-left:auto;
+    margin-right: auto;*/
+    font-size: 14px;
     line-height: 0.8;
-    color: #dedede;
+    color: white;
     transition: all .2s;
-}*/
+}
 
 
 /* checked mark aspect changes */
@@ -1937,15 +1930,105 @@ input[type=color] {
 /* hover style just for information */
 
 .rotaTable label:hover:before {
-     background: #d3d3d3;
+    background: #d3d3d3;
 }
 
 .rotaTable label {
     width: 22px;
     height: 22px;
 }
-/*
-#factorRotationTable2 td {
-    width: 25px !important;
-    height: 25px !important;
-}*/
+
+.checkboxLabel {
+    padding-left: 5px;
+    width: 73px;
+    display: inline-block;
+    margin-right: 20px;
+}
+
+.section7Css .factorSelectBox:checked+.checkboxLabel {
+    background: none repeat scroll #38acec !important;
+    color: #FFFFFF !important;
+    /*margin-left: 10px !important; */
+}
+
+.section7Css [type="checkbox"]:not(:checked),
+[type="checkbox"]:checked {
+    position: absolute;
+    left: -9999px;
+    opacity: 0;
+}
+
+.browserDetection .flex-container {
+    padding: 0;
+    margin: 0;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.browserDetection .flex-item {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    width: 850px;
+    height: auto;
+    margin-top: 10px;
+    line-height: 30px;
+    color: black;
+    font-weight: bold;
+    font-size: 2em;
+    text-align: center;
+}
+
+
+.supportedBrowsers .flex-item {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    width: 150px;
+    height: auto;
+    margin-top: 10px;
+    margin-right: 40px;
+    margin-left: 40px;
+    line-height: 30px;
+    color: black;
+    font-weight: bold;
+    font-size: 2em;
+    text-align: center;
+    background-color: #eee;
+    border: solid 3px #dedede;
+}
+
+.supportedBrowsers img {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    width: 100px;
+    height: auto;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.topSpacer {
+    margin-top: 100px;
+}
+
+.browserSubText {
+    font-size: 14px;
+}
+
+.introHelpText {
+    width: 875px;
+    display: inline-block;
+}
+
+.introHelpIcon {
+    display: inline-block;
+}
+
+.introCautionText {
+    padding: 20px 20px 10px 20px;
+    background-color: #fef9a8;
+    width: 94%;
+}
