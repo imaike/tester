@@ -47,6 +47,7 @@
         var opSystem = platform.os.family;
         var browser = platform.name;
         console.log(opSystem);
+        console.log(platform.os);
         if (opSystem === "OS X") {
             if (browser === "Firefox") {
                 if (+version >= 51) {
