@@ -44,29 +44,26 @@
         var message;
         var versionLong = platform.version;
         var version = versionLong.slice(0, 2);
+        var opSystem = platform.os.family;
         var browser = platform.name;
-        if (browser === "Firefox") {
-            if (+version >= 51) {
-                message = goodToGo();
+        console.log(opSystem);
+        if (opSystem === "OS X") {
+            if (browser === "Firefox") {
+                if (+version >= 51) {
+                    message = goodToGo();
+                } else {
+                    message = updateYourBrowser();
+                }
+            } else if (browser === "Chrome") {
+                if (+version >= 55) {
+                    message = goodToGo();
+                } else {
+                    message = updateYourBrowser();
+                }
             } else {
-                message = updateYourBrowser();
+                message = changeYourBrowser();
             }
-        } else if (browser === "Chrome") {
-            if (+version >= 55) {
-                message = goodToGo();
-            } else {
-                message = updateYourBrowser();
-            }
-        } else if (browser === "Edge") {
-            if (+version >= 14) {
-                message = goodToGo();
-            } else {
-                message = updateYourBrowser();
-            }
-        } else {
-            message = changeYourBrowser();
         }
-
         // #section1 > div.browserDetection.flex-container > div > h3
         function goodToGo() {
             $(".browserDetection .flex-item").css("background-color", "#ccffcc");
