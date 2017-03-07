@@ -107,7 +107,7 @@
             } else if (browser === "Chrome") {
                 if (+version >= 55) {
                     $(".browserDetection .flex-item").css("background-color", "#ccffcc");
-                     message = YouSeemToBeUsing + "Chromium version " + version + "<br><br>" + readyForAnalysis;
+                     message = YouSeemToBeUsing + "Chromium version " + version + "<br><br>-- ready for analysis";
                 } else {
                     message = updateYourBrowser();
                 }
