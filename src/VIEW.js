@@ -38,6 +38,7 @@
     (function () {
         var language = QAV.getState("language");
         var YouSeemToBeUsing = resources[language].translation["You seem to be using"];
+        var readyForAnalysis = resources[language].translation["Ready to begin analysis"];
         var YouShouldUpdate = resources[language].translation["Please update your browser before using Ken-Q Analysis"];
         var YouShouldSwitch = resources[language].translation["This browser is not supported by Ken-Q Analysis <br> Please use one of the browsers listed above"];
 
@@ -92,12 +93,12 @@
             }
         } else if (Linux) {
             if (browser === "Firefox") {
-                if (+version >= 47) {
+                if (+version >= 50) {
                     message = goodToGo();
                 } else {
                     message = updateYourBrowser();
                 }
-            } else if (browser === "Chrome") {
+            } else if (browser === "Chromium") {
                 if (+version >= 53) {
                     $(".browserDetection .flex-item").css("background-color", "#ccffcc");
                     var messageReply = YouSeemToBeUsing + Chromium + " version " + version;
@@ -112,7 +113,7 @@
         // #section1 > div.browserDetection.flex-container > div > h3
         function goodToGo() {
             $(".browserDetection .flex-item").css("background-color", "#ccffcc");
-            var messageReply = YouSeemToBeUsing + platform.name + " version " + version;
+            var messageReply = YouSeemToBeUsing + platform.name + " version " + version + "<br><br>" + readyForAnalysis;
             return messageReply;
         }
 
