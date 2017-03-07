@@ -134,7 +134,7 @@
             $(".browserDetection .flex-item").css("background-color", "yellow");
             return messageReply;
         }
-
+        console.log(message);
         $("#browserMessage").html(message);
     })();
 
