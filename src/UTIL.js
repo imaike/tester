@@ -8,7 +8,7 @@
 
 
 // JSlint declarations
-/* global window, $, d3, resources, window, _, ROTA, localStorage, QAV, PCA, document, performance*/
+/* global window, $, d3, resources, window, _, navigator, Blob, URL, ROTA, QAV, document, evenRound*/
 
 
 //***************************************************************************   model
@@ -27,7 +27,75 @@ function evenRound(num, decimalPlaces) {
     return d ? r / m : r;
 }
 
+function jlog(text, element) {
+    return console.log("var " + text + " = " + JSON.stringify(element) + ";");
+}
+
+
 (function (UTIL, QAV, undefined) {
+    'use strict';
+    /*
+    ********************************************************
+    HELPER FUNCTIONS
+
+    standard deviation and average from:
+    http://derickbailey.com/2014/09/21/calculating-standard-deviation-with-array-map-and-array-reduce-in-javascript/
+
+    variance from:
+    http://www.endmemo.com/js/jstatistics.php
+    ********************************************************
+    */
+
+    UTIL.standardDeviation = function (values) {
+        var avg = UTIL.average(values);
+        var squareDiffs = values.map(function (value) {
+            var diff = value - avg;
+            var sqrDiff = diff * diff;
+            return sqrDiff;
+        });
+        var avgSquareDiff1 = squareDiffs.reduce(function (sum, value) {
+            return sum + value;
+        }, 0);
+        var avgSquareDiff = evenRound((avgSquareDiff1 / (squareDiffs.length - 1)), 8);
+        var stdDev = evenRound((Math.sqrt(avgSquareDiff)), 8);
+        return stdDev;
+    };
+
+    UTIL.variance = function (arr) {
+        var len = 0;
+        var sum = 0;
+        for (var i = 0; i < arr.length; i++) {
+            if (arr[i] === "") {} else if (isNaN(arr[i])) {
+                return 0;
+            } else {
+                len = len + 1;
+                sum = sum + parseFloat(arr[i]);
+            }
+        }
+        var v = 0;
+        if (len > 1) {
+            var mean = sum / len;
+            for (i = 0; i < arr.length; i++) {
+                if (arr[i] === "") {} else {
+                    v = v + (arr[i] - mean) * (arr[i] - mean);
+                }
+            }
+            var output2 = v / len;
+            var output = evenRound(output2, 6);
+            return output;
+        } else {
+            return 0;
+        }
+    };
+
+
+    UTIL.average = function (data) {
+        var sum = data.reduce(function (sum, value) {
+            return sum + value;
+        }, 0);
+        var avg = evenRound((sum / data.length), 8);
+        return avg;
+    };
 
     UTIL.drawDatatable = function (configObj) {
         $(configObj.domElement).DataTable({
@@ -68,7 +136,7 @@ function evenRound(num, decimalPlaces) {
         }
 
         var language = QAV.getState("language");
-        var facText = resources[language]["translation"]["Factor"];
+        var facText = resources[language].translation.Factor;
 
         // add checkboxes to DOM according to number factors extracted
         for (var k = 0; k < loopLength; k++) {
@@ -116,9 +184,7 @@ function evenRound(num, decimalPlaces) {
     };
 
     UTIL.calculateSortTriangleShape = function (pyramidShapeNumbers) {
-
         var sortPossibleValues = [-6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
-
         var qavSortTriangleShape = [];
         for (var i = 0; i < sortPossibleValues.length; i++) {
             for (var j = 0; j < pyramidShapeNumbers[i]; j++) {
@@ -126,14 +192,20 @@ function evenRound(num, decimalPlaces) {
             }
         }
         QAV.setState("qavSortTriangleShape", qavSortTriangleShape);
+        return qavSortTriangleShape;
     };
 
     UTIL.sanitizeUserInputText = function (input) {
-        var output = input.replace(/<script[^>]*?>.*?<\/<\/script>/gi, '').
-        replace(/<[\/\!]*?[^<>]*?>/gi, '').
-        replace(/<style[^>]*?>.*?<\/style>/gi, '').
-        replace(/<![\s\S]*?--[ \t\n\r]*>/gi, '');
-        return output;
+        if (_.isNumber(input)) {
+            return input;
+        } else {
+            var output = input.replace(/<script[^>]*?>.*?<\/<\/script>/gi, '').
+            replace(/<[\/\!]*?[^<>]*?>/gi, '').
+            replace(/<style[^>]*?>.*?<\/style>/gi, '').
+            replace(/<![\s\S]*?--[ \t\n\r]*>/gi, '');
+            QAV.setState("output", output);
+            return output;
+        }
     };
 
     // helper function for export routines
@@ -180,6 +252,15 @@ function evenRound(num, decimalPlaces) {
         return Time;
     };
 
+    UTIL.checkIfValueIsNumber = function (value, inputBoxId) {
+        if (isNaN(value)) {
+            $("#" + inputBoxId).css("border", "red solid 3px");
+        } else {
+            $("#" + inputBoxId).css("border", "lightgray solid 1px");
+        }
+    };
+
+
     // *************************************************************  Data Model
     // **********  Archive function to allow undo of rotations *****************
     // *************************************************************************
@@ -222,6 +303,58 @@ function evenRound(num, decimalPlaces) {
     //    })();
     //
 
+
+    // custom export function - adapted from Jossef Harush - https://jsfiddle.net/jossef/m3rrLzk0/
+    UTIL.exportToCsv = function (filename, rows) {
+        var processRow = function (row) {
+            var finalVal = '';
+            for (var j = 0; j < row.length; j++) {
+                var value = row[j];
+                if (value === null || value === undefined) {
+                    value = "";
+                }
+                var innerValue = value.toString();
+                var result = innerValue.replace(/"/g, '""');
+                if (result.search(/("|,|\n)/g) >= 0) {
+                    result = '"' + result + '"';
+                }
+                if (j > 0) {
+                    finalVal += ',';
+                }
+                finalVal += result;
+            }
+            return finalVal + '\n';
+        };
+
+        var csvFile = '';
+        for (var i = 0; i < rows.length; i++) {
+            csvFile += processRow(rows[i]);
+        }
+
+        var blob = new Blob([csvFile], {
+            type: 'text/CSV;charset=UTF-8;'
+        });
+        if (navigator.msSaveBlob) { // IE 10+
+            navigator.msSaveBlob(blob, filename);
+        } else {
+            var link = document.createElement("a");
+            if (link.download !== undefined) { // feature detection
+                // Browsers that support HTML5 download attribute
+                var url = URL.createObjectURL(blob);
+                link.setAttribute("href", url);
+                link.setAttribute("download", filename);
+                link.style.visibility = 'hidden';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
+        }
+    };
+
+
+
+
+
     UTIL.drawScreePlot = function (dataArray) {
         var i, data, chartSize, margin, width, height;
         var tempArray, maxValue, xTicks;
@@ -261,11 +394,11 @@ function evenRound(num, decimalPlaces) {
         }
         height = width - margin.bottom - 80;
 
-        // get current language value  
+        // get current language value
         var language = QAV.getState("language");
-        var plotTitle = resources[language]["translation"]["Scree Plot"];
-        var xAxisTitle = resources[language]["translation"]["Factor Number"];
-        var yAxisTitle = resources[language]["translation"]["Eigenvalues"];
+        var plotTitle = resources[language].translation["Scree Plot"];
+        var xAxisTitle = resources[language].translation["Factor Number"];
+        var yAxisTitle = resources[language].translation.Eigenvalues;
 
         // Set the ranges
         var x = d3.scale.linear().range([0, width]);
@@ -290,8 +423,9 @@ function evenRound(num, decimalPlaces) {
         // Adds the svg canvas
         var svg = d3.select("#screePlotDiv")
             .append("svg")
+            .attr("id", "screePlotSVG")
             .attr("width", width + margin.left + margin.right)
-            .attr("height", height + margin.top + margin.bottom)
+            .attr("height", height + 20 + margin.top + margin.bottom)
             .append("g")
             .attr("transform",
                 "translate(" + margin.left + "," + margin.top + ")");
@@ -305,10 +439,12 @@ function evenRound(num, decimalPlaces) {
         // create x axis title
         svg.append("text")
             .attr("x", width / 2)
-            .attr("y", height + 35)
+            .attr("y", height + 45)
             .style("text-anchor", "middle")
             .style("font-weight", "bold")
             .style("margin-top", "10px")
+            .style("font-size", "14px")
+            .style("font-family", "Arial")
             .text(xAxisTitle);
 
         // create Y axis label
@@ -319,6 +455,8 @@ function evenRound(num, decimalPlaces) {
             .attr("dy", "1em")
             .style("text-anchor", "middle")
             .style("font-weight", "bold")
+            .style("font-size", "14px")
+            .style("font-family", "Arial")
             .text(yAxisTitle);
 
         // create chart title
@@ -326,7 +464,8 @@ function evenRound(num, decimalPlaces) {
             .attr("x", (width / 2))
             .attr("y", 0 - (margin.top / 8))
             .attr("text-anchor", "middle")
-            .style("font-size", "26px")
+            .style("font-size", "30px")
+            .style("font-family", "Arial")
             .text(plotTitle);
 
         // Add the valueline path.
@@ -345,6 +484,9 @@ function evenRound(num, decimalPlaces) {
             .attr("class", "y axis")
             .call(yAxis);
 
+        svg.selectAll(".tick > text")
+            .style("font-family", "Arial");
+
         svg.selectAll(".dot2")
             .data(data)
             .enter().append("circle")
@@ -356,7 +498,6 @@ function evenRound(num, decimalPlaces) {
                 return y(data.eigen);
             })
             .attr("r", 3.5);
-
     };
 
 }(window.UTIL = window.UTIL || {}, QAV));

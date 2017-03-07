@@ -8,13 +8,13 @@
 
 
 // JSlint declarations
-/* global window, $, resources, EXCEL, DEMO, d3, INPUT, ROTA, VARIMAX, OUTPUT, setTimeout, LOAD, localStorage, _, document, PASTE, CORR, sessionStorage, CENTROID, VIEW, PCA, QAV, UTIL, performance*/
+/* global window, $, resources, EXCEL, FIREBASE, DEMO, d3, INPUT, ROTA, VARIMAX, OUTPUT, LOAD, localStorage, _, d3_save_svg, document, Huebee, PASTE, CORR, sessionStorage, CENTROID, VIEW, PCA, QAV, UTIL, performance*/
 
 (function (CONTROLERS, QAV, undefined) {
 
     /*
     //
-    // **** SECTION 1 **** data input 
+    // **** SECTION 1 **** data input
     //
     */
 
@@ -77,16 +77,19 @@
         });
     })();
 
-    (function () {
-        $("#exportExcelSortsPQM").on("click", function (e) {
-            e.preventDefault();
-            EXCEL.exportExcelSortsPQM();
-        });
-    })();
-
     // import EXCEL files
     (function () {
         $("#fileSelect").on("change", function (e) {
+            QAV.setState("typeOfExcelFile", "user-input");
+            EXCEL.filePicked(e);
+        });
+    })();
+
+
+    // import Unforced EXCEL files
+    (function () {
+        $("#fileSelectUnforced").on("change", function (e) {
+            QAV.setState("typeOfExcelFile", "unforced");
             EXCEL.filePicked(e);
         });
     })();
@@ -112,10 +115,119 @@
         });
     })();
 
+    // import STA files to PASTE     displayJsonData
+    (function () {
+        $("#fileSelectJSON").on("change", function (e) {
+            FIREBASE.filePickedJSON(e);
+        });
+    })();
+
+    (function () {
+        $("#stageJsonData").on("click", function (e) {
+            FIREBASE.stageJsonData(e);
+            $(".jsonDownloadPQ").show();
+        });
+    })();
+
+    (function () {
+        $("#downloadJsonData").on("click", function (e) {
+            FIREBASE.downloadJsonData(e);
+        });
+    })();
+
+    (function () {
+        $("#existingDatabaseRespondentList").on("click", "button", function (e) {
+            e.preventDefault();
+            var index = $(this).parent().index();
+            $(this).parent().remove();
+            var respondentNames = QAV.getState("qavRespondentNames");
+            var sorts = QAV.getState("qavRespondentSortsFromDbStored");
+            respondentNames.splice(index, 1);
+            sorts.splice(index, 1);
+
+            if ($.fn.DataTable.isDataTable('#correlationTable2')) {
+                $('#correlationTable2').DataTable().destroy();
+                $('#correlationTable2').html("");
+            }
+
+            QAV.setState("qavRespondentNames", respondentNames);
+            QAV.setState("qavRespondentSortsFromDbStored", sorts);
+        });
+    })();
+
+    (function () {
+        $("#exportJsonSortsPQM").on("click", function (e) {
+            e.preventDefault();
+            EXCEL.exportExcelSortsPQM();
+        });
+    })();
+
+    (function () {
+        $("#exportStatementsPQM").on("click", function (e) {
+            e.preventDefault();
+            EXCEL.exportStatementsToPqmethod();
+        });
+    })();
+
+
+    (function () {
+        $("#clearAnalysisDataButton").on("click", function (e) {
+            e.preventDefault();
+            $("#existingDatabaseStatementList").empty();
+            $("#existingDatabaseRespondentList").empty();
+            if ($.fn.DataTable.isDataTable('#correlationTable2')) {
+                $('#correlationTable2').DataTable().destroy();
+                $('#correlationTable2').html("");
+            }
+            $(".pqmButton").hide();
+        });
+    })();
+
+    (function () {
+        $("#disableSymmetryButton").on("click", function (e) {
+            e.preventDefault();
+            var language = QAV.getState("language");
+            var noSymmButText = resources[language].translation["Symmetry Check Disabled"];
+            var symmButText = resources[language].translation["Disable Symmetry Check"];
+            var button = $(this);
+            if (button.hasClass("buttonActionComplete")) {
+                button.prop('value', symmButText);
+                button.addClass("blackHover");
+                button.removeClass("buttonActionComplete");
+                QAV.setState("doSymmetryCheck", "true");
+            } else {
+                button.prop('value', noSymmButText);
+                button.removeClass("blackHover");
+                button.addClass("buttonActionComplete");
+                QAV.setState("doSymmetryCheck", "false");
+            }
+        });
+    })();
+
+    (function () {
+        $("#disableErrorSoundButton").on("click", function (e) {
+            e.preventDefault();
+            var language = QAV.getState("language");
+            var noErrorButText = resources[language].translation["AUDIO ERROR WARNING DISABLED"];
+            var errorButText = resources[language].translation["Disable Audio Error Warning"];
+            var button = $(this);
+            if (button.hasClass("buttonActionComplete")) {
+                button.prop('value', errorButText);
+                button.addClass("blackHover");
+                button.removeClass("buttonActionComplete");
+                QAV.setState("doErrorSound", "true");
+            } else {
+                button.prop('value', noErrorButText);
+                button.removeClass("blackHover");
+                button.addClass("buttonActionComplete");
+                QAV.setState("doErrorSound", "false");
+            }
+        });
+    })();
 
     /*
     //
-    // **** SECTION 2 **** correlations 
+    // **** SECTION 2 **** correlations
     //
     */
 
@@ -128,9 +240,9 @@
     })();
 
 
-    /*  
+    /*
     //
-    // **** SECTION 3 **** extractions
+    // **** SECTION 3 **** factor extractions
     //
     */
     // to start pca and draw PCA table
@@ -140,7 +252,7 @@
             var button, button2, X, t0, t1, dataArray2, dataArray;
 
             var language = QAV.getState("language");
-            var PcaButText = resources[language]["translation"]["Principal components"];
+            var PcaButText = resources[language].translation["Principal components"];
 
             t0 = performance.now();
 
@@ -168,6 +280,8 @@
 
             UTIL.drawScreePlot(dataArray);
 
+            $("#section4 > input").show();
+
             t1 = performance.now();
 
             console.log('%c PCA completed in ' + (t1 - t0).toFixed(0) + ' milliseconds', 'background: black; color: white');
@@ -184,7 +298,7 @@
 
             var button2, dataArray;
             var language = QAV.getState("language");
-            var centFacButText = resources[language]["translation"]["Centroid factors"];
+            var centFacButText = resources[language].translation["Centroid factors"];
 
             CENTROID.fireFactorExtraction();
             $(this).removeClass("blackHover").addClass("buttonActionComplete").prop('value', centFacButText).prop('disabled', true);
@@ -201,6 +315,8 @@
             dataArray.shift();
             UTIL.drawScreePlot(dataArray);
 
+            $("#section4 > input").show();
+
             // required for firefox to register event?
             return false;
         });
@@ -214,6 +330,7 @@
             $(this).prop('disabled', true);
 
             d3.select("#screePlotDiv svg").remove();
+            $("#section4 > input").hide();
 
             VIEW.clearSections_4_5_6();
 
@@ -232,19 +349,19 @@
             QAV.setState("analysisOutput", "");
             QAV.setState("factorMatrixTransposed", "");
 
-            QAV.centroidFactors = "";
-            QAV.typeOfFactor = "";
-            QAV.pcaNumberFactorsExtracted = "";
-            QAV.factorLabels = "";
-            QAV.eigenValuesSorted = "";
-            QAV.eigenValuesAsPercents = "";
-            QAV.eigenValuesCumulPercentArray = "";
-            QAV.eigenVecs = "";
-            QAV.numFactorsExtracted = "";
-            QAV.pcaTableHeaders = "";
-            QAV.pcaTableTargets = "";
-            QAV.numFactorsRetained = "";
-            QAV.typeOfRotation = "";
+            QAV.setState("centroidFactors", "");
+            QAV.setState("typeOfFactor", "");
+            QAV.setState("pcaNumberFactorsExtracted", "");
+            QAV.setState("factorLabels", "");
+            QAV.setState("eigenValuesSorted", "");
+            QAV.setState("eigenValuesAsPercents", "");
+            QAV.setState("eigenValuesCumulPercentArray", "");
+            QAV.setState("eigenVecs", "");
+            QAV.setState("numFactorsExtracted", "");
+            QAV.setState("pcaTableHeaders", "");
+            QAV.setState("pcaTableTargets", "");
+            QAV.setState("numFactorsRetained", "");
+            QAV.setState("typeOfRotation", "");
 
             // required for firefox to register event
             return false;
@@ -300,7 +417,12 @@
     (function () {
         $("#saveRotationButton").on("click", function (e) {
             e.preventDefault();
-            ROTA.saveRotation();
+            var testForSplit = QAV.getState("hasSplitFactor");
+            if (testForSplit > 0) {
+                VIEW.showDisabledFunctionsAfterSplitModal();
+            } else {
+                ROTA.saveRotation();
+            }
         });
     })();
 
@@ -309,50 +431,57 @@
     (function () {
         $("#generateRotationItemsButton").on("click", function (e) {
             e.preventDefault();
-            var rotFacStateArray = QAV.getState("rotFacStateArray");
-            var tempRotFacStateArray = _.cloneDeep(rotFacStateArray);
-            QAV.setState("tempRotFacStateArray", tempRotFacStateArray);
+            var testForSplit = QAV.getState("hasSplitFactor");
+            if (testForSplit > 0) {
+                VIEW.showDisabledFunctionsAfterSplitModal();
+            } else {
+                var rotFacStateArray = QAV.getState("rotFacStateArray");
+                // todo - see if this can be deleted - already cloned with getState method?
+                var tempRotFacStateArray = _.cloneDeep(rotFacStateArray);
+                QAV.setState("tempRotFacStateArray", tempRotFacStateArray);
 
-            // pull the selected factors and then pull their data
-            ROTA.setRotationFactorsFromCheckbox();
-            ROTA.setTwoFactorRotationalArray(rotFacStateArray);
+                // pull the selected factors and then pull their data
+                ROTA.setRotationFactorsFromCheckbox();
+                ROTA.setTwoFactorRotationalArray(rotFacStateArray);
 
-            // expects bare full array
-            var arrayWithCommunalities = ROTA.calculateCommunalities(rotFacStateArray);
+                // expects bare full array
+                var arrayWithCommunalities = ROTA.calculateCommunalities(rotFacStateArray);
 
-            // prep for D3 chart autoflagging tests
-            // var d3AutoflaggingPrep = d3Autoflagging(arrayWithCommunalities);
+                // prep for D3 chart autoflagging tests
+                // var d3AutoflaggingPrep = d3Autoflagging(arrayWithCommunalities);
 
-            // gets array for fSig testing from LS of calculateCommunalities - sets fSigCriterionResults
-            ROTA.calculatefSigCriterionValues("flag");
+                // gets array for fSig testing from LS of calculateCommunalities - sets fSigCriterionResults
+                ROTA.calculatefSigCriterionValues("flag");
 
-            // returns dataValuesArray for D3 chart
-            // creates arrays for table/D3 (LS) from state
-            var d3Prep = ROTA.doD3ChartDataPrep(arrayWithCommunalities);
+                // returns dataValuesArray for D3 chart
+                // creates arrays for table/D3 (LS) from state
+                var d3Prep = ROTA.doD3ChartDataPrep(arrayWithCommunalities);
 
-            $("#chartAndTableDisplayContainer").show();
+                $("#chartAndTableDisplayContainer").show();
 
-            ROTA.drawD3Chart(d3Prep);
-            // clone the state array to prevent changes
-            var chartData = _.cloneDeep(rotFacStateArray);
-            var prepTwoFactorTable = ROTA.prepTwoFactorUpdateHandsontable(chartData);
+                ROTA.drawD3Chart(d3Prep);
+                // clone the state array to prevent changes
+                var chartData = _.cloneDeep(rotFacStateArray);
+                var prepTwoFactorTable = ROTA.prepTwoFactorUpdateHandsontable(chartData);
 
-            // set baseline data to calc "change due to factor rotation" (2 factor)
-            var baseLineData = _.cloneDeep(prepTwoFactorTable);
-            QAV.setState("baseLineData", baseLineData);
+                // set baseline data to calc "change due to factor rotation" (2 factor)
+                var baseLineData = _.cloneDeep(prepTwoFactorTable);
+                QAV.setState("baseLineData", baseLineData);
 
-            // creates 2 factor rotation display table data
-            ROTA.updateDatatable1(prepTwoFactorTable);
+                // creates 2 factor rotation display table data
+                var isNewSelection = true;
+                ROTA.updateDatatable1(prepTwoFactorTable, isNewSelection);
 
-            // reset degree display, button color and stored value
-            $("#handRotationDisplayContainer div").html("0&deg");
-            sessionStorage.setItem("rotationDegreeDisplayValue", 0);
-            var rotationDegreeDisplayValue = 0;
-            ROTA.saveRotationButtonColor(rotationDegreeDisplayValue);
+                // reset degree display, button color and stored value
+                $("#handRotationDisplayContainer div").html("0&deg");
+                sessionStorage.setItem("rotationDegreeDisplayValue", 0);
+                var rotationDegreeDisplayValue = 0;
+                ROTA.saveRotationButtonColor(rotationDegreeDisplayValue);
 
-            //draw rotation table for the first time
-            var isRotatedFactorsTableUpdate = "destroy";
-            LOAD.drawRotatedFactorsTable2(isRotatedFactorsTableUpdate, "noFlag");
+                //draw all factor rotation table for the first time
+                var isRotatedFactorsTableUpdate = "destroy";
+                LOAD.drawRotatedFactorsTable2(isRotatedFactorsTableUpdate, "noFlag"); // noFlag
+            }
         });
     })();
 
@@ -381,7 +510,7 @@
 
             QAV.setState("numFactorsRetained", numFactors);
 
-            // prvent user selection errors 
+            // prvent user selection errors
             temp1 = QAV.numFactorsExtracted || 0;
             if (numFactors > temp1) {
                 $("#rotationLargeNumberError").show();
@@ -395,8 +524,8 @@
                 $("#factorJudgementRotButton").show();
 
                 var language = QAV.getState("language");
-                var facText = resources[language]["translation"]["Factors Kept"];
-                var appendText = resources[language]["translation"]["Factors Kept for Rotation"];
+                var facText = resources[language].translation["Factors Kept"];
+                var appendText = resources[language].translation["Factors Kept for Rotation"];
 
                 var button = $(this);
                 button.removeClass("blackHover");
@@ -424,7 +553,7 @@
                     }
                 }
 
-                // send data to state matrix and then to chart 
+                // send data to state matrix and then to chart
                 QAV.setState("rotFacStateArray", data);
 
                 // prep for chart
@@ -461,11 +590,9 @@
             if (testForSplit > 0) {
                 VIEW.showDisabledFunctionsAfterSplitModal();
             } else {
-
                 QAV.setState("typeOfRotation", "judgemental");
-
                 var language = QAV.getState("language");
-                var judgeText = resources[language]["translation"]["Judgemental rotation"];
+                var judgeText = resources[language].translation["Judgemental rotation"];
                 var button = $(this);
                 button.removeClass("blackHover");
                 button.addClass("buttonActionComplete");
@@ -474,7 +601,6 @@
 
                 // get number of checkboxes from UI and append to DOM
                 UTIL.addFactorSelectCheckboxesRotation(QAV.numFactorsRetained);
-
                 $("#judgementalRotationContainer").show();
             }
         });
@@ -488,12 +614,9 @@
             if (testForSplit > 0) {
                 VIEW.showDisabledFunctionsAfterSplitModal();
             } else {
-
                 QAV.setState("typeOfRotation", "varimax");
-
                 var language = QAV.getState("language");
-                var varmaxRotButText = resources[language]["translation"]["Varimax rotation applied"];
-
+                var varmaxRotButText = resources[language].translation["Varimax rotation applied"];
                 var button = $(this);
                 button.removeClass("blackHover");
                 button.addClass("buttonActionComplete");
@@ -507,6 +630,161 @@
                 }
                 VARIMAX.fireVarimaxRotation();
             }
+        });
+    })();
+
+    (function () {
+        // scree plot image download
+        $(".screePlotDownloadButton").on("click", function () {
+            var date = UTIL.currentDate1();
+            var time = UTIL.currentTime1();
+            var dateTime = date + "_" + time;
+            var projectName = QAV.getState("qavProjectName");
+            var language = QAV.getState("language");
+            var screePlotTranslation = resources[language].translation["Scree Plot"];
+
+            var config = {
+                filename: projectName + "_" + screePlotTranslation + "_" + dateTime,
+            };
+            d3_save_svg.save(d3.select('#screePlotSVG').node(), config);
+        });
+    })();
+
+    (function () {
+        // download judgemental rotation chart
+        $(".rotationChartDownloadButton").on("click", function () {
+            var date = UTIL.currentDate1();
+            var time = UTIL.currentTime1();
+            var dateTime = date + "_" + time;
+            var projectName = QAV.getState("qavProjectName");
+            var language = QAV.getState("language");
+            var scatterPlotTranslation = resources[language].translation["Download Rotation Chart"];
+
+            var config = {
+                filename: projectName + "_" + scatterPlotTranslation + "_" + dateTime,
+            };
+            d3_save_svg.save(d3.select('#scatterChart').node(), config);
+        });
+    })();
+
+    // set judgemental rotation chart options
+    (function () {
+        $(".rotationChartOptionsButton").on("mousedown", function (e) {
+            e.preventDefault();
+            VIEW.showRotationChartOptionsModal();
+        });
+    })();
+
+    (function () {
+        $("#rotationChartOptionsModal").on('change', 'input[type=color]', function () {
+            var rotChartConfig = QAV.getState("rotChartConfig") || {};
+            var hexCode2 = $(this).val();
+            rotChartConfig[$(this).attr('name')] = hexCode2;
+            QAV.setState("rotChartConfig", rotChartConfig);
+        });
+    })();
+
+    // control rotation chart options
+    (function () {
+        $("#rotationChartOptionsModal").on('click', '.applyChanges', function () {
+            var rotChartConfig = QAV.getState("rotChartConfig") || {};
+            rotChartConfig.significanceColorA = rotChartConfig.significanceColorAPrep;
+            rotChartConfig.significanceColorB = rotChartConfig.significanceColorBPrep;
+            QAV.setState("rotChartConfig", rotChartConfig);
+
+            $("#twoFactorDisplayTableDiv").remove();
+
+            $("#chartAndTableContainerDiv").append($('<div/>').attr("id", "twoFactorDisplayTableDiv"));
+            $("#twoFactorDisplayTableDiv").append($('<table/>').attr("id", "twoFactorDisplayTable").addClass("display compact nowrap cell-border").attr("width", "100%"));
+
+            $("#generateRotationItemsButton").click();
+
+            $("#rotationChartOptionsModal").iziModal('close');
+        });
+    })();
+
+    // close modal box
+    (function () {
+        $("#rotationChartOptionsModal").on('click', '.button-cancel', function () {
+          $("#rotationChartOptionsModal").iziModal('close');
+        });
+    })();
+
+    // remove circle highlighting? - event handler
+    (function () {
+        $("#rotationChartOptionsModal").on('click', '#removeCircleHighlightDiv :radio', function () {
+            var rotChartConfig = QAV.getState("rotChartConfig") || {};
+            $('#rotationChartOptionsModal, #removeCircleHighlightDiv .radioHighlight2').removeClass("selected");
+            var $radioOption = ($(this).val());
+            if ($radioOption === "Yes") {
+                $(this).parent().addClass("selected");
+                $("label[for='" + $(this).attr('id') + "']").addClass("selected");
+                rotChartConfig.removeCircleHighlight = true;
+            } else if ($radioOption === "No") {
+                rotChartConfig.removeCircleHighlight = false;
+            }
+            QAV.setState("rotChartConfig", rotChartConfig);
+        });
+    })();
+
+    // remove circles? - event handler
+    (function () {
+        $("#rotationChartOptionsModal").on('click', '#removeCirclesDiv :radio', function () {
+            var rotChartConfig = QAV.getState("rotChartConfig") || {};
+            $('#rotationChartOptionsModal, #removeCirclesDiv .radioHighlight2').removeClass("selected");
+            var $radioOption = ($(this).val());
+            if ($radioOption === "Yes") {
+                $(this).parent().addClass("selected");
+                $("label[for='" + $(this).attr('id') + "']").addClass("selected");
+                rotChartConfig.removeCircles = true;
+            } else if ($radioOption === "No") {
+                rotChartConfig.removeCircles = false;
+            }
+            QAV.setState("rotChartConfig", rotChartConfig);
+        });
+    })();
+
+    // use id number or respondent name? - event handler
+    (function () {
+        $("#rotationChartOptionsModal").on('click', '#chartIdentifierDiv :radio', function () {
+            var rotChartConfig = QAV.getState("rotChartConfig") || {};
+            $('#rotationChartOptionsModal, #chartIdentifierDiv .radioHighlight2').removeClass("selected");
+            var $radioOption = ($(this).val());
+            $(this).parent().addClass("selected");
+            $("label[for='" + $(this).attr('id') + "']").addClass("selected");
+            if ($radioOption === "Yes") {
+                rotChartConfig.identifierNumber = true;
+            } else if ($radioOption === "No") {
+                rotChartConfig.identifierNumber = false;
+            }
+            QAV.setState("rotChartConfig", rotChartConfig);
+        });
+    })();
+
+    // change font size? - event handler
+    (function () {
+        $("#rotationChartOptionsModal").on('click', '#changeFontSizeDiv :radio', function () {
+            var rotChartConfig = QAV.getState("rotChartConfig") || {};
+            $('#changeFontSizeDiv :radio, #changeFontSizeDiv .radioHighlight2').removeClass("selected");
+            var $radioOption = ($(this).val());
+            if ($radioOption === "Yes") {
+                $(this).parent().addClass("selected");
+                $("label[for='" + $(this).attr('id') + "']").addClass("selected");
+                rotChartConfig.changeFontSize = true;
+            } else if ($radioOption === "No") {
+                rotChartConfig.changeFontSize = false;
+            }
+            QAV.setState("rotChartConfig", rotChartConfig);
+        });
+    })();
+
+    // chart font size adjustment input box
+    (function () {
+        $("#rotationChartOptionsModal").on('input', '#chartFontSizeInputBox', function () {
+            var rotChartConfig = QAV.getState("rotChartConfig") || {};
+            var customFontSize = $('#chartFontSizeInputBox').val();
+            rotChartConfig.customFontSize = customFontSize;
+            QAV.setState("rotChartConfig", rotChartConfig);
         });
     })();
 
@@ -540,15 +818,16 @@
     (function () {
         $("#splitFactorButton").on("click", function (e) {
             e.preventDefault();
-            $('#splitModal').toggleClass('active');
+            VIEW.showSplitBipolarFactorModal();
         });
     })();
 
     // click handler for select factor loadings checkboxes
+    // todo - check to see if this is needed
     (function () {
         $('#factorRotationTable2 tbody').on('click', 'tr', function () {
             var table = $('#factorRotationTable2').DataTable(); //
-            var data = table
+            table
                 .rows()
                 .data();
         });
@@ -563,16 +842,14 @@
             if (testForSplit > 0) {
                 VIEW.showDisabledFunctionsAfterSplitModal();
             } else {
-
                 $("#loadingsRadioSelect2 .radioHighlight2").removeClass("selected");
                 // $(this).parent().addClass("selected");
                 $("label[for='" + $(this).attr('id') + "']").addClass("selected");
-                // todo - find out how to prevent need for table destroy 
+                // todo - find out how to prevent need for table destroy
 
                 // keep flags - get current table data including flags and redrawn
                 var table = $('#factorRotationTable2').DataTable();
                 var chartData = table.rows().data();
-
                 QAV.colorButtonChartData = chartData;
 
                 var isRotatedFactorsTableUpdate = "highlighter";
@@ -619,16 +896,15 @@
         });
     })();
 
-    // INVERT FACTOR BUTTON 
+    // INVERT FACTOR BUTTON
     (function () {
         $("#invertFactorButton").on("click", function (e) {
             e.preventDefault();
             var rotationHistory = $("#rotationHistoryList li").text();
-
             if (rotationHistory.indexOf('was split into') >= 0) {
-                window.alert("Factor inversion has to be performed before bipolar factor split.");
+                VIEW.showDisabledFunctionsAfterSplitModal();
             } else {
-                $('#invertModal').toggleClass('active');
+                VIEW.showInvertModal();
             }
         });
     })();
@@ -643,6 +919,9 @@
     (function () {
         // hide download button until after preliminary results are displayed
         $("#downloadResultsButton").hide();
+        $("#downloadCsvResultsButton").hide();
+        $("#displayQuickResultsButton").hide();
+        $("#factorVizOptionsDiv").hide();
 
         // tracker for results download / display buttons
         QAV.setState("outputComplete", "false");
@@ -674,52 +953,626 @@
             QAV.setState("results", results);
 
             // get selected factors information
-            OUTPUT.getFactorsForAnalysis();
+            PRELIMOUT.getFactorsForAnalysis();
 
             // begins preliminary results display function cascade
-            var canOutput = OUTPUT.pullFlaggedFactorLoadings();
+            var canOutput = PRELIMOUT.pullFlaggedFactorLoadings();
 
             if (canOutput !== "false") {
                 OUTPUT.generateOutput();
                 VIEW.clearPreviousTables();
-                CORR.drawRawSortsRadviz();
-                OUTPUT.showPreliminaryOutput1();
+                // CORR.drawRawSortsRadviz();
+                PRELIMOUT.showPreliminaryOutput1();
                 $("#downloadResultsButton").show();
+                $("#downloadCsvResultsButton").show();
                 $("#clearStorageButton").show();
             }
         });
     })();
 
-
     // start the output calculations and file write functions cascade
     (function () {
         $("#downloadResultsButton").on("click", function () {
-            OUTPUT.downloadOutput();
+            // OUTPUT.downloadOutput();
+            OUTPUT.downloadExcelOutputFile();
+        });
+    })();
+
+    (function () {
+        $("#downloadCsvResultsButton").on("click", function () {
+            // OUTPUT.downloadOutput();
+            OUTPUT.downloadCsvOutputFile();
         });
     })();
 
     (function () {
         $("#selectFactorsForOutputButton").on("click", function () {
-            OUTPUT.appendFactorSelectionCheckboxes();
+            PRELIMOUT.appendFactorSelectionCheckboxes();
+            $("#displayQuickResultsButton").show();
+            $("#factorVizOptionsDiv").show();
         });
     })();
+
+
+    // (function () {
+    //     $("#selectFactorsForOutputDiv").on("click", function () {
+    //         console.log("clicked");
+    //         if ($(this).is(":checked")) {
+    //             $(this).next("label").addClass("factorCheckboxSelected");
+    //         } else {
+    //             $(this).next("label").removeClass("factorCheckboxSelected");
+    //         }
+    //     });
+    // })();
+
 
     (function () {
         $("#clearStorageButton").on("click", function () {
-            $('#deleteLocalDataModal').toggleClass('active');
+            VIEW.showDeleteKenqData();
         });
     })();
 
     (function () {
-        $("#deleteLocalDataConfirmButton").on("click", function () {
+        $('#deleteLocalDataModal').on("click", '#deleteLocalDataConfirmButton', function () {
             localStorage.clear();
             sessionStorage.clear();
-            $('#deleteLocalDataModal').toggleClass('active');
-            $('.successDeleteModal').toggleClass('active');
-            setTimeout(function () {
-                $('.successDeleteModal').toggleClass('active');
-            }, 2000);
+            VIEW.showlocalDataDeleteSuccessModal();
         });
     })();
+
+
+    (function () {
+        $('#deleteLocalDataModal').on("click", '.button-cancel', function () {
+            $('#deleteLocalDataModal').iziModal('close');
+        });
+    })();
+    /*
+     **
+     **    Visualizations Panel event listeners
+     **
+     */
+    // should include legend? - event handler
+    (function () {
+        $("#includeLegendDiv :radio").on('click', function () {
+            var vizConfig = QAV.getState("vizConfig") || {};
+            $('#includeLegendDiv .radioHighlight2').removeClass("active");
+            $(this).parent().addClass("active");
+            $("label[for='" + $(this).attr('id') + "']").addClass("active");
+            var $radioOption = ($(this).val());
+            if ($radioOption === "Yes") {
+                vizConfig.shouldHaveLegend = true;
+            } else if ($radioOption === "No") {
+                vizConfig.shouldHaveLegend = false;
+            }
+            QAV.setState("vizConfig", vizConfig);
+        });
+    })();
+
+    // should prepend statement numbers? - event handler
+    (function () {
+        $("#prependStateNoDiv :radio").on('click', function () {
+            var vizConfig = QAV.getState("vizConfig") || {};
+            $('#prependStateNoDiv .radioHighlight2').removeClass("active");
+            $(this).parent().addClass("active");
+            $("label[for='" + $(this).attr('id') + "']").addClass("active");
+            var $radioOption = ($(this).val());
+            if ($radioOption === "Yes") {
+                vizConfig.shouldPrependStateNo = true;
+            } else if ($radioOption === "No") {
+                vizConfig.shouldPrependStateNo = false;
+            }
+            QAV.setState("vizConfig", vizConfig);
+        });
+    })();
+
+    // should set Card Height? - event handler
+    (function () {
+        $("#setCardHeightDiv :radio").on('click', function () {
+            var vizConfig = QAV.getState("vizConfig") || {};
+            $('#setCardHeightDiv .radioHighlight2').removeClass("active");
+            $(this).parent().addClass("active");
+            $("label[for='" + $(this).attr('id') + "']").addClass("active");
+            var $radioOption = ($(this).val());
+            if ($radioOption === "Yes") {
+                vizConfig.shouldSetCardHeight = true;
+            } else if ($radioOption === "No") {
+                vizConfig.shouldSetCardHeight = false;
+            }
+            QAV.setState("vizConfig", vizConfig);
+        });
+    })();
+
+    // should set card width? - event handler
+    (function () {
+        $("#setCardWidthDiv :radio").on('click', function () {
+            var vizConfig = QAV.getState("vizConfig") || {};
+            $('#setCardWidthDiv .radioHighlight2').removeClass("active");
+            $(this).parent().addClass("active");
+            $("label[for='" + $(this).attr('id') + "']").addClass("active");
+            var $radioOption = ($(this).val());
+            if ($radioOption === "Yes") {
+                vizConfig.shouldSetCardWidth = true;
+            } else if ($radioOption === "No") {
+                vizConfig.shouldSetCardWidth = false;
+            }
+            QAV.setState("vizConfig", vizConfig);
+        });
+    })();
+
+    // should set font size? - event handler
+    (function () {
+        $("#setFontSizeDiv :radio").on('click', function () {
+            var vizConfig = QAV.getState("vizConfig") || {};
+            $('#setFontSizeDiv .radioHighlight2').removeClass("active");
+            $(this).parent().addClass("active");
+            $("label[for='" + $(this).attr('id') + "']").addClass("active");
+            var $radioOption = ($(this).val());
+            if ($radioOption === "Yes") {
+                vizConfig.shouldSetFontSize = true;
+            } else if ($radioOption === "No") {
+                vizConfig.shouldSetFontSize = false;
+            }
+            QAV.setState("vizConfig", vizConfig);
+        });
+    })();
+
+    // should set font size? - event handler
+    (function () {
+        $("#setStatementWidthDiv :radio").on('click', function () {
+            var vizConfig = QAV.getState("vizConfig") || {};
+            $('#setStatementWidthDiv .radioHighlight2').removeClass("active");
+            $(this).parent().addClass("active");
+            $("label[for='" + $(this).attr('id') + "']").addClass("active");
+            var $radioOption = ($(this).val());
+            if ($radioOption === "Yes") {
+                vizConfig.shouldSetStatementWidth = true;
+            } else if ($radioOption === "No") {
+                vizConfig.shouldSetStatementWidth = false;
+            }
+            QAV.setState("vizConfig", vizConfig);
+        });
+    })();
+
+    // should set line spacing? - event handler
+    (function () {
+        $("#adjustLineSpacingDiv :radio").on('click', function () {
+            var vizConfig = QAV.getState("vizConfig") || {};
+            $('#adjustLineSpacingDiv .radioHighlight2').removeClass("active");
+            $(this).parent().addClass("active");
+            $("label[for='" + $(this).attr('id') + "']").addClass("active");
+            var $radioOption = ($(this).val());
+            if ($radioOption === "Yes") {
+                vizConfig.shouldSetLineSpacing = true;
+            } else if ($radioOption === "No") {
+                vizConfig.shouldSetLineSpacing = false;
+            }
+            QAV.setState("vizConfig", vizConfig);
+        });
+    })();
+
+    // should trim statements? - event handler  trimStatementsDiv
+    (function () {
+        $("#trimStatementsDiv :radio").on('click', function () {
+            var vizConfig = QAV.getState("vizConfig") || {};
+            $('#trimStatementsDiv .radioHighlight2').removeClass("active");
+            $(this).parent().addClass("active");
+            $("label[for='" + $(this).attr('id') + "']").addClass("active");
+            var $radioOption = ($(this).val());
+            if ($radioOption === "Yes") {
+                vizConfig.shouldTrimStatements = true;
+            } else if ($radioOption === "No") {
+                vizConfig.shouldTrimStatements = false;
+            }
+            QAV.setState("vizConfig", vizConfig);
+        });
+    })();
+
+    // Asian Language set width? - event handler  trimStatementsDiv
+    (function () {
+        $("#setAsianStatementsLengthDiv :radio").on('click', function () {
+            var vizConfig = QAV.getState("vizConfig") || {};
+            $('#setAsianStatementsLengthDiv .radioHighlight2').removeClass("active");
+            $(this).parent().addClass("active");
+            $("label[for='" + $(this).attr('id') + "']").addClass("active");
+            var $radioOption = ($(this).val());
+            if ($radioOption === "Yes") {
+                vizConfig.shouldSetWidthForAsian = true;
+                vizConfig.asianStatmentLength = 12;
+            } else if ($radioOption === "No") {
+                vizConfig.shouldSetWidthForAsian = false;
+            }
+            QAV.setState("vizConfig", vizConfig);
+        });
+    })();
+
+    // indicate significance? - event handler
+    (function () {
+        $("#showSignificanceSymbolsDiv :radio").on('click', function () {
+            var vizConfig = QAV.getState("vizConfig") || {};
+            $('#showSignificanceSymbolsDiv .radioHighlight2').removeClass("active");
+            $(this).parent().addClass("active");
+            $("label[for='" + $(this).attr('id') + "']").addClass("active");
+            var $radioOption = ($(this).val());
+            if ($radioOption === "Yes") {
+                vizConfig.shouldIndicateDistinguishing = true;
+                $('#useUnicodeYes').trigger("click");
+                vizConfig.shouldUseUnicode = true;
+            } else if ($radioOption === "No") {
+                vizConfig.shouldIndicateDistinguishing = false;
+                $('#useUnicodeSymbolsDiv .radioHighlight2').removeClass("selected");
+                $('#zscoreArrowDirectionDiv .radioHighlight2').removeClass("active");
+                $('#setSymbolFontSizeDiv .radioHighlight2').removeClass("active");
+            }
+            QAV.setState("vizConfig", vizConfig);
+        });
+    })();
+
+    // should use Unicode symbols? - event handler  #useUnicodeSymbolsDiv
+    (function () {
+        $("#useUnicodeSymbolsDiv :radio").on('click', function () {
+            var vizConfig = QAV.getState("vizConfig") || {};
+            $('#useUnicodeSymbolsDiv .radioHighlight2').removeClass("selected");
+            $(this).parent().addClass("selected");
+            $("label[for='" + $(this).attr('id') + "']").addClass("selected");
+            var $radioOption = ($(this).val());
+            if ($radioOption === "unicode") {
+                vizConfig.shouldUseUnicode = true;
+            } else if ($radioOption === "ascii") {
+                vizConfig.shouldUseUnicode = false;
+            }
+            QAV.setState("vizConfig", vizConfig);
+        });
+    })();
+
+    // should use Unicode symbols? - event handler  #useUnicodeSymbolsDiv
+    (function () {
+        $("#setSymbolFontSizeDiv :radio").on('click', function () {
+            var vizConfig = QAV.getState("vizConfig") || {};
+            $('#setSymbolFontSizeDiv .radioHighlight2').removeClass("active");
+            $(this).parent().addClass("active");
+            $("label[for='" + $(this).attr('id') + "']").addClass("active");
+            var $radioOption = ($(this).val());
+            if ($radioOption === "Yes") {
+                vizConfig.shouldSetSymbolFontSize = true;
+            } else if ($radioOption === "No") {
+                vizConfig.shouldSetSymbolFontSize = false;
+            }
+            QAV.setState("vizConfig", vizConfig);
+        });
+    })();
+
+    // should show zscore factor comparison arrows? - event handler
+    (function () {
+        $("#zscoreArrowDirectionDiv :radio").on('click', function () {
+            var vizConfig = QAV.getState("vizConfig") || {};
+            $('#zscoreArrowDirectionDiv .radioHighlight2').removeClass("active");
+            $(this).parent().addClass("active");
+            $("label[for='" + $(this).attr('id') + "']").addClass("active");
+            var $radioOption = ($(this).val());
+            if ($radioOption === "Yes") {
+                vizConfig.shouldShowZscoreArrows = true;
+            } else if ($radioOption === "No") {
+                vizConfig.shouldShowZscoreArrows = false;
+            }
+            QAV.setState("vizConfig", vizConfig);
+        });
+    })();
+
+    // should show zscore factor comparison arrows? - event handler
+    (function () {
+        $("#displayConsensusStatementsDiv :radio").on('click', function () {
+            var vizConfig = QAV.getState("vizConfig") || {};
+            $('#displayConsensusStatementsDiv .radioHighlight2').removeClass("active");
+            $(this).parent().addClass("active");
+            $("label[for='" + $(this).attr('id') + "']").addClass("active");
+            var $radioOption = ($(this).val());
+            if ($radioOption === "Yes") {
+                vizConfig.shouldIndicateConsensus = true;
+                $('#setConsensusSymbolNo').trigger("click");
+                vizConfig.shouldUseToIndicateConsensus = "stripe";
+            } else if ($radioOption === "No") {
+                vizConfig.shouldIndicateConsensus = false;
+                $('#setConsensusSymbolDiv .radioHighlight2').removeClass("selected");
+            }
+            QAV.setState("vizConfig", vizConfig);
+        });
+    })();
+
+    // should color vs stripe for consensus? - event handler
+    (function () {
+        $("#setConsensusSymbolDiv :radio").on('click', function () {
+            var vizConfig = QAV.getState("vizConfig") || {};
+            $('#setConsensusSymbolDiv .radioHighlight2').removeClass("selected");
+            $(this).parent().addClass("selected");
+            $("label[for='" + $(this).attr('id') + "']").addClass("selected");
+            var $radioOption = ($(this).val());
+            if ($radioOption === "COLOR") {
+                vizConfig.shouldUseToIndicateConsensus = "color";
+            } else if ($radioOption === "STRIPE") {
+                vizConfig.shouldUseToIndicateConsensus = "stripe";
+            }
+            QAV.setState("vizConfig", vizConfig);
+        });
+    })();
+
+    // should show matching counts? - event handler
+    (function () {
+        $("#useMatchCountDiv :radio").on('click', function () {
+            var vizConfig = QAV.getState("vizConfig") || {};
+            $('#useMatchCountDiv .radioHighlight2').removeClass("active");
+            $(this).parent().addClass("active");
+            $("label[for='" + $(this).attr('id') + "']").addClass("active");
+            var $radioOption = ($(this).val());
+            if ($radioOption === "Yes") {
+                vizConfig.shouldShowMatchCounts = true;
+            } else if ($radioOption === "No") {
+                vizConfig.shouldShowMatchCounts = false;
+            }
+            QAV.setState("vizConfig", vizConfig);
+        });
+    })();
+
+    // should show background color? - event handler
+    (function () {
+        $("#indicateMatchCountAsBackgroundDiv :radio").on('click', function () {
+            var vizConfig = QAV.getState("vizConfig") || {};
+            $('#indicateMatchCountAsBackgroundDiv .radioHighlight2').removeClass("active");
+            $(this).parent().addClass("active");
+            $("label[for='" + $(this).attr('id') + "']").addClass("active");
+            var $radioOption = ($(this).val());
+            if ($radioOption === "Yes") {
+                vizConfig.shouldShowBackgroundColor = true;
+                $('#setMatchCountCautionIndicatorNo').trigger("click");
+                vizConfig.shouldUseToIndicateMatchCaution = "stripe";
+                $('#setMatchConsensusOverlapIndicatorNo').trigger("click");
+                vizConfig.shouldUseToIndicateOverlap = "crosshatch";
+            } else if ($radioOption === "No") {
+                vizConfig.shouldShowBackgroundColor = false;
+                $('#setMatchCountCautionIndicatorDiv .radioHighlight2').removeClass("selected");
+                $('#setMatchConsensusOverlapIndicatorDiv .radioHighlight2').removeClass("selected");
+            }
+            vizConfig.backgroundColorCutoff = 0;
+            QAV.setState("vizConfig", vizConfig);
+        });
+    })();
+
+    // should color vs stripe for consensus? - event handler
+    (function () {
+        $("#setMatchCountCautionIndicatorDiv :radio").on('click', function () {
+            var vizConfig = QAV.getState("vizConfig") || {};
+            $('#setMatchCountCautionIndicatorDiv .radioHighlight2').removeClass("selected");
+            $(this).parent().addClass("selected");
+            $("label[for='" + $(this).attr('id') + "']").addClass("selected");
+            var $radioOption = ($(this).val());
+            if ($radioOption === "COLOR") {
+                vizConfig.shouldUseToIndicateMatchCaution = "color";
+            } else if ($radioOption === "STRIPE") {
+                vizConfig.shouldUseToIndicateMatchCaution = "stripe";
+            }
+            QAV.setState("vizConfig", vizConfig);
+        });
+    })();
+
+    // should color vs stripe for consensus? - event handler
+    (function () {
+        $("#setMatchConsensusOverlapIndicatorDiv :radio").on('click', function () {
+            var vizConfig = QAV.getState("vizConfig") || {};
+            $('#setMatchConsensusOverlapIndicatorDiv .radioHighlight2').removeClass("selected");
+            $(this).parent().addClass("selected");
+            $("label[for='" + $(this).attr('id') + "']").addClass("selected");
+            var $radioOption = ($(this).val());
+            if ($radioOption === "COLOR") {
+                vizConfig.shouldUseToIndicateOverlap = "color";
+            } else if ($radioOption === "CROSSHATCH") {
+                vizConfig.shouldUseToIndicateOverlap = "crosshatch";
+            }
+            QAV.setState("vizConfig", vizConfig);
+        });
+    })();
+
+    // should add custom name? - event handler
+    (function () {
+        $("#addCustomNameDiv :radio").on('click', function () {
+            var vizConfig = QAV.getState("vizConfig") || {};
+            $('#addCustomNameDiv .radioHighlight2').removeClass("active");
+            $(this).parent().addClass("active");
+            $("label[for='" + $(this).attr('id') + "']").addClass("active");
+            var $radioOption = ($(this).val());
+            if ($radioOption === "Yes") {
+                vizConfig.shouldAddCustomName = true;
+            } else if ($radioOption === "No") {
+                vizConfig.shouldAddCustomName = false;
+            }
+            QAV.setState("vizConfig", vizConfig);
+        });
+    })();
+
+    (function () {
+        $("#customNameLocationDiv :radio").on('click', function () {
+            var vizConfig = QAV.getState("vizConfig") || {};
+            $('#customNameLocationDiv .radioHighlight2').removeClass("selected");
+            $(this).parent().addClass("selected");
+            $("label[for='" + $(this).attr('id') + "']").addClass("selected");
+            var $radioOption = ($(this).val());
+            vizConfig.customNameLocation = $radioOption;
+            QAV.setState("vizConfig", vizConfig);
+        });
+    })();
+
+    (function () {
+        $("#showDisplayPanelButton").on('click', function () {
+            var language = QAV.getState("language");
+            var hide = resources[language].translation.HIDE;
+            var view = resources[language].translation.VIEW;
+            $(this).val(function (i, value) {
+                return value === hide ? view : hide;
+            });
+            $("#vizPanelHideContainer").toggle();
+        });
+    })();
+
+
+    (function () {
+        $("#updateDisplayButton").on('click', function () {
+            VIEW.clearPreviousTables();
+            PRELIMOUT.showPreliminaryOutput1();
+        });
+    })();
+    //
+    // Visualization Control Panel On-change event listeners
+    //
+
+    // capture card height input in Viz panel   #cardHeightInputBox
+    (function () {
+        $('#cardHeightInputBox').on('input', function () {
+            var vizConfig = QAV.getState("vizConfig") || {};
+            var cardHeight = $('#cardHeightInputBox').val();
+            UTIL.checkIfValueIsNumber(cardHeight, "cardHeightInputBox");
+            if (cardHeight > 500) {
+                cardHeight = 500;
+            } else if (cardHeight < 5) {
+                cardHeight = 5;
+            }
+            vizConfig.cardHeight = cardHeight;
+            QAV.setState("vizConfig", vizConfig);
+        });
+    })();
+
+    (function () {
+        $('#cardWidthInputBox').on('input', function () {
+            var vizConfig = QAV.getState("vizConfig") || {};
+            var cardWidth = $('#cardWidthInputBox').val();
+            UTIL.checkIfValueIsNumber(cardWidth, "cardWidthInputBox");
+            if (cardWidth > 500) {
+                cardWidth = 500;
+            } else if (cardWidth < 5) {
+                cardWidth = 5;
+            }
+            vizConfig.cardWidth = cardWidth;
+            QAV.setState("vizConfig", vizConfig);
+        });
+    })();
+
+    (function () {
+        $('#fontSizeInputBox').on('input', function () {
+            var vizConfig = QAV.getState("vizConfig") || {};
+            var fontSize = $('#fontSizeInputBox').val();
+            UTIL.checkIfValueIsNumber(fontSize, "fontSizeInputBox");
+            if (fontSize > 180) {
+                fontSize = 180;
+            } else if (fontSize < 4) {
+                fontSize = 4;
+            }
+            vizConfig.fontSize = fontSize;
+            QAV.setState("vizConfig", vizConfig);
+        });
+    })();
+
+    (function () {
+        $('#statementWidthInputBox').on('input', function () {
+            var vizConfig = QAV.getState("vizConfig") || {};
+            var statementWidth = $('#statementWidthInputBox').val();
+            UTIL.checkIfValueIsNumber(statementWidth, "statementWidthInputBox");
+            if (statementWidth > 180) {
+                statementWidth = 180;
+            } else if (statementWidth < -180) {
+                statementWidth = -180;
+            }
+            vizConfig.statementWidth = statementWidth;
+            QAV.setState("vizConfig", vizConfig);
+        });
+    })();
+
+    (function () {
+        $('#lineSpacingInputBox').on('input', function () {
+            var vizConfig = QAV.getState("vizConfig") || {};
+            var lineSpacing = $('#lineSpacingInputBox').val();
+            UTIL.checkIfValueIsNumber(lineSpacing, "lineSpacingInputBox");
+            if (lineSpacing > 500) {
+                lineSpacing = 500;
+            } else if (lineSpacing < 4) {
+                lineSpacing = 4;
+            }
+            vizConfig.lineSpacing = lineSpacing;
+            QAV.setState("vizConfig", vizConfig);
+        });
+    })();
+
+    (function () {
+        $('#trimStatementsInputBox').on('input', function () {
+            var vizConfig = QAV.getState("vizConfig") || {};
+            var trimStatementSize = $('#trimStatementsInputBox').val();
+            UTIL.checkIfValueIsNumber(trimStatementSize, "trimStatementsInputBox");
+            if (trimStatementSize > 3000) {
+                trimStatementSize = 3000;
+            } else if (trimStatementSize < 1) {
+                trimStatementSize = 1;
+            }
+            vizConfig.trimStatementSize = trimStatementSize;
+            QAV.setState("vizConfig", vizConfig);
+        });
+    })();
+
+    (function () {
+        $('#setAsianLengthInputBox').on('input', function () {
+            var vizConfig = QAV.getState("vizConfig") || {};
+            var asianStatmentLength = $('#setAsianLengthInputBox').val();
+            UTIL.checkIfValueIsNumber(asianStatmentLength, "setAsianLengthInputBox");
+            if (asianStatmentLength > 300) {
+                asianStatmentLength = 300;
+            } else if (asianStatmentLength < 2) {
+                asianStatmentLength = 2;
+            }
+            vizConfig.asianStatmentLength = asianStatmentLength;
+            QAV.setState("vizConfig", vizConfig);
+        });
+    })();
+
+    (function () {
+        $('#symbolFontSizeInputBox').on('input', function () {
+            var vizConfig = QAV.getState("vizConfig") || {};
+            var sigSymbolFontSize = $('#symbolFontSizeInputBox').val();
+            UTIL.checkIfValueIsNumber(sigSymbolFontSize, "symbolFontSizeInputBox");
+            if (sigSymbolFontSize > 80) {
+                sigSymbolFontSize = 80;
+            } else if (sigSymbolFontSize < 2) {
+                sigSymbolFontSize = 2;
+            }
+            vizConfig.sigSymbolFontSize = sigSymbolFontSize;
+            QAV.setState("vizConfig", vizConfig);
+        });
+    })();
+
+    (function () {
+        $("#vizPanelHideContainer").on('change', 'input[type=color]', function () {
+            var vizConfig = QAV.getState("vizConfig") || {};
+            var hexCode2 = $(this).val();
+            vizConfig[$(this).attr('name')] = hexCode2;
+            QAV.setState("vizConfig", vizConfig);
+        });
+    })();
+
+    (function () {
+        $('#backgroundColorCutoffInputBox').on('input', function () {
+            var vizConfig = QAV.getState("vizConfig") || {};
+            var backgroundColorCutoff = $('#backgroundColorCutoffInputBox').val();
+            UTIL.checkIfValueIsNumber(backgroundColorCutoff, "backgroundColorCutoffInputBox");
+            if (backgroundColorCutoff >= 100) {
+                backgroundColorCutoff = 99;
+            }
+            vizConfig.backgroundColorCutoff = backgroundColorCutoff;
+            QAV.setState("vizConfig", vizConfig);
+        });
+    })();
+
+    (function () {
+        $('#customNameInputBox').on('input', function () {
+            var vizConfig = QAV.getState("vizConfig") || {};
+            var customName = $('#customNameInputBox').val();
+            vizConfig.customName = customName;
+            QAV.setState("vizConfig", vizConfig);
+        });
+    })();
+
 
 }(window.CONTROLERS = window.CONTROLERS || {}, QAV));

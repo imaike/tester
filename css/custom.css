@@ -8,6 +8,14 @@
     display: none;
 }
 
+#pasteExcelDataDiv {
+    display: none;
+}
+
+.firebaseDataInputDiv {
+    display: none;
+}
+
 .statementSelectorDiv {
     border: 3px solid #38acec;
 }
@@ -87,7 +95,7 @@ rotation chart labels
     padding-right: 2px;
     padding-top: 8px;
     padding-bottom: 8px;
-    margin-left: 0px;
+    margin-left: 0;
 }
 
 #handRotationDisplayContainer input[type="number"] {
@@ -107,7 +115,7 @@ rotation chart labels
     font-size: 40px;
     display: inline-block;
     margin-left: 50px;
-    margin-top: 0px;
+    margin-top: 0;
     margin-right: 5px;
     margin-bottom: 5px;
     vertical-align: top;
@@ -143,7 +151,7 @@ Hands on Table settings for Factor Rotation
 #factorRotationTable {
     display: block;
     margin-right: 2%;
-    vertical-align: top;
+    /*vertical-align: top;*/
     height: auto;
     /*    margin-left: -1%;
     */
@@ -245,7 +253,7 @@ save rotation lists
     font-weight: bold;
     line-height: 15px;
     margin-bottom: 5px;
-    margin-top: 0px;
+    margin-top: 0;
     margin-left: 5px;
     padding: 3px 3px;
     text-transform: none;
@@ -313,7 +321,7 @@ li:nth-last-child(n+2) .deleteSplitFactorButton {
     font-weight: bold;
     line-height: 15px;
     margin-bottom: 5px;
-    margin-top: 0px;
+    margin-top: 0;
     margin-left: 5px;
     padding: 3px 3px;
     text-transform: none;
@@ -349,7 +357,17 @@ input[type="button"].blackHover:hover {
     color: #FFFFFF !important;
 }
 
+.blackHover:hover {
+    background: none repeat scroll 0 0 #38acec !important;
+    color: #FFFFFF !important;
+}
+
 input[type="button"].deleteHover:hover {
+    background: none repeat scroll 0 0 red !important;
+    color: #FFFFFF !important;
+}
+
+.deleteHover:hover {
     background: none repeat scroll 0 0 red !important;
     color: #FFFFFF !important;
 }
@@ -471,9 +489,12 @@ input:hover {
 */
 }
 
+
+/*
 #chartTable {
-    /*    display: inline-block;*/
-}
+             display: inline-block;
+} 
+*/
 
 
 /* dataTable highlighting  */
@@ -510,7 +531,7 @@ td.highlight {
     border-radius: 5px;
     border: #ebebeb solid 1px;
     width: 200px;
-    height: 28px;
+    min-height: 28px;
     padding: 6px 6px 2px 8px;
     color: black;
     background: #eeeeee;
@@ -523,6 +544,7 @@ td.highlight {
 
 .choose_file span {
     display: inline-block;
+    pointer-events: none;
     margin: 0px 10px 0 10px;
     font-size: 12px;
     font-weight: 600;
@@ -614,22 +636,17 @@ td.negativeHighlight {
 MODAL WINDOW CSS
 */
 
-.modal {
-    display: none;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    width: 400px;
-    height: auto;
-    margin-left: -200px;
-    margin-top: -150px;
-    background-color: #ffffff;
-    padding: 25px;
-    border-radius: 5px;
-    z-index: 10;
-    box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.5);
-    text-align: center;
+
+/*
+.modal {  
+    margin-top: 0.1% !important;
+-webkit-transition: none !important;
+transition: none !important;
 }
+*/
+
+
+/*
 
 .modal.active {
     display: block;
@@ -638,16 +655,39 @@ MODAL WINDOW CSS
 .modal header {
     height: 55px;
     position: relative;
-    width: 350px;
+    width: 380px;
     margin-bottom: 5px;
+}
+
+*/
+
+.hide {
+    display: none;
 }
 
 .modal h2 {
     text-align: center;
     position: relative;
-    width: 350px;
+    width: auto;
 }
 
+.modal h3 {
+    margin-left: -25px;
+}
+
+.modal span {
+    font-size: 20px;
+    margin-right: 5px;
+    text-align: center;
+}
+
+.inputSuccess h2 {
+    background-color: #00b700;
+    font-size: 20px !important;
+}
+
+
+/*
 .modal .close {
     position: absolute;
     top: 3px;
@@ -667,6 +707,7 @@ MODAL WINDOW CSS
     max-width: 500px;
     margin: 0 auto;
 }
+*/
 
 
 /*
@@ -677,15 +718,19 @@ MODAL WINDOW CSS
 }
 */
 
-.modal > div > input[type="number"] {
+.modal>div>input[type="number"] {
     display: inline-block;
     width: 55px;
     /*    margin-bottom: 25px;*/
     font-size: 20px;
 }
 
+#rotationChartOptionsModal .modal>div>input[type="button"] {
+    display: inline-block;
+}
+
 .successModal {
-    background-color: #E0FDE0;
+    background-color: #00b700;
 }
 
 .functionDisabledModal {
@@ -716,13 +761,20 @@ MODAL WINDOW CSS
 
 .manualInputModal {
     background-color: #E0FDE0;
+    padding-left: 2%;
+}
+
+#rotationChartOptionsModal {
+    width: 600px !important;
+    margin-left: -300px !important;
 }
 
 .analysisDataDiv {
     margin-top: 150px;
-    border: 2px solid black;
-    width: 98%;
+    border: 2px solid lightgray;
+    width: 97.8%;
     height: auto;
+    border-radius: 4px;
 }
 
 .pastePQM {
@@ -797,10 +849,6 @@ MODAL WINDOW CSS
     display: inline-block;
 }
 
-.checkboxLabel {
-    width: 65px;
-}
-
 .navigationBar {
     width: 90%;
     margin-left: -25px;
@@ -869,7 +917,7 @@ MODAL WINDOW CSS
 .inputBoxAutoWidth {
     width: 95%;
 }
-
+/*
 #accordion {
     margin-top: 10px;
     margin-left: 10%;
@@ -914,7 +962,7 @@ MODAL WINDOW CSS
 
 #accordionDiv {
     height: 500px;
-}
+}*/
 
 .evenFactorRow {
     background-color: pink;
@@ -931,7 +979,7 @@ MODAL WINDOW CSS
     margin: 0;
 }
 
-#section6 label {
+.factorFlagging label {
     cursor: pointer;
     display: block;
     width: auto;
@@ -947,30 +995,92 @@ MODAL WINDOW CSS
     border: 1px solid #bbb;
 }
 
-#section6 label:first-child {
+.factorFlagging label:first-child {
     border-left-width: 1px;
     border-top-left-radius: .2em;
     border-bottom-left-radius: .2em;
 }
 
-#section6 label:last-child {
+.factorFlagging label:last-child {
     border-top-right-radius: .2em;
     border-bottom-right-radius: .2em;
 }
 
-#section6 label.selected {
+.factorFlagging label.selected {
     background-color: #38acec;
     color: white;
     border: 1px solid #38acec;
     /*    box-shadow: 1px 1px 1px rgba(0, 0, 0, .2) inset;*/
 }
 
-#section6 label.warning.selected {
+.factorCheckboxSelected {
+    background-color: #38acec;
+    color: white;
+    border: 1px solid #38acec;
+    /*    box-shadow: 1px 1px 1px rgba(0, 0, 0, .2) inset; */
+}
+
+.factorFlagging label.warning.selected {
     background-color: red;
     border-color: darkred;
 }
 
-#section6 input[type="radio"] {
+.factorFlagging input[type="radio"] {
+    position: absolute;
+    visibility: hidden;
+}
+
+#section7 fieldset {
+    border: none;
+    padding: 0;
+    margin: 0;
+}
+
+#section7 legend {
+    padding: 0;
+    margin: 0;
+}
+
+#section7 label {
+    cursor: pointer;
+    display: inline-block;
+    width: auto;
+    font-size: 11px;
+    font-weight: 600;
+    color: #555;
+    height: 28px;
+    line-height: 28px;
+    padding: 0 15px;
+    letter-spacing: .1rem;
+    /*float: left;*/
+    background-color: #eeeeee;
+    border: 1px solid #bbb;
+}
+
+#section7 label:first-child {
+    border-left-width: 1px;
+    border-top-left-radius: .2em;
+    border-bottom-left-radius: .2em;
+}
+
+#section7 label:last-child {
+    border-top-right-radius: .2em;
+    border-bottom-right-radius: .2em;
+}
+
+#section7 label.selected {
+    background-color: #38acec;
+    color: white;
+    border: 1px solid #38acec;
+    /*    box-shadow: 1px 1px 1px rgba(0, 0, 0, .2) inset;*/
+}
+
+#section7 label.warning.selected {
+    background-color: red;
+    border-color: darkred;
+}
+
+#section7 input[type="radio"] {
     position: absolute;
     visibility: hidden;
 }
@@ -1126,7 +1236,7 @@ div.d3Tooltip {
 }
 
 .linkUnderline:link {
-    border-bottom: 3px solid #38acec;
+    border-bottom: 2px solid #38acec;
     opacity: 0.6;
     box-shadow: 0px -4px 0px #38acec inset;
     color: black !important;
@@ -1136,6 +1246,14 @@ div.d3Tooltip {
 .linkUnderline:hover {
     background-color: #38acec;
     opacity: 0.6;
+}
+
+.linkUnderline:visited {
+    border-bottom: 2px solid #38acec;
+    opacity: 0.6;
+    box-shadow: 0px -4px 0px #38acec inset;
+    color: black !important;
+    text-decoration: none !important;
 }
 
 #section4 path {
@@ -1152,7 +1270,789 @@ div.d3Tooltip {
     shape-rendering: crispEdges;
 }
 
+#factorVizOptionsDiv {
+    border: 3px solid lightgray;
+    width: 98%;
+    max-width: 1100px;
+    height: auto;
+    border-radius: 4px;
+}
 
-/*
+.factorVizOptionsDivHeader {
+    background-color: lightgray;
+    height: 45px;
+    width: 100%;
+}
 
-td.dt-head-right*/
+.svgDownloadButton {
+    margin-bottom: 100px;
+}
+
+#section4>input {
+    display: none;
+    margin-top: 30px;
+}
+
+.rotationChartDownloadButton {
+    margin-top: 30px;
+}
+
+.factorVizOptionsText {
+    margin-left: 20px;
+    margin-right: 10px;
+    font-size: 20px;
+    display: inline-block;
+}
+
+.section7BulletList {
+    margin-left: 30px;
+}
+
+div.helpImageDiv {
+    position: relative;
+    margin-left: 10px;
+    padding-bottom: 8px;
+    margin-bottom: 5px;
+    display: inline-block;
+    border: 3px solid #939393;
+    /*    border-color: gray;*/
+    height: 30px;
+    width: 35px;
+    background-color: #ffffcc;
+}
+
+div.helpImageDiv:hover {
+    border: 3px solid black;
+}
+
+div.helpImageDiv a {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    text-decoration: none;
+    /* No underlines on the link */
+    z-index: 10;
+    /* Places the link above everything else in the div */
+    background-color: #FFF;
+    /* Fix to make div clickable in IE */
+    opacity: 0;
+    /* Fix to make div clickable in IE */
+    filter: alpha(opacity=1);
+    /* Fix to make div clickable in IE */
+}
+
+.helpImageDivText {
+    text-align: center;
+    font-size: 22px;
+    color: gray;
+}
+
+.vizInput {
+    width: 45px !important;
+}
+
+.marginTopAdjustor {
+    margin-top: 10px;
+}
+
+.defaultOptionsText {
+    color: gray;
+}
+
+.factorVizOptionsHeaderText {
+    width: 48%;
+    margin-bottom: -12px;
+    font-size: 25px;
+    margin-left: 10px;
+    margin-top: 30px;
+    display: inline-block;
+}
+
+#showDisplayPanelButton {
+    width: 125px;
+    height: auto;
+    display: inline-block;
+    margin-left: -80px !important;
+    margin-top: 2px;
+}
+
+.factorVizOptionsHeaderDivText {
+    margin-top: 3px !important;
+    margin-left: 10px !important;
+    font-size: 25px;
+    margin-left: 10px;
+}
+
+.vizInput3 {
+    width: 416px !important;
+}
+
+.vizInput4 {
+    width: 80px !important;
+}
+
+.displayPanelIntroText {
+    padding-left: 5px;
+    margin-top: 20px;
+    font-size: 25px;
+    margin-left: 10px;
+}
+
+#vizPanelHideContainer {
+    display: none;
+}
+
+#section7 input[type='text'] {
+    text-align: right;
+}
+
+#section7 input[type='text']:focus {
+    text-align: left;
+}
+
+.customNameBox {
+    text-align: left !important;
+}
+
+.panelIntroTextSpanDiv {
+    margin-left: 20px;
+    width: 98%;
+}
+
+.panelIntroTextSpanDiv span {
+    font-size: 18px;
+}
+
+.vizButtonYes.active {
+    background-color: #38acec !important;
+    color: white !important;
+}
+
+.vizButtonNo.active {
+    background-color: transparent !important;
+}
+
+.updateVizButton {
+    margin-left: 10px;
+}
+
+#section2 label {
+    cursor: pointer;
+    display: inline-block;
+    text-align: center;
+    width: auto;
+    font-size: 18px;
+    font-weight: 800;
+    color: #555;
+    height: 38px;
+    line-height: 38px;
+    padding: 5px 15px 5px 15px;
+    /*letter-spacing: .1rem;*/
+    /*float: left;*/
+    background-color: #eeeeee;
+    border: 1px solid #bbb;
+}
+
+#section2 label:first-child {
+    border-left-width: 1px;
+    border-top-left-radius: .2em;
+    border-bottom-left-radius: .2em;
+}
+
+#section2 label:last-child {
+    border-top-right-radius: .2em;
+    border-bottom-right-radius: .2em;
+}
+
+#section2 label:hover {
+    background-color: #38acec;
+    color: white;
+    border: 1px solid #38acec;
+    /*    box-shadow: 1px 1px 1px rgba(0, 0, 0, .2) inset;*/
+}
+
+#section2 label.selected {
+    background-color: #38acec;
+    color: white;
+    border: 1px solid #38acec;
+    /*    box-shadow: 1px 1px 1px rgba(0, 0, 0, .2) inset;*/
+}
+
+#section2 label.warning.selected {
+    background-color: red;
+    border-color: darkred;
+}
+
+#section2 input[type="radio"] {
+    position: absolute;
+    visibility: hidden;
+}
+
+#cardInputContainerDiv label {
+    width: 180px;
+    margin-top: 10px;
+    max-height: 20px;
+    padding: 5px 5px 5px 5px;
+    line-height: 20px;
+}
+
+#cardInputContainerDiv label:hover {
+    background-color: #eeeeee;
+    color: black;
+}
+
+#resIdDiv label {
+    width: auto;
+    margin-top: 10px;
+    max-height: 20px;
+    padding: 5px 5px 5px 5px;
+    line-height: 20px;
+    text-align: center;
+}
+
+#resIdDiv label:hover {
+    background-color: #eeeeee;
+    color: black;
+}
+
+.dataSelectionLabelDiv {
+    display: inline-block !important;
+    width: auto;
+    margin-right: 15px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.selectBox {
+    margin-left: 10px;
+}
+
+.jsonFileName {
+    margin-right: 10px;
+}
+
+.jsonDownloadPQ {
+    margin-top: 3px;
+    margin-right: 5px;
+}
+
+.u-right-margin {
+    margin-right: 20px;
+}
+
+#rotationChartOptionsModal h2 {
+    font-size: 25px !important;
+    letter-spacing: .1rem !important;
+    text-align: left !important;
+}
+
+#rotationChartOptionsModal h3 {
+    margin-left: 65px;
+    width: 400px;
+}
+
+#rotationChartOptionsModal label {
+    cursor: pointer;
+    display: inline-block !important;
+    text-align: center;
+    width: auto;
+    font-size: 18px;
+    font-weight: 800;
+    color: #555;
+    height: 28px;
+    line-height: 28px;
+    padding: 5px 15px 5px 15px;
+    /*letter-spacing: .1rem;*/
+    /*float: left;*/
+    background-color: #eeeeee;
+    border: 1px solid #bbb;
+}
+
+#rotationChartOptionsModal label:first-child {
+    border-left-width: 1px;
+    border-top-left-radius: .2em;
+    border-bottom-left-radius: .2em;
+}
+
+#rotationChartOptionsModal .iziModal-header {
+    height: 35px;
+}
+
+#rotationChartOptionsModal label:last-child {
+    border-top-right-radius: .2em;
+    border-bottom-right-radius: .2em;
+}
+
+#rotationChartOptionsModal label:hover {
+    background-color: #38acec;
+    color: white;
+    border: 1px solid #38acec;
+    /*    box-shadow: 1px 1px 1px rgba(0, 0, 0, .2) inset;*/
+}
+
+#rotationChartOptionsModal label.selected {
+    background-color: #38acec;
+    color: white;
+    border: 1px solid #38acec;
+    /*    box-shadow: 1px 1px 1px rgba(0, 0, 0, .2) inset;*/
+}
+
+#rotationChartOptionsModal label.warning.selected {
+    background-color: red;
+    border-color: darkred;
+}
+
+#rotationChartOptionsModal input[type="radio"] {
+    position: absolute;
+    visibility: hidden;
+}
+
+#rotationChartOptionsModal p {
+    text-align: left;
+    font-size: 20px;
+    width: auto;
+    margin-right: 10px;
+    display: inline-block;
+}
+
+#rotationChartOptionsModal span {
+    text-align: left;
+    font-size: 20px;
+    width: auto;
+    margin-right: 10px;
+    display: inline-block;
+}
+
+#inputDisableButtonsDiv {
+    margin-top: 20px;
+}
+
+#deleteLocalDataModal h2 {
+    font-size: 25px !important;
+    letter-spacing: .1rem !important;
+    text-align: left !important;
+}
+
+#deleteLocalDataModal .iziModal-header {
+    height: 35px;
+}
+
+#deleteLocalDataModal p {
+    margin-top: 10px;
+    text-align: center;
+    font-size: 20px;
+    width: 70%;
+    margin-right: 15%;
+    margin-left: 15%;
+    display: inline-block;
+}
+
+#noFactorLoadingModal h2 {
+    font-size: 25px !important;
+    letter-spacing: .1rem !important;
+    text-align: left !important;
+}
+
+#noFactorLoadingModal .iziModal-header {
+    height: 35px;
+}
+
+#noFactorLoadingModal p {
+    text-align: center;
+    font-size: 20px;
+    width: 60%;
+    margin-right: 20%;
+    margin-left: 20%;
+    display: inline-block;
+}
+
+#sortLoadingMultipleFactorsModal h2 {
+    font-size: 25px !important;
+    letter-spacing: .1rem !important;
+    text-align: left !important;
+}
+
+#sortLoadingMultipleFactorsModal .iziModal-header {
+    height: 35px;
+}
+
+#sortLoadingMultipleFactorsModal p {
+    text-align: center;
+    font-size: 20px;
+    width: 60%;
+    margin-right: 20%;
+    margin-left: 20%;
+    display: inline-block;
+}
+
+#functionDisabledModal h2 {
+    font-size: 25px !important;
+    letter-spacing: .1rem !important;
+    text-align: left !important;
+}
+
+#functionDisabledModal .iziModal-header {
+    height: 35px;
+}
+
+#functionDisabledModal p {
+    text-align: center;
+    font-size: 20px;
+    width: 60%;
+    margin-right: 20%;
+}
+
+#splitModal h2 {
+    font-size: 25px !important;
+    letter-spacing: .1rem !important;
+    text-align: left !important;
+}
+
+#splitModal .iziModal-header {
+    height: 35px;
+}
+
+#splitModal p {
+    text-align: center;
+    font-size: 20px;
+    width: auto;
+    margin-right: 1%;
+    margin-left: 20%;
+    margin-top: 7%;
+    display: inline-block;
+}
+
+#invertModal h2 {
+    font-size: 25px !important;
+    letter-spacing: .1rem !important;
+    text-align: left !important;
+}
+
+#invertModal .iziModal-header {
+    height: 35px;
+}
+
+#invertModal p {
+    text-align: center;
+    font-size: 20px;
+    width: auto;
+    margin-right: 1%;
+    margin-left: 20%;
+    margin-top: 7%;
+    display: inline-block;
+}
+
+#localDataDeleteSuccessfulModal h2 {
+    font-size: 25px !important;
+    letter-spacing: .1rem !important;
+    text-align: left !important;
+}
+
+#localDataDeleteSuccessfulModal .iziModal-header {
+    height: 35px;
+}
+
+#localDataDeleteSuccessfulModal p {
+    text-align: center;
+    font-size: 20px;
+    width: auto;
+    margin-right: 1%;
+    margin-left: 20%;
+    margin-top: 7%;
+    display: inline-block;
+}
+
+#genericErrorModal h2 {
+    font-size: 25px !important;
+    letter-spacing: .1rem !important;
+    text-align: left !important;
+}
+
+#genericErrorModal .iziModal-header {
+    height: 35px;
+}
+
+#genericErrorModal p {
+    text-align: center;
+    font-size: 20px;
+    width: auto;
+    margin-right: 1%;
+    margin-left: 32%;
+    margin-top: 1%;
+    display: inline-block;
+}
+
+#nonSymmetricSortsDiv p {
+    display: inline-block;
+    margin-left: 5px;
+}
+
+.applyChanges {
+    margin-right: 45px !important;
+}
+
+.button-submit {
+    margin-right: 45px !important;
+}
+
+.button-error {
+    margin-right: 45px !important;
+}
+
+.noVisiblity {
+    visibility: hidden;
+}
+
+input[type=color] {
+    background-color: inherit !important;
+    border: none;
+    margin-top: .5em;
+}
+
+
+/* Base for label styling */
+
+.rotaTable [type="checkbox"]:not(:checked),
+[type="checkbox"]:checked {
+    position: absolute;
+    left: -9999px;
+}
+
+.rotaTable [type="checkbox"]:not(:checked)+label,
+.rotaTable [type="checkbox"]:checked+label {
+    margin-top: 4px !important;
+    position: relative;
+    /*padding-left: 1.95em;*/
+    cursor: pointer;
+    margin-bottom: 0 !important;
+}
+
+
+/* checkbox aspect - checked*/
+
+.rotaTable [type="checkbox"]:checked+label:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 22px;
+    height: 22px;
+    /*border: 2px solid #ccc;*/
+    background: #8cd0f3;
+    border-radius: 4px;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, .1);
+}
+
+
+/* checkbox aspect - not checked */
+
+.rotaTable [type="checkbox"]:not(:checked)+label:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 22px;
+    height: 22px;
+    /*border: 2px solid #ccc;*/
+    /*   background: #38acec; */
+    border-radius: 4px;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, .1);
+}
+
+
+/* checked mark aspect */
+
+.rotaTable [type="checkbox"]:not(:checked)+label:after,
+.rotaTable [type="checkbox"]:checked+label:after {
+    content: '✔'; 
+    /*content: '◉';*/
+    position: absolute;
+    top: 0  ;
+    /*bottom: 0;*/
+    left: 5px;
+    /*transform: translate(-50%, -50%);*/
+    /*right:0; */
+    /*margin: auto;
+    /*margin-left:auto;
+    margin-right: auto;*/
+    font-size: 28px;
+    line-height: .5;
+    color: white;
+    transition: all .2s;
+}
+
+
+/* checked mark aspect changes */
+
+.rotaTable [type="checkbox"]:not(:checked)+label:after {
+    opacity: 0;
+    transform: scale(0);
+}
+
+.rotaTable [type="checkbox"]:checked+label:after {
+    opacity: 1;
+    transform: scale(1);
+}
+
+
+/* disabled checkbox */
+
+.rotaTable [type="checkbox"]:disabled:not(:checked)+label:before,
+.rotaTable [type="checkbox"]:disabled:checked+label:before {
+    box-shadow: none;
+    border-color: #bbb;
+    background-color: #ddd;
+}
+
+.rotaTable [type="checkbox"]:disabled:checked+label:after {
+    color: #999;
+}
+
+.rotaTable [type="checkbox"]:disabled+label {
+    color: #aaa;
+}
+
+
+/* accessibility */
+
+.rotaTable [type="checkbox"]:checked:focus+label:before,
+.rotaTable [type="checkbox"]:not(:checked):focus+label:before {
+    background: #d3d3d3;
+}
+
+
+/* hover style just for information */
+
+.rotaTable label:hover:before {
+    background: #d3d3d3;
+}
+
+.rotaTable label {
+    width: 22px;
+    height: 22px;
+}
+
+.checkboxLabel {
+    padding-left: 5px;
+    width: 73px;
+    display: inline-block;
+    margin-right: 20px;
+}
+
+.section7Css .factorSelectBox:checked+.checkboxLabel {
+    background: none repeat scroll #38acec !important;
+    color: #FFFFFF !important;
+    /*margin-left: 10px !important; */
+}
+
+.section7Css [type="checkbox"]:not(:checked),
+[type="checkbox"]:checked {
+    position: absolute;
+    left: -9999px;
+    opacity: 0;
+}
+
+.browserDetection .flex-container {
+    padding: 0;
+    margin: 0;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.browserDetection .flex-item {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    width: 850px;
+    height: auto;
+    margin-top: 10px;
+    line-height: 30px;
+    color: black;
+    font-weight: bold;
+    font-size: 2em;
+    text-align: center;
+}
+
+
+.supportedBrowsers .flex-item {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    min-width: 150px;
+    height: 400px;
+    margin-top: 10px;
+    margin-right: 35px;
+    margin-left: 35px;
+    line-height: 30px;
+    color: black;
+    font-weight: bold;
+    font-size: 2em;
+    text-align: center;
+    background-color: #eee;
+    border: solid 3px #dedede;
+}
+
+.supportedBrowsers img {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    width: 100px;
+    height: auto;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.topSpacer {
+    margin-top: 100px;
+}
+
+.browserSubText {
+    font-size: 14px;
+}
+
+.introHelpText {
+    width: 875px;
+    display: inline-block;
+}
+
+.introHelpIcon {
+    display: inline-block;
+}
+
+.introCautionText {
+    padding: 20px 20px 10px 20px;
+    background-color: #fef9a8;
+    width: 94%;
+}
+
+.section5Css .checkboxLabel {
+    width: 65px;
+}
+
+.section5Css .checkbox:checked+.checkboxLabel {
+    background: none repeat scroll #38acec !important;
+    color: #FFFFFF !important;
+    /*margin-left: 10px !important; */
+}
+
+.section5Css [type="checkbox"]:not(:checked),
+[type="checkbox"]:checked {
+    position: absolute;
+    left: -9999px;
+    opacity: 0;
+}
+
+.languageSelect {
+    display: inline-block;
+    margin-left: 60%;
+}
+
+.translationBy {
+    margin-top: .6em;
+    margin-right: 12%;
+    display: inline-block;
+}

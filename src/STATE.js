@@ -8,11 +8,13 @@
 
 
 // JSlint declarations
-/* global window, $, localStorage, _, document, CENTROID, VIEW, PCA, QAV, UTIL, performance*/
+/* global window, $, _ */
 
 // QAV is the global state data store
 (function (QAV, undefined) {
-
+    'use strict';
+    // check if platform is up-to-date 
+   
     // set default language
     QAV.language = "en-us";
 
@@ -25,5 +27,31 @@
         var value = _.cloneDeep(QAV[key]);
         return value;
     };
+
+    // set defaults for composite factor visualizations
+    QAV.vizConfig = {};
+    QAV.vizConfig.consensusCustomColor = "#D6D6D6";
+    QAV.vizConfig.matchCountCustomColor = "#D6D6D6";
+    QAV.vizConfig.overlapCustomColor = "#D6D6D6";
+    QAV.vizConfig.shouldUseToIndicateOverlap = "crosshatch";
+    QAV.vizConfig.shouldUseToIndicateConsensus = "stripe";
+    QAV.vizConfig.shouldUseToIndicateMatchCaution = "stripe";
+    QAV.vizConfig.shouldIndicateDistinguishing = true;
+    QAV.vizConfig.shouldUseUnicode = true;
+    QAV.vizConfig.shouldShowZscoreArrows = true;
+    QAV.vizConfig.shouldHaveLegend = true;
+
+    QAV.rotChartConfig = {};
+    QAV.rotChartConfig.significanceColorAPrep = "aquamarine";
+    QAV.rotChartConfig.significanceColorBPrep = "#ffe4b2";
+    QAV.rotChartConfig.significanceColorA = "aquamarine";
+    QAV.rotChartConfig.significanceColorB = "#ffe4b2";
+    QAV.rotChartConfig.identifierNumber = true;
+
+    $('#prependStateNoDiv .vizButtonYes').addClass("active");
+    $('#showSignificanceSymbolsDiv .vizButtonYes').addClass("active");
+    $('#useUnicodeSymbolsDiv .vizButtonYes').addClass("selected");
+    $('#zscoreArrowDirectionDiv .vizButtonYes').addClass("active");
+    $('#includeLegendDiv .vizButtonYes').addClass("active");
 
 }(window.QAV = window.QAV || {}));
