@@ -99,9 +99,9 @@
                     message = updateYourBrowser();
                 }
             } else if (browser === "Chromium") {
-                if (+version >= 53) {
+                if (+version >= 55) {
                     $(".browserDetection .flex-item").css("background-color", "#ccffcc");
-                    var messageReply = YouSeemToBeUsing + Chromium + " version " + version;
+                    var messageReply = YouSeemToBeUsing + "Chromium version " + version + "<br><br>" + readyForAnalysis;
                 } else {
                     message = updateYourBrowser();
                 }
