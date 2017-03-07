@@ -17,7 +17,7 @@
     // ************************************************************  view
     // ******* SECTION 1 - intro   ******+++++++++++++++*****************
     // ******************************************************************
-    
+
     $(function () {
         // Single Page navigation
         $('.single-page-nav').singlePageNav({
@@ -57,7 +57,7 @@
         console.log(browser);
         console.log(opSystem);
         console.log(version);
-        
+
 
         if (opSystem === "OS X") {
             if (browser === "Firefox") {
@@ -93,21 +93,22 @@
                     message = goodToGo();
                 } else {
                     message = updateYourBrowser();
-                } 
+                }
             } else {
                 message = changeYourBrowser();
             }
         } else if (Linux) {
             if (browser === "Firefox") {
                 if (+version >= 50) {
-                    message = goodToGo();
+                    $(".browserDetection .flex-item").css("background-color", "#ccffcc");
+                    message = YouSeemToBeUsing + "Firefox version " + version + "<br><br>-- ready for analysis";
                 } else {
                     message = updateYourBrowser();
                 }
             } else if (browser === "Chrome") {
                 if (+version >= 55) {
                     $(".browserDetection .flex-item").css("background-color", "#ccffcc");
-                     message = YouSeemToBeUsing + "Chromium version " + version + "<br><br>-- ready for analysis";
+                    message = YouSeemToBeUsing + "Chromium version " + version + "<br><br>-- ready for analysis";
                 } else {
                     message = updateYourBrowser();
                 }
@@ -341,8 +342,8 @@
                 $(".analysisDataDiv").show(300);
                 $("#databaseSelectDiv").show(300);
                 $(".pqmButton").hide();
-                $("#radio5").parent().addClass("selected");       
-             }
+                $("#radio5").parent().addClass("selected");
+        }
     }
 
     // ************************************************************  view
