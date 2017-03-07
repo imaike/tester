@@ -309,7 +309,6 @@
 
 
     function lessThanZero(T, B, TAN4T, factorA, factorB) {
-        console.log("lessThanZero");
         var rotatedFactors, SINP, COSP, COS4T, SIN4T, ifTan4t, line350;
         //(3801)
         TAN4T = evenRound((Math.abs(T) / Math.abs(B)), 8);
@@ -341,7 +340,6 @@
 
     // (3790)
     function equalsZero(T, B, factorA, factorB) { // line 230c ==> goto 240
-        console.log("equalsZero");
         var rotatedFactors, COS4T, SIN4T, line350, COSP, SINP;
         var ifTest2 = ((T + B) - 0.00116);
         if (ifTest2 < 0) {
@@ -362,7 +360,6 @@
     }
     // (3813)
     function greaterThanZero(T, B, factorA, factorB) {
-        console.log("greaterThanZero");
         var CTN4T, COSP, SINP, rotatedFactors, COS4T, line350, SIN4T, ifCtn4t;
         CTN4T = evenRound(Math.abs(T / B), 8);
         ifCtn4t = evenRound((CTN4T - 0.00116), 8);

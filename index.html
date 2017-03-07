@@ -83,11 +83,14 @@
 
         <div class="section" id="section1">
             <div>
-                <select id="languageSelect" class="u-pull-right rightMargin" autocomplete="off" name="languageSelect">
-                    <option value="default" disabled selected>Select Language</option>
-                    <option value="en-us"> English-U.S.</option>
-                    <option value="ja">日本語</option>
-                </select>
+                <div class="row">
+                    <h6 class="translationBy u-pull-right rightMargin" data-i18n="Translation by"></h6>
+                    <select class="languageSelect" autocomplete="off" name="languageSelect">
+                        <option value="default" disabled selected>Select Language</option>
+                        <option value="en-us"> English-U.S.</option>
+                        <option value="ja">日本語</option>
+                    </select>
+                </div>
             </div>
             <div>
                 <div class="bigNumberDiv singleLine">
@@ -108,18 +111,24 @@
                     <img srcset="images/Google.png" alt=" Google Chrome" />
                     <p>Google Chrome</p>
                     <p class="browserSubText">version 55 or newer</p>
-                    <p class="browserSubText">macOS, windows</p>
+                    <p class="browserSubText">macOS, Windows</p>
                 </div>
                 <div class="flex-item">
                     <img srcset="images/firefox.png" alt="Mozilla Firefox" />
                     <p>Mozilla Firefox</p>
-                    <p class="browserSubText">version 51 or newer<br>macOS, Windows</p>
+                    <p class="browserSubText">version 51 or newer macOS, Windows<br><br>version 47 or newer Linux </p>
                 </div>
                 <div class="flex-item">
                     <img srcset="images/Chromium.png" alt="Linux Chromium" />
                     <p>Google Chromium</p>
-                    <p class="browserSubText">version 14 or newer</p>
+                    <p class="browserSubText">version 53 or newer</p>
                     <p class="browserSubText">Linux</p>
+                </div>
+                <div class="flex-item">
+                    <img srcset="images/Edge.png" alt="Microsoft Edge" />
+                    <p>Microsoft Edge</p>
+                    <p class="browserSubText">version 14 or newer</p>
+                    <p class="browserSubText">Windows</p>
                 </div>
             </div>
 
@@ -138,8 +147,8 @@
             </div>
 
             <div class="introCautionText topSpacer">
-                <h5>CAUTION --- Ken-Q Analysis saves data locally inside the browser. If you are using a shared computer in a
-                    computer lab or internet cafe you should delete all locally-stored data after you download the results
+                <h5>CAUTION --- This application stores some data locally inside your browser. If you are using a shared computer
+                    in a computer lab or internet cafe you should delete all locally-stored data after you download the results
                     of your analysis
                 </h5>
             </div>
@@ -185,7 +194,7 @@
                 <div class="dataSelectionLabelDiv">
                     <div>
                         <input type="radio" name="radio" id="radio5" />
-                        <label for="radio5" class="radioHighlight2 vertical" data-i18n="Demo Data"></label>
+                        <label for="radio5" class="radioHighlight2 vertical defaultHighlight" data-i18n="Demo Data"></label>
                     </div>
                 </div>
 
@@ -209,9 +218,6 @@
                     <option value="Medium"> 60 Sorts 58 Statements - Office Buzzwords</option>
                     <option value="Large"> 120 Sorts 80 Statements - Motivational</option>
                 </select>
-                <p class="helperText u-pull-right">The Office Buzzwords and Motivational data sets contain randomized data and are only provided so that users
-                    can get a sense of calculation times for medium and large-sized data sets.</p>
-
             </div>
             <!-- end USE EXISTING DATA SET Layout     -->
 
@@ -1111,7 +1117,7 @@
 
         <!-- Section 5 Manual Rotation Layout ***************************
 –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-        <div class="section" id="section5">
+        <div class="section section5Css" id="section5">
 
 
             <div class="bigNumberDiv">

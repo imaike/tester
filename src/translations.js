@@ -10,6 +10,7 @@ var resources = {
     'en-us': {
         "translation": {
             "versionNumber": "Beta Version 0.9.1 Test Release (February 15, 2017)",
+            "Translation by": "",
             "Top": "Top",
             "aData": "1.Data",
             "aCorrelations": "2.Correlations",
@@ -306,6 +307,7 @@ var resources = {
     "ja": {
         "translation": {
             "versionNumber": "Beta Version 0.9.1 Test Release (February 15, 2017)",
+            "Translation by": "Translation by バナシック",
             "Top": "トップに戻る",
             "aData": "1.データ",
             "aCorrelations": "2.相関関係",
@@ -615,10 +617,8 @@ var resources = {
             $(document).i18n();
         });
 
-    $('#languageSelect').on("change", function () {
+    $('.languageSelect').on("change", function () {
         var lang = $(this).val();
-        console.log(lang);
-
         // change the UI language variable
         QAV.setState("language", lang);
 

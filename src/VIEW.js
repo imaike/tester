@@ -17,7 +17,7 @@
     // ************************************************************  view
     // ******* SECTION 1 - intro   ******+++++++++++++++*****************
     // ******************************************************************
-
+    
     $(function () {
         // Single Page navigation
         $('.single-page-nav').singlePageNav({
@@ -41,17 +41,15 @@
         var YouShouldUpdate = resources[language].translation["Please update your browser before using Ken-Q Analysis"];
         var YouShouldSwitch = resources[language].translation["This browser is not supported by Ken-Q Analysis <br> Please use one of the browsers listed above"];
 
-        var message;
+        var message, Linux;
         var versionLong = platform.version;
         var version = versionLong.slice(0, 2);
         var opSystem = platform.os.family;
         var userAgent = platform.ua;
         var browser = platform.name;
-        console.log(opSystem);
-        console.log(platform);
 
-        if (userAgent.indexOf('Linux')>=0) {
-            var Linux = true;
+        if (userAgent.indexOf('Linux') >= 0) {
+            Linux = true;
         }
 
         if (opSystem === "OS X") {
@@ -83,6 +81,12 @@
                 } else {
                     message = updateYourBrowser();
                 }
+            } else if (browser === "Microsoft Edge") {
+                if (+version >= 14) {
+                    message = goodToGo();
+                } else {
+                    message = updateYourBrowser();
+                } 
             } else {
                 message = changeYourBrowser();
             }
@@ -95,7 +99,8 @@
                 }
             } else if (browser === "Chrome") {
                 if (+version >= 53) {
-                    message = goodToGo();
+                    $(".browserDetection .flex-item").css("background-color", "#ccffcc");
+                    var messageReply = YouSeemToBeUsing + Chromium + " version " + version;
                 } else {
                     message = updateYourBrowser();
                 }
@@ -103,10 +108,6 @@
                 message = changeYourBrowser();
             }
         }
-
-
-
-
 
         // #section1 > div.browserDetection.flex-container > div > h3
         function goodToGo() {
@@ -333,14 +334,14 @@
                 $(".analysisDataDiv").show(300);
                 $("#databaseSelectDiv").show(300);
                 $(".pqmButton").hide();
-                //$("#radio_radio1").parent().addClass("selected");
-        }
+                $("#radio5").parent().addClass("selected");       
+             }
     }
 
     // ************************************************************  view
     // ******* SECTION 5 - factor loadings table  ***********************
     // ******************************************************************
-
+    // #section2 > div.row > div:nth-child(5) > div > label
 
     // ************************************************************  view
     // ******* SECTION 6 - output tables  *******************************

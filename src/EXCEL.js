@@ -318,6 +318,7 @@
 
 
         // Display respondents and sorts OR error messages
+
         var respondentSorts = [];
         if (areThereErrors.length === 0 && isNumberOfStatementsCorrect === "true") {
             for (var qq = 0; qq < qavCurrentStatements.length; qq++) {
@@ -353,11 +354,10 @@
         QAV.setState("qavRespondentSortsFromDbStored", respondentSorts);
     }
 
-
-
     EXCEL.testSymmetryOfSorts = function (qavSortTriangleShape, symmData, statementNumArray, statementNumberTestValue) {
         var language = QAV.getState("language");
         var errorText1 = resources[language].translation["has missing statement numbers"];
+        var errorText2 = resources[language].translation["has an incorrect Q-sort value"];
         var testSortTriangleShapeArray = _.cloneDeep(qavSortTriangleShape);
         var isNumberOfStatementsCorrect, areThereErrors = [];
 

@@ -706,8 +706,7 @@
     // close modal box
     (function () {
         $("#rotationChartOptionsModal").on('click', '.button-cancel', function () {
-            console.log("cancel clicked");
-            $("#rotationChartOptionsModal").iziModal('close');
+          $("#rotationChartOptionsModal").iziModal('close');
         });
     })();
 
