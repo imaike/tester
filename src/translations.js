@@ -301,7 +301,8 @@ var resources = {
             "Factor Q-sort Values for Statements sorted by Consensus vs. Disagreement": "Factor Q-sort Values for Statements sorted by Consensus vs. Disagreement",
             "You seem to be using": "You seem to be using ",
             "Please update your browser before using Ken-Q Analysis": "Please update your browser before using Ken-Q Analysis",
-            "This browser is not supported by Ken-Q Analysis <br> Please use one of the browsers listed above": "This browser is not supported by Ken-Q Analysis <br> Please use one of the browsers listed above"
+            "This browser is not supported by Ken-Q Analysis <br> Please use one of the browsers listed above": "This browser is not supported by Ken-Q Analysis <br> Please use one of the browsers listed above",
+            "Ready to begin analysis": "-- ready to begin analysis"
         }
     },
     "ja": {
@@ -598,7 +599,8 @@ var resources = {
             "Factor Q-sort Values for Statements sorted by Consensus vs. Disagreement": "Factor Q-sort Values for Statements sorted by Consensus vs. Disagreement",
             "You seem to be using": "You seem to be using ",
             "Please update your browser before using Ken-Q Analysis": "You should update your browser before using Ken-Q Analysis",
-            "This browser is not supported by Ken-Q Analysis <br> Please use one of the browsers listed above": "This browser is not supported by Ken-Q Analysis <br> Please use one of the browsers listed above"
+            "This browser is not supported by Ken-Q Analysis <br> Please use one of the browsers listed above": "This browser is not supported by Ken-Q Analysis <br> Please use one of the browsers listed above",
+            "Ready to begin analysis": "-- ready to begin analysis"
         }
     }
 };

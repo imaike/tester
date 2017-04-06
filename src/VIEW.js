@@ -53,11 +53,6 @@
             Linux = true;
         }
 
-        console.log(userAgent);
-        console.log(browser);
-        console.log(opSystem);
-        console.log(version);
-
 
         if (opSystem === "OS X") {
             if (browser === "Firefox") {
