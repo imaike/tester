@@ -9,7 +9,7 @@
 var resources = {
     'en-us': {
         "translation": {
-            "versionNumber": "Beta Version 0.9.2 Test Release (April 8, 2017)",
+            "versionNumber": "Beta Version 0.9.2 Test Release (April 23, 2017)",
             "Translation by": "",
             "Top": "Top",
             "aData": "1.Data",
@@ -299,10 +299,10 @@ var resources = {
             "Factor Scores for ": "Factor Scores for ",
             "Descending Array of Differences Between": "Descending Array of Differences Between",
             "Factor Q-sort Values for Statements sorted by Consensus vs. Disagreement": "Factor Q-sort Values for Statements sorted by Consensus vs. Disagreement",
-            "You seem to be using": "You seem to be using ",
+            "You are using": "You seem to be using ",
             "Please update your browser before using Ken-Q Analysis": "Please update your browser before using Ken-Q Analysis",
             "This browser is not supported by Ken-Q Analysis <br> Please use one of the browsers listed above": "This browser is not supported by Ken-Q Analysis <br> Please use one of the browsers listed above",
-            "Ready to begin analysis": "-- ready to begin analysis"
+            "Ready to begin analysis": ""
         }
     },
     "ja": {

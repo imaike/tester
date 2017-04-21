@@ -12,7 +12,7 @@
 
 (function (PASTE, QAV, undefined) {
     'use strict';
-    
+
     PASTE.stageDataPqmethod = function () {
         var statements, sortStatement, statementInput;
 
@@ -98,7 +98,7 @@
 
         // parsing first line of PQMethod file to set qav variables
         var numberSorts = parseInt(projectTitleString.slice(3, 6)); // lipset 9
-        var originalSortSize = parseInt(projectTitleString.slice(7, 9)); // lipset 33
+        var originalSortSize = parseInt(projectTitleString.slice(6, 9)); // lipset 33
         var qavProjectName3 = (projectTitleString.slice(10, 70));
         var qavProjectName2 = qavProjectName3.trim();
         var qavProjectName = PASTE.sanitizeProjectName(qavProjectName2);
