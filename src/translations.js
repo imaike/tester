@@ -299,7 +299,7 @@ var resources = {
             "Factor Scores for ": "Factor Scores for ",
             "Descending Array of Differences Between": "Descending Array of Differences Between",
             "Factor Q-sort Values for Statements sorted by Consensus vs. Disagreement": "Factor Q-sort Values for Statements sorted by Consensus vs. Disagreement",
-            "You are using": "You are using ",
+            "You seem to be using": "You are using ",
             "Please update your browser before using Ken-Q Analysis": "Please update your browser before using Ken-Q Analysis",
             "This browser is not supported by Ken-Q Analysis <br> Please use one of the browsers listed above": "This browser is not supported by Ken-Q Analysis <br> Please use one of the browsers listed above",
             "Ready to begin analysis": " "
@@ -600,7 +600,7 @@ var resources = {
             "You seem to be using": "You are using  ",
             "Please update your browser before using Ken-Q Analysis": "You should update your browser before using Ken-Q Analysis",
             "This browser is not supported by Ken-Q Analysis <br> Please use one of the browsers listed above": "This browser is not supported by Ken-Q Analysis <br> Please use one of the browsers listed above",
-            "Ready to begin analysis": " "
+            "Ready to begin analysis": "-- ready to begin analysis"
         }
     }
 };
