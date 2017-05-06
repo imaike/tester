@@ -286,26 +286,27 @@
             ccPrep = (U + tPrep2) * (U - tPrep2);
             ccArray.push(ccPrep);
 
-            // (3779)
-            CC = evenRound(VARIMAX.sumArray(ccArray), 8);
-            console.log("CC is " + CC);
-
             // (3780)
             ddPrep = (2 * U * tPrep2);
             ddArray.push(ddPrep);
-
-            // (3780)
-            DD = evenRound(VARIMAX.sumArray(ddArray), 8);
-            console.log("DD is " + DD);
-
-            // (3781)
-            AA = evenRound(VARIMAX.sumArray(uArray), 8);
-            console.log("AA is " + AA);
-
-            // (3782)
-            BB = evenRound(VARIMAX.sumArray(tArray), 8);
-            console.log("BB is " + BB);
         }
+
+        // (3779)
+        CC = evenRound(VARIMAX.sumArray(ccArray), 8);
+        console.log("CC is " + CC);
+
+        // (3780)
+        DD = evenRound(VARIMAX.sumArray(ddArray), 8);
+        console.log("DD is " + DD);
+
+        // (3781)
+        AA = evenRound(VARIMAX.sumArray(uArray), 8);
+        console.log("AA is " + AA);
+
+        // (3782)
+        BB = evenRound(VARIMAX.sumArray(tArray), 8);
+        console.log("BB is " + BB);
+
 
         // (3784-3785)
         var T = evenRound((DD - evenRound((2 * AA * evenRound((BB / factorALength), 8)), 8)), 8);
@@ -324,7 +325,6 @@
         var TAN4T, SINP, COSP, COS4T, SIN4T, CTN4T;
         var COS2T, SIN2T, COST, SINT;
         var shouldSkipRotation = false;
-
 
         var greaterThanZeroCounter = QAV.getState("greaterThanZeroCounter") || 0;
         var equalsZeroCounter = QAV.getState("equalsZeroCounter") || 0;
