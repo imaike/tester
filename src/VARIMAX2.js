@@ -288,6 +288,7 @@
 
             // (3779)
             CC = evenRound(VARIMAX.sumArray(ccArray), 8);
+            console.log("CC is " + CC);
 
             // (3780)
             ddPrep = (2 * U * tPrep2);
@@ -295,12 +296,15 @@
 
             // (3780)
             DD = evenRound(VARIMAX.sumArray(ddArray), 8);
+            console.log("DD is " + DD);
 
             // (3781)
             AA = evenRound(VARIMAX.sumArray(uArray), 8);
+            console.log("AA is " + AA);
 
             // (3782)
             BB = evenRound(VARIMAX.sumArray(tArray), 8);
+            console.log("BB is " + BB);
         }
 
         // (3784-3785)
