@@ -292,24 +292,24 @@
         }
 
         // (3779)
-        CC = evenRound(VARIMAX.sumArray(ccArray), 8);
+        CC = evenRound(VARIMAX.sumArray(ccArray), 17);
         console.log("CC is " + CC);
 
         // (3780)
-        DD = evenRound(VARIMAX.sumArray(ddArray), 8);
+        DD = evenRound(VARIMAX.sumArray(ddArray), 17);
         console.log("DD is " + DD);
 
         // (3781)
-        AA = evenRound(VARIMAX.sumArray(uArray), 8);
+        AA = evenRound(VARIMAX.sumArray(uArray), 17);
         console.log("AA is " + AA);
 
         // (3782)
-        BB = evenRound(VARIMAX.sumArray(tArray), 8);
+        BB = evenRound(VARIMAX.sumArray(tArray), 17);
         console.log("BB is " + BB);
 
 
         // (3784-3785)
-        var T = evenRound((DD - evenRound((2 * AA * evenRound((BB / factorALength), 8)), 8)), 8);
+        var T = evenRound((DD - evenRound((2 * AA * evenRound((BB / factorALength), 17)), 17)), 17);
         var B = evenRound((CC - evenRound(((AA * AA - BB * BB) / factorALength), 8)), 8);
 
         console.log("T is " + T);
