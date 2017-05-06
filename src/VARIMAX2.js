@@ -347,11 +347,13 @@
                 if (B >= 0) {
                     lessA = lessA + 1;
                     QAV.setState("lessA", lessA);
+                    console.log("less A");
                     shouldSkipRotation = true;
                     return [SINP, COSP, shouldSkipRotation];
                 } else {
                     lessB = lessB + 1;
                     QAV.setState("lessB", lessB);
+                    console.log("less B");
                     SINP = 0.7071066;
                     COSP = 0.7071066;
                     return [SINP, COSP, shouldSkipRotation];
@@ -360,6 +362,7 @@
                 // variables cascade to below
                 lessC = lessC + 1;
                 QAV.setState("lessC", lessC);
+                console.log("less C");
 
                 COS4T = evenRound((1.0 / evenRound(Math.sqrt(1.0 + TAN4T * TAN4T), 8)), 8);
                 SIN4T = evenRound((TAN4T * COS4T), 8);
@@ -370,10 +373,12 @@
             QAV.setState("equalsZeroCounter", equalsZeroCounter);
 
             if ((T + B) < 0.00116) {
+                console.log("equals skip");
                 shouldSkipRotation = true;
                 return [SINP, COSP, shouldSkipRotation];
             } else {
                 // variables cascade to below
+                console.log("equals B - constants");
                 COS4T = 0.7071066;
                 SIN4T = 0.7071066;
             }
@@ -387,13 +392,14 @@
             if (CTN4T < 0.00116) {
                 greaterA = greaterA + 1;
                 QAV.setState("greaterA", greaterA);
+                console.log("greater A");
                 // variables cascade to below                
                 COS4T = 0.0;
                 SIN4T = 1.0;
             } else {
                 greaterB = greaterB + 1;
                 QAV.setState("greaterB", greaterB);
-
+                console.log("greater B");
                 // variables cascade to below                
                 SIN4T = evenRound((1.0 / evenRound(Math.sqrt(1.0 + CTN4T * CTN4T), 8)), 8);
                 COS4T = evenRound((CTN4T * SIN4T), 8);
