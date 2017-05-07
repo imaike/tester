@@ -83,6 +83,7 @@
 
     VARIMAX.calcStandardizedFactorMatrix = function (sumSquares, factorMatrix) {
         // (3722-3727)
+        console.log("matrix location");
         var standarizedFactorMatrix = [];
         var arrayFrag1;
         var temp5;
@@ -108,6 +109,7 @@
             }
             standarizedFactorMatrix.push(temp5);
         }
+        console.log(JSON.stringify(standarizedFactorMatrix));
         return standarizedFactorMatrix;
     };
 
@@ -240,6 +242,9 @@
 
         for (i = 0; i < loopLen; i++) {
             for (j = i + 1; j < loopLen; j++) {
+                // console.log("loopLength is " + loopLen);
+                // console.log("i is " + i);
+                // console.log("j is " + j);
                 // sends out for rotation
                 rotatedFactors = varimaxCalculations(standardizedFactorMatrix[i], standardizedFactorMatrix[j]);
                 // subs results into matrix
