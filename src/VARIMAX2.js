@@ -271,9 +271,13 @@
 
         for (var i = 0, iLen = factorALength; i < iLen; i++) {
 
+            console.log("factor A is " + factorA[i]);
+            console.log("factor B is " + factorB[i]);
+
             // (3776)
             U = (factorA[i] + factorB[i]) * (factorA[i] - factorB[i]);
             uArray.push(U);
+            console.log("U is " + U);
 
             // (3777)
             tPrep = factorA[i] * factorB[i];
