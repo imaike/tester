@@ -706,7 +706,7 @@
     // close modal box
     (function () {
         $("#rotationChartOptionsModal").on('click', '.button-cancel', function () {
-          $("#rotationChartOptionsModal").iziModal('close');
+            $("#rotationChartOptionsModal").iziModal('close');
         });
     })();
 

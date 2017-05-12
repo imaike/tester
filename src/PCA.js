@@ -21,7 +21,7 @@
         var critInflectionValue, temp5, s, t;
         var numberFactorsExtracted;
         var factorLabels = [];
-        var numberofPrincipalComps, getEigenCumulPercentArray,doEigenVecsCalcs;
+        var numberofPrincipalComps, getEigenCumulPercentArray, doEigenVecsCalcs;
         var inflectionArray;
 
         // to differentiate output functions

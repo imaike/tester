@@ -10,14 +10,14 @@
 // JSlint declarations
 /* global performance, window, QAV, $, document, resources, evenRound, UTIL, _ */
 
-(function(CENTROID, QAV, undefined) {
+(function (CENTROID, QAV, undefined) {
 
     // todo - fix parseInt by adding second value
     // ******************************************************  controller
     // ***** controller for factor extraction **************************
     // *****************************************************************
     // todo - refactor onclick handler from html
-    CENTROID.fireFactorExtraction = function() {
+    CENTROID.fireFactorExtraction = function () {
         var t0 = performance.now(),
             t1;
         var factors = document.getElementById("factorSelect");
@@ -73,7 +73,7 @@
         // send and save  to varimax rotation
         // todo - change this name to clarify for PCA
         QAV.setState("centroidFactors", centroidFactors);
-
+       
         // todo change to analysis global object setting
         numberSorts = QAV.getState("qavTotalNumberSorts");
         respondentNames = QAV.getState("qavRespondentNames");
@@ -85,8 +85,8 @@
 
         // shift data to fixed 5
         factorMatrixToFixed5 = [];
-        _(factorMatrix).forEach(function(arrayFrag) {
-            var tableFormatFragment = _.map(arrayFrag, function(a) {
+        _(factorMatrix).forEach(function (arrayFrag) {
+            var tableFormatFragment = _.map(arrayFrag, function (a) {
                 return (evenRound(a, 5));
             });
             factorMatrixToFixed5.push(tableFormatFragment);
@@ -130,7 +130,7 @@
         QAV.centroidFactors = rotFacStateArrayPrep2;
     };
 
-    CENTROID.calcEigenValues = function(factorMatrix1, numberSorts) {
+    CENTROID.calcEigenValues = function (factorMatrix1, numberSorts) {
         // eigenvalue calculations
         var explainedVariance = [];
         var eigenvalues = [];
@@ -139,7 +139,7 @@
             for (q = 0, qLen = num.length; q < qLen; q++) {
                 num[q] = evenRound((num[q] * num[q]), 8);
             }
-            eigen = evenRound((_.reduce(num, function(sum, num2) {
+            eigen = evenRound((_.reduce(num, function (sum, num2) {
                 return sum + num2;
             })), 5);
 
@@ -151,7 +151,7 @@
     };
 
 
-    CENTROID.calculateFactorLoadings = function(dataArray) {
+    CENTROID.calculateFactorLoadings = function (dataArray) {
         var reflectedArray = CENTROID.checkPositiveManifold(dataArray);
         var reflectedArray1 = reflectedArray[0]; // reflected array
         var reflectedArrayColumnTotals = reflectedArray[1]; // column totals
@@ -165,7 +165,7 @@
         return results;
     }; // end function fireCalculateFactors
 
-    CENTROID.drawExtractedFactorsTable = function() {
+    CENTROID.drawExtractedFactorsTable = function () {
         var centroidFactors = QAV.getState("centroidFactors");
         var i, iLen, j, k, names;
         var temp1, loopLen, targets, slicedTargets, headers;
@@ -220,7 +220,7 @@
             },
             {
                 targets: '_all',
-                "createdCell": function(td, cellData) { // , rowData, row, col
+                "createdCell": function (td, cellData) { // , rowData, row, col
                     if (cellData < 0) {
                         $(td).css('color', 'red');
                     }
@@ -236,7 +236,7 @@
 
     };
 
-    CENTROID.createFooterTable = function(headers, slicedTargets) {
+    CENTROID.createFooterTable = function (headers, slicedTargets) {
         var eigenValues, percentExplainedVariance, loopLen1, m, headers2;
         var data = [];
         var tempArray = [];
@@ -282,7 +282,7 @@
             },
             {
                 targets: '_all',
-                "createdCell": function(td, cellData) { // , rowData, row, col
+                "createdCell": function (td, cellData) { // , rowData, row, col
                     if (cellData < 0) {
                         $(td).css('color', 'red');
                     }
@@ -296,7 +296,7 @@
     // ***********************************************************************   model
     // ***** Calculate Factors *******************************************************
     // *******************************************************************************
-    CENTROID.calculateFactor = function(reflectedArray, columnTotals) {
+    CENTROID.calculateFactor = function (reflectedArray, columnTotals) {
         console.time("total calculation time ");
         var totalsSums, totalsSumsSqrt, factorLoad1, factorLoad1Sqrd, diffDiagonalEstimateandFactorLoad;
         var colTotalsAndMeanSum = [];
@@ -305,17 +305,17 @@
             colTotalsAndMeanSum.push(evenRound((columnTotals[i] + 0.5), 8)); // 0.5 as used in PQMethod
         }
 
-        totalsSums = _.reduce(colTotalsAndMeanSum, function(sum, num) {
+        totalsSums = _.reduce(colTotalsAndMeanSum, function (sum, num) {
             return sum + num;
         });
 
         totalsSumsSqrt = evenRound((Math.sqrt(totalsSums)), 8);
 
-        factorLoad1 = _.map(colTotalsAndMeanSum, function(num) {
+        factorLoad1 = _.map(colTotalsAndMeanSum, function (num) {
             return evenRound((num / totalsSumsSqrt), 8);
         });
 
-        factorLoad1Sqrd = _.map(factorLoad1, function(num) {
+        factorLoad1Sqrd = _.map(factorLoad1, function (num) {
             return evenRound((num * num), 8);
         }); // comparison 2
 
@@ -327,21 +327,21 @@
         var maxDiff = _.max(diffDiagonalEstimateandFactorLoad);
 
         function totalSumsFunction(newDiagonalEstimate) {
-            var totalsSums = _.reduce(newDiagonalEstimate, function(sum, num) {
+            var totalsSums = _.reduce(newDiagonalEstimate, function (sum, num) {
                 return evenRound((sum + num), 8);
             });
             return totalsSums;
         }
 
         function factorLoad1Function(newDiagonalEstimate) {
-            factorLoad1 = _.map(newDiagonalEstimate, function(num) {
+            factorLoad1 = _.map(newDiagonalEstimate, function (num) {
                 return evenRound((num / totalsSumsSqrt), 8);
             }); // Math.round10
             return factorLoad1;
         }
 
         function factorLoad1SqrdFunction(factorLoad1) {
-            factorLoad1Sqrd = _.map(factorLoad1, function(num) {
+            factorLoad1Sqrd = _.map(factorLoad1, function (num) {
                 return evenRound((num * num), 8);
             });
             return factorLoad1Sqrd;
@@ -385,11 +385,11 @@
     // **************************************************************   model
     // ***** remove factor  correlations************************************
     // *********************************************************************
-    CENTROID.removeCorrelations = function(array, factorLoadings) {
+    CENTROID.removeCorrelations = function (array, factorLoadings) {
         var factorCorrelations = [];
 
         function helper1(factorLoadings) {
-            _(factorLoadings).forEach(function(num) {
+            _(factorLoadings).forEach(function (num) {
                 var temp = num * factorLoadings[i];
                 newArrayFrag.push(evenRound((temp), 8));
             }).value();
@@ -418,8 +418,8 @@
     // *****************************************************************   model
     // *****  undo Array Reflection  *******************************************
     // *************************************************************************
-    CENTROID.undoReflection = function(subtractedArray, factorLoadings, reflectedRowCol) {
-        _(reflectedRowCol).forEach(function(rowcolnumber) {
+    CENTROID.undoReflection = function (subtractedArray, factorLoadings, reflectedRowCol) {
+        _(reflectedRowCol).forEach(function (rowcolnumber) {
             for (var i = 0; i < subtractedArray.length; i++) {
                 subtractedArray[i][rowcolnumber] = subtractedArray[i][rowcolnumber] * -1;
             }
@@ -438,7 +438,7 @@
 
     // todo - check this function - seems a bit wanky  - is pos shift check needed
 
-    CENTROID.checkPositiveManifold = function(dataArray) {
+    CENTROID.checkPositiveManifold = function (dataArray) {
         var columnSums = CENTROID.calculateColumnSums(dataArray);
         var findMinColumnSum = CENTROID.calculateMinValueAndIndex(columnSums);
         var minColumnSum = findMinColumnSum[0];
@@ -456,7 +456,7 @@
     // ***************************************************************   model
     // ***** calculate positive manifold ************************************
     // **********************************************************************
-    CENTROID.calculatePositiveManifold = function(manifoldArray, minColumnSum) {
+    CENTROID.calculatePositiveManifold = function (manifoldArray, minColumnSum) {
         // todo limit to 200-300 iterations? - see qmethod source code
         // todo - check this also - is it a bit wanky?
         var reflectedRowCol = [];
@@ -487,7 +487,7 @@
     // ******************************************************************   model
     // ***** Calculate Column Sums **********************************************
     // **************************************************************************
-    CENTROID.calculateColumnSums = function(sumArray) {
+    CENTROID.calculateColumnSums = function (sumArray) {
         var sum, sum1;
         var columnTotals = [];
         var j, i;
@@ -508,7 +508,7 @@
     // **************************************************************   model
     // ***** calculate Minimum Value and Array Index Value ******************
     // **********************************************************************
-    CENTROID.calculateMinValueAndIndex = function(columnTotals) {
+    CENTROID.calculateMinValueAndIndex = function (columnTotals) {
         var minIndex = 0;
         var min = columnTotals[0];
         var k, minValues;

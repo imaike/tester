@@ -9,10 +9,11 @@
 // JSlint declarations
 /* global numeric, VARIMAX, window, performance, ROTA, QAV, $, resources, document, JQuery, evenRound, UTIL, localStorage, _ */
 
-(function(VARIMAX, QAV, undefined) {
+(function (VARIMAX, QAV, undefined) {
     'use strict';
 
-    VARIMAX.fireVarimaxRotation = function() {
+    VARIMAX.fireVarimaxRotation = function () {
+
         var getFactorsForRotation = QAV.getState("centroidFactors");
 
         // archive factor rotation table
@@ -37,10 +38,19 @@
         // var isRotatedFactorsTableUpdate = "yes";
         var isRotatedFactorsTableUpdate = "destroy";
         LOAD.drawRotatedFactorsTable2(isRotatedFactorsTableUpdate, "noFlag");
+
+        var lessThanZeroCounter = QAV.getState("lessThanZeroCounter");
+        var greaterThanZeroCounter = QAV.getState("greaterThanZeroCounter");
+        var equalsZeroCounter = QAV.getState("equalsZeroCounter");
+        var lessA = QAV.getState("lessA");
+        var lessB = QAV.getState("lessB");
+        var lessC = QAV.getState("lessC");
+        var greaterA = QAV.getState("greaterA");
+        var greaterB = QAV.getState("greaterB");
     };
 
 
-    VARIMAX.doVarimax = function(factorMatrix) {
+    VARIMAX.doVarimax = function (factorMatrix) {
         var t0 = performance.now();
 
         var sumSquares = VARIMAX.calcSumSquares(factorMatrix);
@@ -59,7 +69,7 @@
         return rotatedResults;
     };
 
-    VARIMAX.calcStandardizedFactorMatrix = function(sumSquares, factorMatrix) {
+    VARIMAX.calcStandardizedFactorMatrix = function (sumSquares, factorMatrix) {
         // (3722-3727)
         var standarizedFactorMatrix = [];
         var arrayFrag1;
@@ -77,10 +87,10 @@
 
             for (k = 0; k < len2; k++) {
                 sqrtSumSquares = evenRound(Math.sqrt(sumSquares[k]), 8);
-                if (sqrtSumSquares > 0.0) {
+                if (sqrtSumSquares !== 0) {
                     temp4 = evenRound((arrayFrag1[k] / sqrtSumSquares), 8);
                 } else {
-                    temp4 = 0;
+                    temp4 = 0.0;
                 }
                 temp5.push(temp4);
             }
@@ -89,7 +99,7 @@
         return standarizedFactorMatrix;
     };
 
-    VARIMAX.calcSumSquares = function(factorMatrix) {
+    VARIMAX.calcSumSquares = function (factorMatrix) {
         // (3709 - 3714)
         var temp1, temp3, temp;
         var sumSquares = [];
@@ -98,7 +108,7 @@
             temp1 = 0;
             temp3 = 0;
             for (var j = 0; j < loopLen; j++) {
-                temp = (factorMatrix[j][i] * factorMatrix[j][i]);
+                temp = evenRound((factorMatrix[j][i] * factorMatrix[j][i]), 8);
                 temp1 = temp1 + temp;
             }
             temp3 = evenRound((temp1), 8);
@@ -120,10 +130,10 @@
         var NC;
         var TV = 0; // total variance
         var aaArray, bbArray, tvArray;
-        var FN = factorMatrix.length;
+        var FN = factorMatrix[0].length;
         var FFN = FN * FN;
         var testCondition;
-        var AA, BB;
+        var AA, BB, FNBB, AASQ;
 
         do {
             if (NV) {
@@ -137,6 +147,7 @@
 
             TVLT = TV;
 
+
             // gets sumSquares of new varimaxIteration matrix to check convergence
             for (i = 0; i < iLoopLen; i++) { // for each factor
                 AA = 0;
@@ -149,23 +160,21 @@
                 aaArray = [];
                 bbArray = [];
                 for (j = 0; j < jLoopLen; j++) { // for each sort
-                    temp = evenRound((arrayFrag[j] * arrayFrag[j]), 10); // CC
-                    aaArray.push(evenRound((temp), 10)); // AA
-                    var tempBB = temp * temp;
-                    bbArray.push(evenRound((tempBB), 10));
+                    temp = evenRound((arrayFrag[j] * arrayFrag[j]), 8); // CC
+                    aaArray.push(evenRound((temp), 8)); // AA
+                    var tempBB = evenRound((temp * temp), 8);
+                    bbArray.push(evenRound((tempBB), 8));
                 }
-                AA = evenRound((VARIMAX.sumArray(aaArray)), 10);
-
-                BB = evenRound((VARIMAX.sumArray(bbArray)), 10);
-
-                // FN is number factors, AA is total of sumSquares, BB is square of total of sumSquares, FFN is number factors squared
-                // (3745)
-                TV = evenRound(((FN * BB - AA * AA) / FFN), 10);
-
+                AA = evenRound((VARIMAX.sumArray(aaArray)), 8);
+                BB = evenRound((VARIMAX.sumArray(bbArray)), 8);
+                FNBB = evenRound((FN * BB), 8);
+                AASQ = evenRound((AA * AA), 8);
+                //TV = evenRound(((FN * BB - AA * AA) / FFN), 8);
+                TV = evenRound(((FNBB - AASQ) / FFN), 8);
                 tvArray.push(TV);
             }
 
-            TV = evenRound((VARIMAX.sumArray(tvArray)), 10);
+            TV = evenRound((VARIMAX.sumArray(tvArray)), 8);
 
             if (!NV) {
                 NV = 1;
@@ -176,14 +185,11 @@
             }
 
             // testing for convergence
-            if ((TV - TVLT) < 0.00000001) {
+            if ((Math.abs(TV - TVLT)) < 0.00000001) {
                 NC = NC + 1;
             } else {
                 NC = 0;
             }
-
-            // jlog("NV - 225 = ", NV);
-            // jlog("NC - 3 = ", NC);
 
             var intermediateRotation = varimaxIteration(factorMatrix);
 
@@ -234,7 +240,7 @@
         var AA = 0.0;
         var BB = 0.0;
         var CC = 0.0;
-        var DD;
+        var DD = 0.0;
         var uArray = [];
         var tArray = [];
         var ccArray = [];
@@ -244,12 +250,11 @@
         var factorALength = factorA.length;
         var U, tPrep, tPrep2, ccPrep, ddPrep;
 
-        for (var i = 0, iLen = factorALength; i < iLen; i++) {
 
+        for (var i = 0, iLen = factorALength; i < iLen; i++) {
             // (3776)
             U = (factorA[i] + factorB[i]) * (factorA[i] - factorB[i]);
             uArray.push(U);
-
             // (3777)
             tPrep = factorA[i] * factorB[i];
 
@@ -261,203 +266,151 @@
             ccPrep = (U + tPrep2) * (U - tPrep2);
             ccArray.push(ccPrep);
 
-            // (3779)
-            CC = evenRound(VARIMAX.sumArray(ccArray), 4);
-
             // (3780)
             ddPrep = (2 * U * tPrep2);
             ddArray.push(ddPrep);
-
-            // (3780)
-            DD = evenRound(VARIMAX.sumArray(ddArray), 4);
-
-            // (3781)
-            AA = evenRound(VARIMAX.sumArray(uArray), 4);
-
-            // (3782)
-            BB = evenRound(VARIMAX.sumArray(tArray), 4);
         }
 
+        // (3779)
+        CC = evenRound(VARIMAX.sumArray(ccArray), 17);
+        // (3780)
+        DD = evenRound(VARIMAX.sumArray(ddArray), 17);
+        // (3781)
+        AA = evenRound(VARIMAX.sumArray(uArray), 17);
+        // (3782)
+        BB = evenRound(VARIMAX.sumArray(tArray), 17);
         // (3784-3785)
-        var T = (DD - 2 * AA * BB / factorALength);
-        var B = (CC - (AA * AA - BB * BB) / factorALength);
-
-        // todo - integrate to clean up code (3789)
-        var switchTestPrep = evenRound((T - B), 5);
-        // jlog("switchTestPrep", switchTestPrep);
-        if (switchTestPrep < 0) {
-            rotatedFactors = lessThanZero(T, B, TAN4T, factorA, factorB);
-            return rotatedFactors;
-        } else if (switchTestPrep === 0) {
-            rotatedFactors = equalsZero(T, B, factorA, factorB);
-            return rotatedFactors;
-        } else {
-            rotatedFactors = greaterThanZero(T, B, factorA, factorB);
-            return rotatedFactors;
-        }
-    }
-
-    //***********************************************************   model
-    //************** helper functions ***********************************
-    //*******************************************************************
-
-    VARIMAX.sumArray = function(array) {
-        return (_.reduce(array, function(sum, num) {
-            return sum + num;
-        }));
-    };
-
-
-    function lessThanZero(T, B, TAN4T, factorA, factorB) {
-        var rotatedFactors, SINP, COSP, COS4T, SIN4T, ifTan4t, line350;
-        //(3801)
-        TAN4T = evenRound((Math.abs(T) / Math.abs(B)), 8);
-        ifTan4t = evenRound((TAN4T - 0.00116), 8); // line 280b
-        if (ifTan4t < 0) { // line 280b
-            if (B < 0) { // line 280b => do line 300
-                SINP = 0.7071066; // var CONS
-                COSP = 0.7071066;
-                // todo  - goto line 400 (rotations)
-                rotatedFactors = gotoLine400Rotations(COSP, SINP, factorA, factorB);
-                return rotatedFactors;
-            } else { // line 300 => B else
-                // end loop - goto 420   todo  - check if loop ends
-                rotatedFactors = [factorA, factorB];
-                return rotatedFactors; // not really rotated, just A and B returned
-            } // end B if of case 1
-        } else { // line 280  ifTest else
-            // do line 290
-            COS4T = evenRound((1 / Math.sqrt(1 + TAN4T * TAN4T)), 8);
-            SIN4T = evenRound((TAN4T * COS4T), 8);
-            // todo - goto 350  function line350
-            line350 = gotoLine350(COS4T, SIN4T, B, T);
-            COSP = line350[0];
-            SINP = line350[1];
-            rotatedFactors = gotoLine400Rotations(COSP, SINP, factorA, factorB);
-            return rotatedFactors;
-        } // end of ifTest
-    }
-
-    // (3790)
-    function equalsZero(T, B, factorA, factorB) { // line 230c ==> goto 240
-        var rotatedFactors, COS4T, SIN4T, line350, COSP, SINP;
-        var ifTest2 = ((T + B) - 0.00116);
-        if (ifTest2 < 0) {
-            // end loop goto 420
-            rotatedFactors = [factorA, factorB];
-            return rotatedFactors; // not really rotated, just A and B returned
-        } else {
-            // do line 250
-            COS4T = 0.7071066; // CONS
-            SIN4T = 0.7071066;
-            // goto 350  function line350
-            line350 = gotoLine350(COS4T, SIN4T, B, T);
-            COSP = line350[0];
-            SINP = line350[1];
-            rotatedFactors = gotoLine400Rotations(COSP, SINP, factorA, factorB);
-            return rotatedFactors;
-        }
-    }
-    // (3813)
-    function greaterThanZero(T, B, factorA, factorB) {
-        var CTN4T, COSP, SINP, rotatedFactors, COS4T, line350, SIN4T, ifCtn4t;
-        CTN4T = evenRound(Math.abs(T / B), 8);
-        ifCtn4t = evenRound((CTN4T - 0.00116), 8);
-        if (ifCtn4t < 0) {
-            COS4T = 0.0;
-            SIN4T = 1.0;
-            // goto 350  function line350
-            line350 = gotoLine350(COS4T, SIN4T, B, T);
-            COSP = line350[0];
-            SINP = line350[1];
-            rotatedFactors = gotoLine400Rotations(COSP, SINP, factorA, factorB);
-            return rotatedFactors;
-        } else {
-
-            SIN4T = evenRound((1.0 / Math.sqrt(1.0 + CTN4T * CTN4T)), 8);
-            COS4T = evenRound((CTN4T * SIN4T), 8);
-
-            // goto 350  function line350
-            line350 = gotoLine350(COS4T, SIN4T, B, T);
-            COSP = line350[0];
-            SINP = line350[1];
-            rotatedFactors = gotoLine400Rotations(COSP, SINP, factorA, factorB);
-            return rotatedFactors;
-        }
+        var T = evenRound((DD - evenRound((2 * AA * evenRound((BB / factorALength), 17)), 17)), 17);
+        var B = evenRound((CC - evenRound(((AA * AA - BB * BB) / factorALength), 8)), 8);
+        var CospAndSinp = getComparisonOfNumAndDen(T, B);
+        rotatedFactors = doFactorRotations(CospAndSinp, factorA, factorB);
+        return rotatedFactors;
     }
 
 
-    //***********************************************************   model
-    //******* goto line 350 function*************************************
-    //*******************************************************************
+    function getComparisonOfNumAndDen(T, B) {
+        var TAN4T, SINP, COSP, COS4T, SIN4T, CTN4T;
+        var COS2T, SIN2T, COST, SINT;
+        var shouldSkipRotation = false;
 
-    // (3823)
-    function gotoLine350(COS4T, SIN4T, B, T) {
-        var COS2T = evenRound(Math.sqrt(((1.0 + COS4T) / 2.0)), 8);
-        var SIN2T = evenRound(SIN4T / (2.0 * COS2T), 8);
-        var COST = evenRound(Math.sqrt(((1.0 + COS2T) / 2.0)), 8);
-        var SINT = evenRound(SIN2T / (2.0 * COST), 8);
-        var line350Results;
-        var SINP;
-        var COSP;
+        var greaterThanZeroCounter = QAV.getState("greaterThanZeroCounter") || 0;
+        var equalsZeroCounter = QAV.getState("equalsZeroCounter") || 0;
+        var lessThanZeroCounter = QAV.getState("lessThanZeroCounter") || 0;
+        var lessA = QAV.getState("lessA") || 0;
+        var lessB = QAV.getState("lessB") || 0;
+        var lessC = QAV.getState("lessC") || 0;
+        var greaterA = QAV.getState("greaterA") || 0;
+        var greaterB = QAV.getState("greaterB") || 0;
 
-        // (3830)
-        if (B > 0) {
-            COSP = COST;
-            SINP = SINT;
-            // (3836)
-            if (T > 0) {
-                line350Results = [COSP, SINP];
-                return line350Results;
+        if (T < B) {
+            lessThanZeroCounter = lessThanZeroCounter + 1;
+            QAV.setState("lessThanZeroCounter", lessThanZeroCounter);
+            TAN4T = evenRound((Math.abs(T) / Math.abs(B)), 5);
+            if (TAN4T < 0.00116) {
+                if (B >= 0) {
+                    lessA = lessA + 1;
+                    QAV.setState("lessA", lessA);
+                    shouldSkipRotation = true;
+                    return [SINP, COSP, shouldSkipRotation];
+                } else {
+                    lessB = lessB + 1;
+                    QAV.setState("lessB", lessB);
+                    SINP = 0.7071066;
+                    COSP = 0.7071066;
+                    return [SINP, COSP, shouldSkipRotation];
+                }
             } else {
-                SINP = -SINP;
-                line350Results = [COSP, SINP];
-                return line350Results;
+                // variables cascade to below
+                lessC = lessC + 1;
+                QAV.setState("lessC", lessC);
+                COS4T = evenRound((1.0 / evenRound(Math.sqrt(1.0 + TAN4T * TAN4T), 8)), 8);
+                SIN4T = evenRound((TAN4T * COS4T), 8);
             }
-        } else {
+        } else if (T === B) {
+            equalsZeroCounter = equalsZeroCounter + 1;
+            QAV.setState("equalsZeroCounter", equalsZeroCounter);
+
+            if ((T + B) < 0.00116) {
+                shouldSkipRotation = true;
+                return [SINP, COSP, shouldSkipRotation];
+            } else {
+                COS4T = 0.7071066;
+                SIN4T = 0.7071066;
+            }
+        } else { // case (T > B)
+            greaterThanZeroCounter = greaterThanZeroCounter + 1;
+            QAV.setState("greaterThanZeroCounter", greaterThanZeroCounter);
+
+            CTN4T = evenRound((Math.abs(T / B)), 5);
+            if (CTN4T < 0.00116) {
+                greaterA = greaterA + 1;
+                QAV.setState("greaterA", greaterA);
+                COS4T = 0.0;
+                SIN4T = 1.0;
+            } else {
+                greaterB = greaterB + 1;
+                QAV.setState("greaterB", greaterB);
+                SIN4T = evenRound((1.0 / evenRound(Math.sqrt(1.0 + CTN4T * CTN4T), 8)), 8);
+                COS4T = evenRound((CTN4T * SIN4T), 8);
+            }
+        }
+        // continue with casecade values to determine COS theta and SIN theta
+        COS2T = evenRound(Math.sqrt(((1.0 + COS4T) / 2.0)), 8);
+        SIN2T = evenRound(SIN4T / (2.0 * COS2T), 8);
+        COST = evenRound(Math.sqrt(((1.0 + COS2T) / 2.0)), 8);
+        SINT = evenRound(SIN2T / (2.0 * COST), 8);
+
+        // determine COS phi and SIN phi
+        if (B <= 0) {
             COSP = evenRound((0.7071066 * COST + 0.7071066 * SINT), 8);
             SINP = evenRound(Math.abs((0.7071066 * COST - 0.7071066 * SINT)), 8);
-            // (3836)
-            if (T > 0) {
-                line350Results = [COSP, SINP];
-                return line350Results;
-            } else {
-                SINP = -SINP;
-                line350Results = [COSP, SINP];
-                return line350Results;
-            }
+        } else {
+            COSP = COST;
+            SINP = SINT;
         }
+
+        // check T value
+        if (T <= 0) {
+            SINP = -SINP;
+        }
+        return [SINP, COSP, shouldSkipRotation];
     }
 
-    //*********************************************************   model
-    //******* goto line 400 Rotation function *************************
-    //*****************************************************************
 
-    function gotoLine400Rotations(COSP, SINP, factorA, factorB) {
+    //*********************************************************
+    //******* Factor Rotation function ************************
+    //*********************************************************
 
-        var resultsArrayFactorA = [];
-        var resultsArrayFactorB = [];
-        var i, AA, BB, rotatedFactors;
-        var iLoopLen = factorA.length;
+    function doFactorRotations(CospAndSinp, factorA, factorB) {
+        var shouldSkipRotation = CospAndSinp[2];
+        if (shouldSkipRotation) {
+            var originalFactors = [factorA, factorB];
+            return originalFactors;
+        } else {
+            var resultsArrayFactorA = [];
+            var resultsArrayFactorB = [];
+            var i, AA, BB, rotatedFactors;
+            var iLoopLen = factorA.length;
+            var SINP = CospAndSinp[0];
+            var COSP = CospAndSinp[1];
 
-        for (i = 0; i < iLoopLen; i++) {
+            for (i = 0; i < iLoopLen; i++) {
+                AA = evenRound((factorA[i] * COSP + factorB[i] * SINP), 8);
+                resultsArrayFactorA.push(AA);
 
-            AA = evenRound((factorA[i] * COSP + factorB[i] * SINP), 8);
-            resultsArrayFactorA.push(AA);
-
-            BB = evenRound((-factorA[i] * SINP + factorB[i] * COSP), 8);
-            resultsArrayFactorB.push(BB);
-
-        } // end of i for loop
-        rotatedFactors = [resultsArrayFactorA, resultsArrayFactorB];
-        return rotatedFactors;
+                BB = evenRound((-factorA[i] * SINP + factorB[i] * COSP), 8);
+                resultsArrayFactorB.push(BB);
+            }
+            rotatedFactors = [resultsArrayFactorA, resultsArrayFactorB];
+            return rotatedFactors;
+        }
     }
 
     //**********************************************************   model
     //******* de-normalize rotation results ****************************
     //******************************************************************
 
-    VARIMAX.unStandardize = function(standardizedResults, sumSquares) {
+    VARIMAX.unStandardize = function (standardizedResults, sumSquares) {
         var results = [];
         var nLoopLen = standardizedResults.length;
         var n, p;
@@ -492,6 +445,16 @@
         resultsTransposed = _.zip.apply(_, results);
 
         return resultsTransposed;
+    };
+
+    //***********************************************************
+    //************** helper functions ***************************
+    //***********************************************************
+
+    VARIMAX.sumArray = function (array) {
+        return (_.reduce(array, function (sum, num) {
+            return sum + num;
+        }));
     };
 
 }(window.VARIMAX = window.VARIMAX || {}, QAV));
