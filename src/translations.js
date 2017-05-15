@@ -9,7 +9,7 @@
 var resources = {
     'en-us': {
         "translation": {
-            "versionNumber": "Beta Version 0.9.2 Test Release (April 23, 2017)",
+            "versionNumber": "Beta Version 0.9.2 Test Release (May 15, 2017)",
             "Translation by": "",
             "Top": "Top",
             "aData": "1.Data",
@@ -307,7 +307,7 @@ var resources = {
     },
     "ja": {
         "translation": {
-            "versionNumber": "Beta Version 0.9.1 Test Release (February 15, 2017)",
+            "versionNumber": "Beta Version 0.9.1 Test Release (May 15, 2017)",
             "Translation by": "Translation by バナシック",
             "Top": "トップに戻る",
             "aData": "1.データ",
