@@ -211,6 +211,21 @@
     };
 
     // SECTION 4
+    VIEW.changePcaExtractionButtonDisplay = function () {
+        var language = QAV.getState("language");
+        var PcaButText = resources[language].translation["Principal components"];
+        var button = $("#PcaExtractionButton");
+        button.removeClass("blackHover");
+        button.addClass("buttonActionComplete");
+        button.prop('value', PcaButText);
+        button.prop('disabled', true);
+
+        button2 = $("#factorExtractionButton");
+        button2.prop('disabled', true);
+
+        $("#resetAnalysisButton").prop('disabled', false);
+    };
+
 
     // ***********************************************************************  view
     // ******* control D3 checkboxes       *****************************************

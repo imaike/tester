@@ -9,7 +9,7 @@
 var resources = {
     'en-us': {
         "translation": {
-            "versionNumber": "Beta Version 0.9.2 Test Release (May 15, 2017)",
+            "versionNumber": "Beta Version 0.9.2 Test Release (May 19, 2017)",
             "Translation by": "",
             "Top": "Top",
             "aData": "1.Data",
@@ -58,7 +58,7 @@ var resources = {
             "Extract centroid factors": "Extract Centroid Factors",
             "Centroid factors": "Centroid Factors",
             "Extract principal components": "Extract Principal Components",
-            "Principal components": "Principal Components",
+            "Principal components": "8 Principal Components extracted",
             "Reset analysis": "Reset Analysis",
             "Eigenvalues": "Eigenvalues",
             "% explained variance": "% Explained Variance",
@@ -307,7 +307,7 @@ var resources = {
     },
     "ja": {
         "translation": {
-            "versionNumber": "Beta Version 0.9.1 Test Release (May 15, 2017)",
+            "versionNumber": "Beta Version 0.9.1 Test Release (May 19, 2017)",
             "Translation by": "Translation by バナシック",
             "Top": "トップに戻る",
             "aData": "1.データ",
