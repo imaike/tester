@@ -2037,7 +2037,7 @@ input[type=color] {
     font-size: 1.5em;
 }
 
-.spinnerText {
+#spinnerText {
     padding-left: 3px;
     padding-right: 3px;
     margin-left: 20px;
@@ -2071,9 +2071,26 @@ input[type=color] {
     color: #38acec;
 }
 
+#correlationSpinnerText {
+    visibility: hidden;
+    position: relative;
+    top: 0px;
+    height: 38px;
+    width: 170px;
+    padding-left: 7px;
+    padding-right: 3px;
+    padding-bottom: 5px;
+    margin-left: 20px;
+    font-size: 30px;
+    font-style: italic;
+    color: #38acec;
+}
+
+
+/*
 .factorExtractionButtonDiv {
     max-height: 110px;
-}
+}*/
 
 
 /*.spinner {

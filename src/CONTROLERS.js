@@ -983,19 +983,6 @@
         });
     })();
 
-
-    // (function () {
-    //     $("#selectFactorsForOutputDiv").on("click", function () {
-    //         console.log("clicked");
-    //         if ($(this).is(":checked")) {
-    //             $(this).next("label").addClass("factorCheckboxSelected");
-    //         } else {
-    //             $(this).next("label").removeClass("factorCheckboxSelected");
-    //         }
-    //     });
-    // })();
-
-
     (function () {
         $("#clearStorageButton").on("click", function () {
             VIEW.showDeleteKenqData();

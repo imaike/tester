@@ -51,7 +51,7 @@
             $("#factorExtractionSpinnerText").css('visibility', 'visible');
             $("#factorExtractionSpinnerDiv").addClass('calcSpinner');
             var workerMessageArray = [numberOfSorts, numberofPrincipalComps, X];
-            var myWorker = new Worker('src/workerPCA.js');
+            var myWorker = new Worker('wrkrs/workerPCA.js');
             myWorker.postMessage(workerMessageArray);
             myWorker.onmessage = function (e) {
                 eigenVecs = e.data[0];
@@ -89,7 +89,6 @@
             };
         } else {
             // if web workers not available
-            console.log("not web workered");
             var svd, eigens;
             var getEigenCumulPercentArray, doEigenVecsCalcs;
             var inflectionArray;
