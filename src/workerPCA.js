@@ -6,7 +6,7 @@ onmessage = function (workerMessageArray) {
     var numberOfSorts = workerMessageArray.data[0];
     var numberOfPrincipalComps = workerMessageArray.data[1];
     var X = workerMessageArray.data[2];
-    importScripts('../lib/numeric-1.2.6.min.js');
+    importScripts('/lib/numeric-1.2.6.min.js');
 
 
     var svd, eigens, eigenValuesSorted, getEigenCumulPercentArray;
