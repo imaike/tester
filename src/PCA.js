@@ -51,7 +51,7 @@
             $("#factorExtractionSpinnerText").css('visibility', 'visible');
             $("#factorExtractionSpinnerDiv").addClass('calcSpinner');
             var workerMessageArray = [numberOfSorts, numberofPrincipalComps, X];
-            var myWorker = new Worker('../../src/workerPCA.js');
+            var myWorker = new Worker('src/workerPCA.js');
             myWorker.postMessage(workerMessageArray);
             myWorker.onmessage = function (e) {
                 eigenVecs = e.data[0];
