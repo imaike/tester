@@ -37,15 +37,6 @@
         // re-draw rotation table
         var isRotatedFactorsTableUpdate = "destroy";
         LOAD.drawRotatedFactorsTable2(isRotatedFactorsTableUpdate, "noFlag");
-
-        var lessThanZeroCounter = QAV.getState("lessThanZeroCounter");
-        var greaterThanZeroCounter = QAV.getState("greaterThanZeroCounter");
-        var equalsZeroCounter = QAV.getState("equalsZeroCounter");
-        var lessA = QAV.getState("lessA");
-        var lessB = QAV.getState("lessB");
-        var lessC = QAV.getState("lessC");
-        var greaterA = QAV.getState("greaterA");
-        var greaterB = QAV.getState("greaterB");
     };
 
 
