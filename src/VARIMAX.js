@@ -286,23 +286,19 @@
             TAN4T = evenRound((Math.abs(T) / Math.abs(B)), 5);
             if (TAN4T < 0.00116) {
                 if (B >= 0) {
-                    lessA = lessA + 1;
                     shouldSkipRotation = true;
                     return [SINP, COSP, shouldSkipRotation];
                 } else {
-                    lessB = lessB + 1;
                     SINP = 0.7071066;
                     COSP = 0.7071066;
                     return [SINP, COSP, shouldSkipRotation];
                 }
             } else {
                 // variables cascade to below
-                lessC = lessC + 1;
                 COS4T = evenRound((1.0 / evenRound(Math.sqrt(1.0 + TAN4T * TAN4T), 8)), 8);
                 SIN4T = evenRound((TAN4T * COS4T), 8);
             }
         } else if (T === B) {
-            equalsZeroCounter = equalsZeroCounter + 1;
             if ((T + B) < 0.00116) {
                 shouldSkipRotation = true;
                 return [SINP, COSP, shouldSkipRotation];
@@ -312,15 +308,12 @@
                 SIN4T = 0.7071066;
             }
         } else { // case (T > B)
-            greaterThanZeroCounter = greaterThanZeroCounter + 1;
             CTN4T = evenRound((Math.abs(T / B)), 5);
             if (CTN4T < 0.00116) {
-                greaterA = greaterA + 1;
                 // variables cascade to below
                 COS4T = 0.0;
                 SIN4T = 1.0;
             } else {
-                greaterB = greaterB + 1;
                 // variables cascade to below
                 SIN4T = evenRound((1.0 / evenRound(Math.sqrt(1.0 + CTN4T * CTN4T), 8)), 8);
                 COS4T = evenRound((CTN4T * SIN4T), 8);
@@ -341,7 +334,6 @@
             COSP = COST;
             SINP = SINT;
         }
-
         // check T value
         if (T <= 0) {
             SINP = -SINP;
