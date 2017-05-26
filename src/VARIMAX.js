@@ -292,7 +292,6 @@
         var shouldSkipRotation = false;
 
         if (T < B) {
-            lessThanZeroCounter = lessThanZeroCounter + 1;
             TAN4T = evenRound((Math.abs(T) / Math.abs(B)), 5);
             if (TAN4T < 0.00116) {
                 if (B >= 0) {
