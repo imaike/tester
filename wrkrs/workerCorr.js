@@ -12,7 +12,7 @@ onmessage = function (workerMessageArray) {
     var originalSortSize2 = workerMessageArray.data[0];
     var sortsFromExistingData = workerMessageArray.data[1];
     var namesFromExistingData = workerMessageArray.data[2];
-    importScripts('/lib/lodash.js');
+    importScripts('../lib/lodash.js');
 
 
     // convert sorts to arrays 
