@@ -37,7 +37,7 @@
         if (window.Worker && isOnline) {
             $("#correlationSpinnerText").css('visibility', 'visible');
             $("#correlationSpinnerDiv").addClass('calcSpinner');
-            var myWorker = new Worker('/wrkrs/workerCorr.js');
+            var myWorker = new Worker('wrkrs/workerCorr.js');
             var workerMessageArray = [originalSortSize2, sortsFromExistingData, namesFromExistingData];
             myWorker.postMessage(workerMessageArray);
             myWorker.onmessage = function (e) {
