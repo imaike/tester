@@ -91,7 +91,7 @@ var resources = {
             "Results": "Results",
             "Choose factors for output": "Choose Factors for Output",
             "Display preliminary output": "Display Preliminary Output",
-            "Download complete output": "Download Complete Output",
+            "Download complete output": "Download Complete Output in Excel Format",
             "Permanently delete all locally-stored data": "Permanently Delete All Locally-Stored Data",
             "Factor score correlations": "Factor Score Correlations",
             "Flagged q - sort weights": "Flagged q-sort weights",
