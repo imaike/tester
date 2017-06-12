@@ -2086,6 +2086,10 @@ input[type=color] {
     color: #38acec;
 }
 
+.pngDownloadButton {
+    margin-left: 30px;
+}
+
 
 /*
 .factorExtractionButtonDiv {

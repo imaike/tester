@@ -1042,6 +1042,23 @@
         });
     })();
 
+    // should show only statement numbers? - event handler
+    (function () {
+        $("#showOnlyStateNoDiv :radio").on('click', function () {
+            var vizConfig = QAV.getState("vizConfig") || {};
+            $('#showOnlyStateNoDiv .radioHighlight2').removeClass("active");
+            $(this).parent().addClass("active");
+            $("label[for='" + $(this).attr('id') + "']").addClass("active");
+            var $radioOption = ($(this).val());
+            if ($radioOption === "Yes") {
+                vizConfig.shouldShowOnlyStateNo = true;
+            } else if ($radioOption === "No") {
+                vizConfig.shouldShowOnlyStateNo = false;
+            }
+            QAV.setState("vizConfig", vizConfig);
+        });
+    })();
+
     // should set Card Height? - event handler
     (function () {
         $("#setCardHeightDiv :radio").on('click', function () {
@@ -1546,6 +1563,7 @@
         $('#customNameInputBox').on('input', function () {
             var vizConfig = QAV.getState("vizConfig") || {};
             var customName = $('#customNameInputBox').val();
+            console.log(customName);
             vizConfig.customName = customName;
             QAV.setState("vizConfig", vizConfig);
         });

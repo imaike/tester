@@ -9,7 +9,7 @@
 var resources = {
     'en-us': {
         "translation": {
-            "versionNumber": "Beta Version 0.10.0 Test Release (May 31, 2017)",
+            "versionNumber": "Beta Version 0.10.0 Test Release (May 29, 2017)",
             "Translation by": "",
             "Top": "Top",
             "aData": "1.Data",
@@ -183,7 +183,7 @@ var resources = {
             "Total Number of Q-sorts": "Total Number of Q-sorts: ",
             "Analysis Process": "Analysis Process",
             "synFactorVizTitle": "Factor Composite Q-sorts",
-            "Synthetic Sort for": "Composite Q-Sort for ",
+            "Synthetic Sort for": "Idealized Q-Sort for ",
             "downloadImage": " - Download image",
             "Download Scree Plot": "Download Scree Plot",
             "Download Rotation Chart": "Download Rotation Chart",
@@ -307,7 +307,7 @@ var resources = {
     },
     "ja": {
         "translation": {
-            "versionNumber": "Beta Version 0.10.0 Test Release (May 31, 2017)",
+            "versionNumber": "Beta Version 0.10.0 Test Release (May 29, 2017)",
             "Translation by": "Translation by バナシック",
             "Top": "トップに戻る",
             "aData": "1.データ",

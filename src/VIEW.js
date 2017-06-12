@@ -387,6 +387,7 @@
 
         $(".vizTitles").remove();
         $(".svgDownloadButton").remove();
+        $(".pngDownloadButton").remove();
 
         var $temp = $("#factorCorrelationTableTitle");
         var $temp3 = $("#factorCorrelationTableDiv");
