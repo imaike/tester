@@ -67,8 +67,8 @@ var resources = {
             "How many factors to keep for rotation": "How many factors to keep for rotation?",
             "Select": "Select",
             "Submit": "Submit",
-            "Rotate error 1": "- ERROR - The selection is larger than the number of factors extracted.",
-            "Rotate error 2": "- ERROR - Please select the number of factors for rotation. -",
+            "Rotate error 1": "The selection is larger than the number of factors extracted.",
+            "Rotate error 2": "Please select the number of factors for rotation.",
             "Use judgemental rotation": "Use Judgemental Rotation",
             "Judgemental rotation": "Judgemental rotation",
             "Apply varimax rotation": "Apply Varimax Rotation",
@@ -184,9 +184,9 @@ var resources = {
             "Analysis Process": "Analysis Process",
             "synFactorVizTitle": "Factor Composite Q-sorts",
             "Synthetic Sort for": "Idealized Q-Sort for ",
-            "downloadImage": " - Download image",
-            "Download Scree Plot": "Download Scree Plot",
-            "Download Rotation Chart": "Download Rotation Chart",
+            "downloadImage": " - Download image as SVG",
+            "Download Scree Plot": "Download Scree Plot as SVG",
+            "Download Rotation Chart": "Download Rotation Chart as svg",
             "Composite Q-Sort Display Options": "Composite Q-sort Display Options",
             "VIEW": "VIEW",
             "HIDE": "HIDE",
@@ -302,7 +302,8 @@ var resources = {
             "You seem to be using": "You are using ",
             "Please update your browser before using Ken-Q Analysis": "Please update your browser before using Ken-Q Analysis",
             "This browser is not supported by Ken-Q Analysis <br> Please use one of the browsers listed above": "This browser is not supported by Ken-Q Analysis <br> Please use one of the browsers listed above",
-            "Ready to begin analysis": " "
+            "Ready to begin analysis": " ",
+            "selectedFactorsError": "Please select two factors to display"
         }
     },
     "ja": {
@@ -600,7 +601,8 @@ var resources = {
             "You seem to be using": "You are using  ",
             "Please update your browser before using Ken-Q Analysis": "You should update your browser before using Ken-Q Analysis",
             "This browser is not supported by Ken-Q Analysis <br> Please use one of the browsers listed above": "This browser is not supported by Ken-Q Analysis <br> Please use one of the browsers listed above",
-            "Ready to begin analysis": "-- ready to begin analysis"
+            "Ready to begin analysis": "-- ready to begin analysis",
+            "selectedFactorsError": "Please select two factors to display"
         }
     }
 };

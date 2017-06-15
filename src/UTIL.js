@@ -483,7 +483,12 @@ function jlog(text, element) {
         // Add the valueline path.
         svg.append("path")
             .attr("class", "line")
-            .attr("d", valueline(data));
+            .attr("d", valueline(data))
+            .style({
+                'stroke': 'black',
+                'fill': 'none',
+                'stroke-width': '2px',
+            });
 
         // Add the X Axis
         svg.append("g")
@@ -510,12 +515,21 @@ function jlog(text, element) {
                 return y(data.eigen);
             })
             .attr("r", 3.5);
+
+        svg.selectAll('.axis lne, .axis path')
+            .style({
+                'stroke': 'black',
+                'fill': 'none',
+                'stroke-width': '1px'
+            });
+
+        svg.selectAll(".tick:not(:first-of-type) line").attr("stroke", "black").attr("stroke-width", "1px");
     };
+
 
 
     // PNG downloads adapted from Nikita Rokotyan http://bl.ocks.org/Rokotyan/0556f8facbaf344507cdc45dc3622177
     UTIL.downloadPngImages = function (svgString, svgCharacteristics, nameConfig) {
-        console.log(nameConfig);
         var width = parseInt(svgCharacteristics.style("width"), 10) + 2;
         var height = parseInt(svgCharacteristics.style("height"), 10);
         svgString2Image(svgString, 2 * width, 2 * height, 'png', save); // passes Blob and filesize String to the callback

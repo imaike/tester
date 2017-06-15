@@ -44,14 +44,16 @@ div.two.columns {
 /*D3 styling*/
 
 
-/*D3 styling*/
+/*D3 styling for rotation chart*/
 
+
+/*
 .axis path,
 .axis line {
     fill: none;
-    stroke: #000;
+    stroke: red;
     shape-rendering: crispEdges;
-}
+}*/
 
 .checkboxDiv {
     width: 110px;
@@ -1241,7 +1243,7 @@ div.d3Tooltip {
 #section4 .axis path,
 #section4 .axis line {
     fill: none;
-    stroke: grey;
+    stroke: black;
     stroke-width: 1;
     shape-rendering: crispEdges;
 }
@@ -1751,18 +1753,19 @@ div.helpImageDiv a {
 }
 
 #genericErrorModal p {
-    text-align: center;
     font-size: 20px;
     width: auto;
     margin-right: 1%;
-    margin-left: 32%;
-    margin-top: 1%;
     display: inline-block;
 }
 
 #nonSymmetricSortsDiv p {
     display: inline-block;
     margin-left: 5px;
+}
+
+#nonSymmetricSortsDiv {
+    background-color: #ffffb2;
 }
 
 .applyChanges {
@@ -2088,6 +2091,14 @@ input[type=color] {
 
 .pngDownloadButton {
     margin-left: 30px;
+}
+
+#customFactorNameInputBox {
+    width: 65% !important;
+}
+
+.errorPanel {
+    width: 90%;
 }
 
 

@@ -1,13 +1,14 @@
-// Ken-Q Analysis
-//Copyright (C) 2016 Shawn Banasick
-//
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU General Public License as published by
-//    the Free Software Foundation, either version 3 of the License, or
-//    (at your option) any later version.
-
-// JSlint declarations
-/* global resources, d3, VIEW, d3_save_svg, CORR, alasql, window, QAV, $, document, evenRound, UTIL, _  */
+/* @preserve
+Ken-Q Analysis
+Copyright (C) 2016 Shawn Banasick
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+*/
+/*  JSlint declarations
+ global resources, d3, VIEW, d3_save_svg, CORR, alasql, window, QAV, $, document, evenRound, UTIL, _  
+ */
 
 (function (PRELIMOUT, QAV, undefined) {
     'use strict';
@@ -16,7 +17,7 @@
     //  ******************************************************************************
     PRELIMOUT.showPreliminaryOutput1 = function () {
         // add synthetic factors visualizations
-        // $("#synFactorVizTitle").append("<h4>" + synFactorVizTitleText + "</h4>");
+        // $("#synFactorVizTitle").append("<h4>" + synFactorVizTitleText + "</h4>"); 
 
         var distStatementDataVizArray = QAV.getState("distStatementDataVizArray");
         var outputForDataViz = QAV.getState("outputForDataViz");
@@ -916,8 +917,14 @@
                 }
             } // end of should have legend
 
-            // add Factor Labels inside SVG
-            var newText = synFactorVizTitleText + userSelectedFactors[z];
+            // add Factor Names inside SVG
+            var newText;
+            if (vizConfig.addCustomFactorName === true && vizConfig.customFactorNames[z]) {
+                newText = vizConfig.customFactorNames[z];
+            } else {
+                var capitalizedFactorName = userSelectedFactors[z].charAt(0).toUpperCase() + userSelectedFactors[z].slice(1);
+                newText = synFactorVizTitleText + capitalizedFactorName;
+            }
             svg.append('text')
                 .attr('x', 5)
                 .attr('y', 28)

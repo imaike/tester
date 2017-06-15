@@ -252,6 +252,12 @@
     VIEW.clearSections_4_5_6 = function () {
 
         $("#judgementalRotationContainer").hide();
+        $("#factorLoadingContainerDiv").hide();
+        $("#selectFactorsForOutputButton").hide();
+        $("#downloadCsvResultsButton").hide();
+        $("#displayQuickResultsButton").hide();
+        $("#factorVizOptionsDiv").hide();
+
 
         var varimaxButton = $("#factorVarimaxButton");
         if (varimaxButton.hasClass("buttonActionComplete")) {

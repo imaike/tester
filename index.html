@@ -1089,7 +1089,7 @@
                     <p class="helpImageDivText"><strong>?</strong></p>
                 </div>
             </div>
-            <div class="row .factorExtractionButtonDiv">
+            <div class="row factorExtrafactorExtractionButtonDiv">
                 <div class="singleLine">
                     <select id="factorSelect" autocomplete="off" class="singleLIne vertical">
                         <!--  <option disabled="disabled" selected="selected">Choose option</option>-->
@@ -1133,6 +1133,8 @@
             </div>
             <input class="screePlotDownloadButton blackHover" name="downloadScreePlotButton" type="button" data-i18n="[value]Download Scree Plot"
             />
+            <input class="screePlotDownloadPngButton blackHover" name="downloadPngScreePlotButton" type="button" data-i18n="[value]Download Scree Plot as PNG"
+            />
             <br>
             <br>
         </div>
@@ -1154,7 +1156,7 @@
                 </div>
             </div>
             <br>
-            <div class="row">
+            <div class="row factorsToKeepForRotationDiv">
                 <h5 id="judgementFactorSelectText" class=" vertical singleLine" data-i18n="How many factors to keep for rotation"></h5>
 
                 <select id="selectFactorsRotation" class="vertical singleLine" name="rotationSelect" autocomplete="off">
@@ -1170,10 +1172,6 @@
                 </select>
 
                 <input type="button" class="blackHover singleLine vertical" id="sendToRotationButton" autocomplete="off" data-i18n="[value]Submit">
-
-                <p id="rotationLargeNumberError" class="errorMessage singleLine hidden" data-i18n="Rotate error 1"></p>
-
-                <p id="rotationNanError" class="errorMessage singleLine hidden" data-i18n="Rotate error 2"></p>
 
             </div>
 
@@ -1236,11 +1234,15 @@
                     </div>
                 </div>
 
+                <input class="rotationChartOptionsButton blackHover" name="optionsRotationChartButton" type="button" data-i18n="[value]Rotation Chart Options"
+                />
+
                 <input class="rotationChartDownloadButton blackHover" name="downloadRotationChartButton" type="button" data-i18n="[value]Download Rotation Chart"
                 />
 
-                <input class="rotationChartOptionsButton blackHover" name="optionsRotationChartButton" type="button" data-i18n="[value]Rotation Chart Options"
+                <input class="rotationChartDownloadPngButton blackHover" name="downloadRotationChartButton" type="button" data-i18n="[value]Download Rotation Chart as png"
                 />
+
 
 
             </div>
@@ -1416,6 +1418,20 @@
                         <input id="showOnlyStatementNumbersYes" name="legend" type="radio" autocomplete="off" value="Yes" checked />
                         <label for="showOnlyStatementNumbersNo" class="radioHighlight2 vertical vizButtonNo" data-i18n="NO"></label>
                         <input id="showOnlyStatementNumbersNo" name="legend" type="radio" autocomplete="off" value="No" />
+                    </div>
+
+                    <div id="addCustomFactorNameDiv">
+                        <p class="factorVizOptionsText" data-i18n="Add custom name to factor images?"></p>
+                        <label for="addCustomNameYes" class="radioHighlight2 vertical vizButtonYes" data-i18n="YES"></label>
+                        <input id="addCustomNameYes" name="legend" type="radio" autocomplete="off" value="Yes" checked />
+                        <label for="addCustomNameNo" class="radioHighlight2 vertical vizButtonNo" data-i18n="NO"></label>
+                        <input id="addCustomNameNo" name="legend" type="radio" autocomplete="off" value="No" />
+                    </div>
+                    <div class="row" id="customFactorNameDiv">
+                        <p class="factorVizOptionsText">Input the custom names (separated by commas):</p>
+                        <br>
+                        <p class="factorVizOptionsText"></p>
+                        <input type="text" name="customName" id="customFactorNameInputBox" autocomplete="off" class="customNameBox">
                     </div>
 
                     <p class="factorVizOptionsHeaderText" data-i18n="Card Settings"></p>
