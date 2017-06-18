@@ -507,6 +507,7 @@
     };
 
     EXCEL.createMultiplierArrayAndTriangleShape = function (inputData1) {
+        console.log(inputData1);
         var qavSortTriangleShape = [];
         var multiplierArray = [];
         for (var i = 4; i < 24; i++) {
@@ -696,7 +697,7 @@
             if (temp5.match(/[^,-\d]/)) {
                 var errorPanel = $("#genericErrorModal .errorPanel");
                 errorPanel.empty();
-                errorPanel.append("<p>The Q-sort for respondent " + temp4 + " contains a non-numeric data value</p>");
+                errorPanel.append("<p>The Q-sort for respondent " + temp4 + " contains non-numeric data</p>");
                 VIEW.showGenericErrorModal();
                 return;
             }

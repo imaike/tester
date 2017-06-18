@@ -105,19 +105,16 @@
                         <h3>New this version:</h3>
                         <ul class="newThisVersionUL">
                             <li>
-                                Improved principal components extraction process
+                                Better error messaging for Excel imports
                             </li>
                             <li>
-                                Changed button color on activation for better UI communication
+                                PNG-format image downloads
                             </li>
                             <li>
-                                Moved correlations and principal components calculations to a separate thread using web workers
+                                Customizable factor names for visualizations
                             </li>
                         </ul>
                     </div>
-
-
-
                     <h3 class="topSpacer">Supported Browsers</h3>
                 </div>
                 <br>
@@ -144,6 +141,7 @@
                     <img srcset="images/edge.png" alt="Microsoft Edge" />
                     <p>Microsoft Edge</p>
                     <p class="browserSubText">Windows <br/> version 14 or newer</p>
+                    <p class="browserSubText">(except PNG image download)</p>
                 </div>
             </div>
 
@@ -161,6 +159,18 @@
                 </div>
             </div>
 
+            <h3 class="topSpacer">Other Q-Methodology Tools</h3>
+            <div class="otherToolsDiv">
+                <div class="otherToolsItem">
+                    <a href="https://shawnbanasick.github.io/ken-q-data/index.html" target="_blank" style="target-new: tab;"></a>
+                    <p class="otherToolsText">Ken-Q <br> Data</p>
+                </div>
+                <div class="otherToolsItem">
+                    <a href="https://docs.google.com/presentation/d/1fOYxQOo2XpgR1lZ4gyGO_dRi9Ehh6-0TN98us2xPEPs/edit?usp=sharing" target="_blank"
+                        style="target-new: tab;"></a>
+                    <p class="otherToolsText">Easy HTMLQ</p>
+                </div>
+            </div>
 
             <div class="introCautionText topSpacer">
                 <h3>CAUTION</h3>
@@ -1664,8 +1674,6 @@
             <div id="factorTables"></div>
 
             <div class="spacer"></div>
-
-
         </div>
         <!-- end of section 7 nav div -->
 
@@ -1690,16 +1698,16 @@
                 <br>
                 <h5 class="eleven columns">Libraries:</h5>
                 <ul class="eleven columns">
-                    <li>SheetJS (Apache license, Version 2.0)</li>
-                    <li>iziModal (Apache license, Version 2.0)</li>
+                    <li>Blob.js - Copyright (C) 2014 by Eli Grey</li>
                     <li>D3.js (BSD license)</li>
                     <li>Datatables JQuery Plug-in (MIT license)</li>
+                    <li>Filesaver.js - (MIT license)</li>
                     <li>Iscroll-Lite (MIT license)</li>
+                    <li>iziModal (Apache license, Version 2.0)</li>
                     <li>JQuery (MIT license)</li>
                     <li>Lo-Dash (MIT license)</li>
-                    <li>Filesaver.js - (MIT license)</li>
                     <li>numeric.js - Copyright (C) 2011 by Sébastien Loisel</li>
-                    <li>Blob.js - Copyright (C) 2014 by Eli Grey</li>
+                    <li>SheetJS (Apache license, Version 2.0)</li>
                 </ul>
             </div>
         </div>
@@ -1839,8 +1847,6 @@
         <div class="iziModal" id="genericErrorModal">
             <div class="errorPanel"></div>
         </div>
-
-
     </div>
     <!-- end skeleton document container div -->
     <!-- End Document
@@ -1864,27 +1870,6 @@
     <script type="text/javascript" src="lib/iziModal.min.js"></script>
     <script type="text/javascript" src="lib/Blob.js"></script>
     <script type="text/javascript" src="lib/platform.js"></script>
-
-    <!-- load custom JS -->
-    <!--<script type="text/javascript" src="src/STATE.js"></script>
-    <script type="text/javascript" src="src/translations.js"></script>
-    <script type="text/javascript" src="src/VIEW.js"></script>
-    <script type="text/javascript" src="src/PASTE.js"></script>
-    <script type="text/javascript" src="src/CORR.js"></script>
-    <script type="text/javascript" src="src/LOAD.js"></script>
-    <script type="text/javascript" src="src/UTIL.js"></script>
-    <script type="text/javascript" src="src/PCA.js"></script>
-    <script type="text/javascript" src="src/VARIMAX.js"></script>
-    <script type="text/javascript" src="src/EXCEL.js"></script>
-    <script type="text/javascript" src="src/INPUT.js"></script>
-    <script type="text/javascript" src="src/DEMO.js"></script>
-    <script type="text/javascript" src="src/ROTA.js"></script>
-    <script type="text/javascript" src="src/OUTPUT.js"></script>
-    <script type="text/javascript" src="src/PRELIMOUT.js"></script>
-    <script type="text/javascript" src="src/CENTROID.js"></script>
-    <script type="text/javascript" src="src/FIREBASE.js"></script>
-    <script type="text/javascript" src="src/CONTROLERS.js"></script>-->
-
 
 
     <!-- load custom JS -->

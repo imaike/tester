@@ -492,6 +492,15 @@ the Free Software Foundation, either version 3 of the License, or
         // get Cutoff from state
         var backgroundColorCutoff = vizConfig.backgroundColorCutoff;
 
+        // adjust if display is only statement numbers
+        var onlyNumbersXAdjustment = 0;
+        if (vizConfig.shouldShowOnlyStateNo === true) {
+            onlyNumbersXAdjustment = 6;
+        }
+
+
+
+
         /*
 
 
@@ -706,7 +715,7 @@ the Free Software Foundation, either version 3 of the License, or
                             .append("tspan")
                             .attr("dy", vSeparation)
                             .attr('text-anchor', 'middle')
-                            .attr("x", (d.xVal * elementWidth) + (elementWidth / 2))
+                            .attr("x", (d.xVal * elementWidth) + (elementWidth / 2) + onlyNumbersXAdjustment)
                             .text(lines[iii]);
                     }
                 });
