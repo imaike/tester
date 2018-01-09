@@ -164,7 +164,7 @@
                     tester2 = tester.split(/\n/);
 
                     if (filetype === "user-input") {
-                        for (var i = 1; i < 100; i++) {
+                        for (var i = 1; i < 200; i++) {
                             tester3 = tester2[i].split(',');
                             tempArray.push(tester3);
                         }
